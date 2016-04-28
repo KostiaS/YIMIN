@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/")
 public class Controller {
     @Autowired
-    @RequestMapping(value = "hi" , method = RequestMethod.GET)//vozvrashaet infu o mi vozvrashaem v internet objects of JAVA ih avtomatom perevodit v JSON i perredaet
+    @RequestMapping(value = "hello" , method = RequestMethod.GET)//vozvrashaet infu o mi vozvrashaem v internet objects of JAVA ih avtomatom perevodit v JSON i perredaet
     public Person getCarDataPerOwner(Person owner) {//anotatsiya iz json ili xml delayet object
         owner.setEmail("person@gmail.com");
         return owner;

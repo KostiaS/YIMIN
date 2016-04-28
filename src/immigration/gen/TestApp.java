@@ -13,7 +13,7 @@ public class TestApp {
        /*
         * Generate number of persons in database
         * */
-        fillDB(5);
+        fillDB(15);
        
         ctx.close();
     }
