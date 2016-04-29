@@ -34,22 +34,19 @@ public class PersonData   {
 	
 	@ManyToOne
 	Country birthplace;
-	/*
-	@OneToMany
-	@JoinTable(name="Way",joinColumns={@JoinColumn(name="PersonDataId")},inverseJoinColumns={@JoinColumn(name="WayId")})
+	
+	@OneToMany(mappedBy="personData")
 	List <Way> programmWays;
 	
-  @OneToMany
-	@JoinTable(name="PersonDocuments",joinColumns={@JoinColumn(name="PersonDataId")},inverseJoinColumns={@JoinColumn(name="PersonDocId")})
+	@OneToMany(mappedBy="personData")
 	List<PersonDocuments> documents;
 	
-	@OneToMany
-	@JoinTable(name="Address",joinColumns={@JoinColumn(name="PersonDataId")},inverseJoinColumns={@JoinColumn(name="addressId")})
+	@OneToMany(mappedBy="personData")
 	List<Address> addresses;
 	
-	@OneToMany
-	@JoinTable(name="PersonCustomData",joinColumns={@JoinColumn(name="PersonDataId")},inverseJoinColumns={@JoinColumn(name="PersonDataid")})
-	List <PersonCustomData> customData;*/
+	@OneToMany(mappedBy="personData")
+	List <PersonCustomData> customData;
+
 
 	public PersonData(String identify, Date birthdate, String firstName,
 			String lastName, char gender, String familyStatus,
@@ -76,14 +73,44 @@ public class PersonData   {
 	
 	@Override
 	public String toString() {
-		return "PersonData [identify=" + identify + ", birthdate=" + birthdate
-				+ ", firstName=" + firstName + ", lastName=" + lastName
-				+ ", gender=" + gender + ", familyStatus=" + familyStatus
-				+ ", workphone=" + workphone + ", mobilephone=" + mobilephone
-				+ ", homephone=" + homephone + ", ocupation=" + ocupation
-				+ ", education=" + education + ", PersonDataId=" + PersonDataId
-				+ ", citizenship=" + citizenship + ", birthplace=" + birthplace
-				+ "]";
+		return "PersonData [identify=" + identify + ", birthdate=" + birthdate + ", firstName=" + firstName
+				+ ", lastName=" + lastName + ", gender=" + gender + ", familyStatus=" + familyStatus + ", workphone="
+				+ workphone + ", mobilephone=" + mobilephone + ", homephone=" + homephone + ", ocupation=" + ocupation
+				+ ", education=" + education + ", PersonDataId=" + PersonDataId + ", citizenship=" + citizenship
+				+ ", birthplace=" + birthplace + ", programmWays=" + programmWays + ", documents=" + documents
+				+ ", addresses=" + addresses + ", customData=" + customData + "]";
+	}
+
+	public List<Way> getProgrammWays() {
+		return programmWays;
+	}
+
+	public void setProgrammWays(List<Way> programmWays) {
+		this.programmWays = programmWays;
+	}
+
+	public List<PersonDocuments> getDocuments() {
+		return documents;
+	}
+
+	public void setDocuments(List<PersonDocuments> documents) {
+		this.documents = documents;
+	}
+
+	public List<Address> getAddresses() {
+		return addresses;
+	}
+
+	public void setAddresses(List<Address> addresses) {
+		this.addresses = addresses;
+	}
+
+	public List<PersonCustomData> getCustomData() {
+		return customData;
+	}
+
+	public void setCustomData(List<PersonCustomData> customData) {
+		this.customData = customData;
 	}
 
 	public String getIdentify() {

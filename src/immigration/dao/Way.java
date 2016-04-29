@@ -1,7 +1,7 @@
 package immigration.dao;
 
 import java.util.Date;
- 
+import java.util.List;
 
 import javax.persistence.*;
 
@@ -23,14 +23,13 @@ Programs program;
 @JoinColumn(name = "PersonDataId")
 PersonData personData;
 
-/*@OneToMany
-@JoinTable(name="WayDocuments",joinColumns={@JoinColumn(name="WayId")},inverseJoinColumns={@JoinColumn(name="WayDocumentsId")})
+@OneToMany (mappedBy = "way")
 List <WayDocuments> requiredDocuments;
 
-@OneToMany
-@JoinTable(name="WaySteps",joinColumns={@JoinColumn(name="WayId")},inverseJoinColumns={@JoinColumn(name="WayStepsId")})
+@OneToMany (mappedBy = "way")
 List <WaySteps> stepsToDo;
-*/
+
+
 public Way(Date startDate, Date endDate, boolean isFinished) {
 	super();
 	this.startDate = startDate;
@@ -44,12 +43,29 @@ public Way() {
 }
 
 
+
+
 @Override
 public String toString() {
-	return "Way [startDate=" + startDate + ", endDate=" + endDate
-			+ ", isFinished=" + isFinished + ", WayId=" + WayId
-			+  ", program="
-			+ program + "]";
+	return "Way [startDate=" + startDate + ", endDate=" + endDate + ", isFinished=" + isFinished + ", WayId=" + WayId
+			+ ", program=" + program + ", personData=" + personData + ", requiredDocuments=" + requiredDocuments
+			+ ", stepsToDo=" + stepsToDo + "]";
+}
+
+public List<WayDocuments> getRequiredDocuments() {
+	return requiredDocuments;
+}
+
+public void setRequiredDocuments(List<WayDocuments> requiredDocuments) {
+	this.requiredDocuments = requiredDocuments;
+}
+
+public List<WaySteps> getStepsToDo() {
+	return stepsToDo;
+}
+
+public void setStepsToDo(List<WaySteps> stepsToDo) {
+	this.stepsToDo = stepsToDo;
 }
 
 public PersonData getPersonData() {
