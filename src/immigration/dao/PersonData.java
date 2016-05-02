@@ -1,18 +1,20 @@
 package immigration.dao;
 
- 
 import java.util.Date;
 import java.util.List;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
-public class PersonData   {
+public class PersonData {
+
 	String identify;
-	
+
 	@Temporal(TemporalType.DATE)
 	Date birthdate;
-	
+
 	String firstName;
 	String lastName;
 	char gender;
@@ -22,36 +24,40 @@ public class PersonData   {
 	String homephone;
 	String ocupation;
 	String education;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "PersonDataId")
 	int PersonDataId;
-	
-	@ManyToMany 
-	@JoinTable(name="PersonData_Country",joinColumns=@JoinColumn(name="PersonDataId"),inverseJoinColumns=@JoinColumn(name="CountryId"))
-	List <Country> citizenship;
-	
+	@JsonIgnore
+	@OneToOne(mappedBy = "personData")
+	Person person;
+	@JsonIgnore
+	@ManyToMany
+	@JoinTable(name = "PersonData_Country", joinColumns = @JoinColumn(name = "PersonDataId") , inverseJoinColumns = @JoinColumn(name = "CountryId") )
+	List<Country> citizenship;
+	@JsonIgnore
 	@ManyToOne
 	Country birthplace;
-	
-	@OneToMany(mappedBy="personData")
-	List <Way> programmWays;
-	
-	@OneToMany(mappedBy="personData")
+	@JsonIgnore
+	@OneToMany(mappedBy = "personData")
+	List<Way> programmWays;
+	@JsonIgnore
+	@OneToMany(mappedBy = "personData")
 	List<PersonDocuments> documents;
-	
-	@OneToMany(mappedBy="personData")
+	@JsonIgnore
+	@OneToMany(mappedBy = "personData")
 	List<Address> addresses;
+	@JsonIgnore
+	@OneToMany(mappedBy = "personData")
+	List<PersonCustomData> customData;
+
 	
-	@OneToMany(mappedBy="personData")
-	List <PersonCustomData> customData;
 
-
-	public PersonData(String identify, Date birthdate, String firstName,
-			String lastName, char gender, String familyStatus,
-			String workphone, String mobilephone, String homephone,
-			String ocupation, String education) {
+	public PersonData(String identify, Date birthdate, String firstName, String lastName, char gender,
+			String familyStatus, String workphone, String mobilephone, String homephone, String ocupation,
+			String education, Person person, List<Country> citizenship, Country birthplace, List<Way> programmWays,
+			List<PersonDocuments> documents, List<Address> addresses, List<PersonCustomData> customData) {
 		super();
 		this.identify = identify;
 		this.birthdate = birthdate;
@@ -64,21 +70,37 @@ public class PersonData   {
 		this.homephone = homephone;
 		this.ocupation = ocupation;
 		this.education = education;
+		this.person = person;
+		this.citizenship = citizenship;
+		this.birthplace = birthplace;
+		this.programmWays = programmWays;
+		this.documents = documents;
+		this.addresses = addresses;
+		this.customData = customData;
 	}
 
 	public PersonData() {
 		super();
 	}
+
 	
-	
+
 	@Override
 	public String toString() {
 		return "PersonData [identify=" + identify + ", birthdate=" + birthdate + ", firstName=" + firstName
 				+ ", lastName=" + lastName + ", gender=" + gender + ", familyStatus=" + familyStatus + ", workphone="
 				+ workphone + ", mobilephone=" + mobilephone + ", homephone=" + homephone + ", ocupation=" + ocupation
-				+ ", education=" + education + ", PersonDataId=" + PersonDataId + ", citizenship=" + citizenship
-				+ ", birthplace=" + birthplace + ", programmWays=" + programmWays + ", documents=" + documents
-				+ ", addresses=" + addresses + ", customData=" + customData + "]";
+				+ ", education=" + education + ", PersonDataId=" + PersonDataId + ", person=" + person
+				+ ", citizenship=" + citizenship + ", birthplace=" + birthplace + ", programmWays=" + programmWays
+				+ ", documents=" + documents + ", addresses=" + addresses + ", customData=" + customData + "]";
+	}
+
+	public Person getPerson() {
+		return person;
+	}
+
+	public void setPerson(Person person) {
+		this.person = person;
 	}
 
 	public List<Way> getProgrammWays() {
@@ -220,5 +242,5 @@ public class PersonData   {
 	public void setBirthplace(Country birthplace) {
 		this.birthplace = birthplace;
 	}
- 
+
 }

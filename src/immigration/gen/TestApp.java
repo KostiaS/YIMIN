@@ -1,4 +1,4 @@
-package immigration.gen;
+/*package immigration.gen;
 
 import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
@@ -10,9 +10,9 @@ public class TestApp {
 
         AbstractApplicationContext ctx = new FileSystemXmlApplicationContext("WebContent/WEB-INF/beansGen.xml");
         rpo = (RandomPersistObject) ctx.getBean("rpo");
-       /*
-        * Generate number of persons in database
-        * */
+       
+         
+         
         fillDB(15);
        
         ctx.close();
@@ -33,3 +33,4 @@ public class TestApp {
     	rpo.generateWay();
     }
 }
+*/
