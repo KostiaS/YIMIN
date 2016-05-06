@@ -87,9 +87,11 @@ public class PersonData {
 		super();
 	}
 
-	
+    public void setPersonDataId(int personDataId) {
+        PersonDataId = personDataId;
+    }
 
-	@Override
+    @Override
 	public String toString() {
 		return "PersonData [identify=" + identify + ", birthdate=" + birthdate + ", firstName=" + firstName
 				+ ", lastName=" + lastName + ", gender=" + gender + ", familyStatus=" + familyStatus + ", workphone="

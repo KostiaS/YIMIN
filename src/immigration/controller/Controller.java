@@ -29,10 +29,8 @@ public class Controller {
     }
     
     @RequestMapping(value = Constants.SAVE_PERSON_DATA, method = RequestMethod.POST) 
-    public void savePersonData(@RequestBody PersonData personData) { 
-    	System.out.println(personData);
+    public void savePersonData(@RequestBody PersonData personData) {
     	model.updatePersonData(personData);
-        
     }
 
 }
