@@ -7,6 +7,9 @@ import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+ 
+
+
 @Entity
 public class PersonData {
 
@@ -29,26 +32,27 @@ public class PersonData {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "PersonDataId")
 	int PersonDataId;
-	@JsonIgnore
+	
+	 @JsonIgnore
 	@OneToOne(mappedBy = "personData")
 	Person person;
-	@JsonIgnore
+	 @JsonIgnore
 	@ManyToMany
 	@JoinTable(name = "PersonData_Country", joinColumns = @JoinColumn(name = "PersonDataId") , inverseJoinColumns = @JoinColumn(name = "CountryId") )
 	List<Country> citizenship;
-	@JsonIgnore
+	 @JsonIgnore
 	@ManyToOne
 	Country birthplace;
-	@JsonIgnore
+	 @JsonIgnore
 	@OneToMany(mappedBy = "personData")
 	List<Way> programmWays;
-	@JsonIgnore
+	 @JsonIgnore
 	@OneToMany(mappedBy = "personData")
 	List<PersonDocuments> documents;
-	@JsonIgnore
+	 @JsonIgnore
 	@OneToMany(mappedBy = "personData")
 	List<Address> addresses;
-	@JsonIgnore
+	 @JsonIgnore
 	@OneToMany(mappedBy = "personData")
 	List<PersonCustomData> customData;
 

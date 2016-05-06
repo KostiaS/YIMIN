@@ -5,4 +5,7 @@ import immigration.dao.*;
 public interface IModel {
 	
  PersonData getPersonDataById(int idOfPerson);
+
+void updatePersonData(PersonData personData);
+
 }

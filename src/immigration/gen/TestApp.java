@@ -1,4 +1,4 @@
-/*package immigration.gen;
+package immigration.gen;
 
 import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
@@ -33,4 +33,3 @@ public class TestApp {
     	rpo.generateWay();
     }
 }
-*/

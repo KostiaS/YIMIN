@@ -6,6 +6,7 @@ import immigration.model.interfaces.IModel;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,4 +27,12 @@ public class Controller {
     	PersonData personData = model.getPersonDataById(personId);
         return personData;
     }
+    
+    @RequestMapping(value = Constants.SAVE_PERSON_DATA, method = RequestMethod.POST) 
+    public void savePersonData(@RequestBody PersonData personData) { 
+    	System.out.println(personData);
+    	model.updatePersonData(personData);
+        
+    }
+
 }

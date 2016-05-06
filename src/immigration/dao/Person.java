@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.persistence.*;
 
+
 @Entity
 public class Person {
 String email;
@@ -20,7 +21,7 @@ Date lastLogin;
 @GeneratedValue(strategy = GenerationType.AUTO)
 @Column(name = "PersonId")
 int PersonId;
-
+ 
 @OneToOne
 @JoinColumn(name="PersonDataId")
 PersonData personData;
@@ -53,7 +54,6 @@ public String toString() {
 
 public Person() {
 }
-
 
 public String getEmail() {
 	return email;

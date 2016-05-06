@@ -24,4 +24,9 @@ public class DbFunctionality implements IModel {
 		return personData;
 	}
 
+	@Override
+	public void updatePersonData(PersonData personData) {
+		System.out.println(personData);
+	}
+
 }
