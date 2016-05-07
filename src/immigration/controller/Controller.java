@@ -21,7 +21,10 @@ public class Controller {
     
 	@Autowired
     IModel model;
-    
+    /*
+    * get information - person data about user by person id
+    *
+    * */
     @RequestMapping(value = Constants.PERSONAL_DATA+"/{personId}"  , method = RequestMethod.GET) 
     public PersonData getPersonData(@PathVariable int personId) { 
     	PersonData personData = model.getPersonDataById(personId);
