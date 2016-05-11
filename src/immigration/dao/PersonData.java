@@ -1,9 +1,11 @@
 package immigration.dao;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
 import javax.persistence.*;
+
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -20,6 +22,7 @@ public class PersonData {
 
 	String firstName;
 	String lastName;
+
 	char gender;
 	String familyStatus;
 	String workphone;
@@ -40,7 +43,7 @@ public class PersonData {
 	@ManyToMany
 	@JoinTable(name = "PersonData_Country", joinColumns = @JoinColumn(name = "PersonDataId") , inverseJoinColumns = @JoinColumn(name = "CountryId") )
 	List<Country> citizenship;
-	 @JsonIgnore
+
 	@ManyToOne
 	Country birthplace;
 	 @JsonIgnore
