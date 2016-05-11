@@ -1,13 +1,15 @@
 package immigration.dao;
 
+
 import java.util.Date;
 import java.util.List;
 
 import javax.persistence.*;
 
 
+
 @Entity
-public class Person {
+public class Person  {
 String email;
 String password;
 
