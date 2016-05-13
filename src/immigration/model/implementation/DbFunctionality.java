@@ -6,6 +6,9 @@ import immigration.dao.*;
 import immigration.model.interfaces.IModel;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.LinkedList;
+import java.util.List;
+
 public class DbFunctionality implements IModel {
 
     @PersistenceContext(unitName = "springHibernate", type = PersistenceContextType.EXTENDED)
@@ -30,37 +33,7 @@ public class DbFunctionality implements IModel {
     @Override
     public boolean updatePersonData(PersonData personData) {
         em.merge(personData);
-        /* Query query = em.createQuery("UPDATE PersonData p SET " +
-                "p.identify = :identify, " +
-                "p.firstName = :firstName, " +
-                "p.lastName = :lastName, " +
-                "p.gender = :gender, " +
-                "p.familyStatus = :familyStatus, " +
-                "p.workphone = :workphone, " +
-                "p.mobilephone = :mobilephone, " +
-                "p.homephone = :homephone, " +
-                "p.ocupation = :ocupation, " +
-                "p.education = :education, " +
-                "p.birthdate = :birthdate " +
-                "WHERE p.PersonDataId = :PersonDataId");
-
-        query.setParameter("identify", personData.getIdentify())
-                .setParameter("firstName", personData.getFirstName())
-                .setParameter("lastName", personData.getLastName())
-                .setParameter("gender", personData.getGender())
-                .setParameter("familyStatus", personData.getFamilyStatus())
-                .setParameter("workphone", personData.getFamilyStatus())
-                .setParameter("mobilephone", personData.getMobilephone())
-                .setParameter("homephone", personData.getHomephone())
-                .setParameter("ocupation", personData.getOcupation())
-                .setParameter("education", personData.getEducation())
-                .setParameter("PersonDataId", personData.getPersonDataId())
-                .setParameter("birthdate", personData.getBirthdate());
-
-        int i = query.executeUpdate();
-        System.out.println(i);
-        em.clear();*/
-        return true/* i == 1 ? true : false*/;
+        return true;
     }
 
     @Override
@@ -77,7 +50,7 @@ public class DbFunctionality implements IModel {
     @Transactional
     public PersonData createNewPersonData(int countryId) {
         PersonData personData = new PersonData();
-        personData.setBirthplace(getObjectFromDbById(new Country(),countryId));
+        personData.setBirthplace(getObjectFromDbById(Country.class,countryId));
         em.persist(personData);
         return personData;
     }
@@ -86,16 +59,35 @@ public class DbFunctionality implements IModel {
     @Override
     public void createNewPerson(Person person, int countryId) {
         person.setPersonData(createNewPersonData(countryId));
-
         em.persist(person);
     }
 
+    @Override
+    public List<Country> getListOfCountry() {
+       return getGetObjectListFromDbByClassName(Country.class);
+    }
+
+    @Override
+    public List<Country> getListOfCountryWithEmbassy(Country countryWichEmbassySearched) {
+        Query query = em.createQuery("select c FROM Country c WHERE id in  " +
+                "(select e.location.CountryId from Embassy e WHERE e.country.CountryId = ?1)");
+        query.setParameter(1, countryWichEmbassySearched.getCountryId());
+        return query.getResultList();
+    }
+
+    @Override
+    public List<Embassy> getEmbassyListOfCountry(Country countryOfEmbassy, Country locationCountry) {
+        Query query = em.createQuery("select e from Embassy e where e.country.CountryId = ?1 and e.location.CountryId = ?2");
+        query.setParameter(1, countryOfEmbassy.getCountryId()).setParameter(2, locationCountry.getCountryId());
+        return query.getResultList();
+    }
+
     @SuppressWarnings("unchecked")
-    public <T> T getObjectFromDbById (T choosenObject, int objectId){
-        String className = choosenObject.getClass().getSimpleName();
+    public <T> T getObjectFromDbById (Class <T>  nameOfClass, int objectId){
+        String className = nameOfClass.getSimpleName();
         Query q = em.createQuery ("SELECT p FROM "+className+" p WHERE p.id = ?1");
         q.setParameter(1, objectId);
-        choosenObject = null;
+        T choosenObject = null;
         try {
             choosenObject = (T)q.getSingleResult();
         } catch (Exception e) {
@@ -103,5 +95,10 @@ public class DbFunctionality implements IModel {
         }
         return choosenObject;
     }
-
+    @SuppressWarnings("unchecked")
+    public <T>List<T> getGetObjectListFromDbByClassName (Class <T>  nameOfClass) {
+        String className = nameOfClass.getSimpleName();
+        System.out.println(className);
+        return em.createQuery("SELECT p FROM " + className + " p").getResultList();
+    }
 }

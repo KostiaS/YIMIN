@@ -36,26 +36,26 @@ public class PersonData {
 	@Column(name = "PersonDataId")
 	int PersonDataId;
 	
-	 @JsonIgnore
+    @JsonIgnore
 	@OneToOne(mappedBy = "personData")
 	Person person;
-	 @JsonIgnore
+    @JsonIgnore
 	@ManyToMany
 	@JoinTable(name = "PersonData_Country", joinColumns = @JoinColumn(name = "PersonDataId") , inverseJoinColumns = @JoinColumn(name = "CountryId") )
 	List<Country> citizenship;
 
 	@ManyToOne
 	Country birthplace;
-	 @JsonIgnore
+    @JsonIgnore
 	@OneToMany(mappedBy = "personData")
 	List<Way> programmWays;
-	 @JsonIgnore
+    @JsonIgnore
 	@OneToMany(mappedBy = "personData")
 	List<PersonDocuments> documents;
-	 @JsonIgnore
+    @JsonIgnore
 	@OneToMany(mappedBy = "personData")
 	List<Address> addresses;
-	 @JsonIgnore
+    @JsonIgnore
 	@OneToMany(mappedBy = "personData")
 	List<PersonCustomData> customData;
 
