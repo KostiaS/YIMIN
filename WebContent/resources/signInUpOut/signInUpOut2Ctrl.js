@@ -1,9 +1,5 @@
 angular.module("mainApp")
-    .controller("signInUpOutCtrl", ["$scope", "$rootScope", "$http", "$window", function($scope, $rootScope, $http, $window) {
-        $scope.signInUpOutUrl = "resources/signInUpOut/signInUpView.html";
-        $scope.signInUpOutUrlTrigger = function() {
-            $scope.signInUpOutUrl = "resources/signInUpOut/signOutView.html"
-        };
+    .controller("signInUpOut2Ctrl", ["$scope", "$rootScope", "$http", "$window", function($scope, $rootScope, $http, $window) {
 
         //$scope.sendAuthorization = function() {
         //
@@ -14,20 +10,20 @@ angular.module("mainApp")
         //};
 
         $scope.emitAuthorization = function() {
-            $scope.$emit("authorization", {
+            //console.log("emit2");
+            $scope.$emit("authorization2", {
                 authorization: $scope.authorization
             });
         };
 
         $scope.signInUser = function(userDetails, isValid) {
             if(isValid) {
-                console.log("yeah");
                 //$scope.jsonUserDetails = angular.toJson(userDetails);
                 //console.log($scope.jsonUserDetails);
                 //console.log(userDetails);
 
                 //--Start---Working code for authorization!---
-                //$http.post("http://localhost:8080/yimin/api/authenticate", userDetails)
+                //$http.post('localhost://api/authenticate', userDetails)
                 //    .then(
                 //        function(data, status, headers, config) {
                 //        $window.sessionStorage.token = data.token;
@@ -53,6 +49,7 @@ angular.module("mainApp")
             $scope.getError = function(error) {
                 if(angular.isDefined(error)) {
                     if(error.required) {
+                        console.log("field");
                         return "Field can't be empty"
                     }
                     if(error.email) {
@@ -62,3 +59,4 @@ angular.module("mainApp")
             }
         }
     }]);
+

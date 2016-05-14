@@ -1,0 +1,18 @@
+<div style="margin-top: 2%" ng-controller="countriesInfoCtrl">
+    <div class="row">
+        <div class="col-md-4">
+            <select ng-change="updateSelect()" ng-model="selected" ng-options="item.name for item in countries track by item.id"></select>
+        </div>
+        <div class="col-md-8">
+            <iframe width="750px" height="450px" src="https://www.wikipedia.org/" ng-show="wikiIframe">
+                <p>Your browser does not support iframes.</p>
+            </iframe>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <button class="btn btn-default" ng-show="immigtateToThisCountryBtnVisibility" ng-click="goToImmigrationProgramsView()">Immigrate to this country</button>
+        </div>
+    </div>
+
+</div>

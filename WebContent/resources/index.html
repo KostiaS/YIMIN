@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <title>Title</title>
 
+    <!--<base href="/Yimin/WebContent/">-->
     <base href="/yimin/" />
-
 
 </head>
 <style>
@@ -28,21 +28,21 @@
                     <button class="btn btn-default btn-block" ng-click="goToYourWayView()">Your Way</button>
                 </div>
                 <div class="col-md-3">
-                    <button class="btn btn-default btn-block">Immigration Programs</button>
+                    <button class="btn btn-default btn-block" ng-click="goToImmigrationProgramsView()">Immigration Programs</button>
                 </div>
                 <div class="col-md-3">
                     <button class="btn btn-default btn-block">Embassies Info</button>
                 </div>
                 <div class="col-md-3">
-                    <button class="btn btn-default btn-block">Countries Info</button>
+                    <button class="btn btn-default btn-block" ng-click="goToCoutriesInfoView()">Countries Info</button>
                 </div>
             <!--</div>-->
         </div>
         <div ng-view></div>
     </div>
-    
-<!--     <script src="resources/lib/jquery-2.2.3.min.js"></script> -->
+
     <script src="https://code.jquery.com/jquery-2.2.3.min.js" integrity="sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo=" crossorigin="anonymous"></script>
+
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js"></script>
     <script src="resources/lib/angular-route.min.js"></script>
 
@@ -55,6 +55,9 @@
 
     <script src="resources/mainApp.js"></script>
     <script src="resources/signInUpOut/signInUpOutCtrl.js"></script>
-    
+    <script src="resources/signInUpOut/signInUpOut2Ctrl.js"></script>
+    <script src="resources/yourWay/yourWayCtrl.js"></script>
+    <script src="resources/countriesInfo/countriesInfoCtrl.js"></script>
+    <script src="resources/countriesInfo/countriesInfoFctr.js"></script>
 </body>
 </html>
