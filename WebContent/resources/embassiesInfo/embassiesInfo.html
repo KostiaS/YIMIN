@@ -1,0 +1,59 @@
+<!--<script>-->
+    <!--$(function() {-->
+        <!--$( "#accordion" ).accordion();-->
+    <!--});-->
+<!--</script>-->
+<style>
+    #embassyData td {
+        padding-right: 15px;
+    }
+</style>
+<div style="margin-top: 2%" ng-controller="embassiesInfoCtrl">
+    <div class="row">
+        <div class="col-md-4">
+            <div>
+                <select ng-change="updateEmbassyCountrySelect()" ng-model="embassyCountrySelected"
+                        ng-options="item.name for item in embassyCountries track by item.countryId">
+                </select>
+            </div>
+            <div style="margin-top: 10%">
+                <select ng-change="updateEmbassyLocationSelect()" ng-model="embassyLocationSelected"
+                        ng-options="item.name for item in embassyLocations track by item.countryId">
+                </select>
+            </div>
+        </div>
+
+        <div class="col-md-8">
+            <div width="750px" class="well" ng-show="embassiesInfoVisibility">
+                <h4>Embassies and consulates of {{embassyCountrySelected.name}} in {{embassyLocationSelected.name}}</h4>
+                <div id="accordion">
+                    <div  ng-repeat-start="item in embassyData"
+                          ng-click="accordion.current = item.type">
+                        <div class="btn btn-default">{{item.type}}</div>
+                    </div>
+                    <table id="embassyData" ng-repeat-end ng-show="accordion.current == item.type">
+                        <tr>
+                            <td>tel.</td><td>{{item.phone}}</td>
+                        </tr>
+                        <tr>
+                            <td>fax</td><td>{{item.fax}}</td>
+                        </tr>
+                        <tr>
+                            <td>mail</td><td>{{item.email}}</td>
+                        </tr>
+                        <tr>
+                            <td>address</td><td>{{item.address}}</td>
+                        </tr>
+                    </table>
+                </div>
+        </div>
+    </div>
+    <div class="row" style="margin-top: 2%">
+        <div class="col-md-4">
+            <button class="btn btn-default" ng-show="immigrateToThisCountryBtnVisibility"
+                    ng-click="goToImmigrationProgramsView()">Immigrate to this country
+            </button>
+        </div>
+    </div>
+    </div>
+</div>

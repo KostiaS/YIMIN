@@ -9,7 +9,9 @@
 
 </head>
 <style>
-
+    td {
+        padding: 0px 15px 0px 0px;
+    }
 </style>
 <body ng-controller="mainAppCtrl">
     <!--<div id="signInUpOut">-->
@@ -31,7 +33,7 @@
                     <button class="btn btn-default btn-block" ng-click="goToImmigrationProgramsView()">Immigration Programs</button>
                 </div>
                 <div class="col-md-3">
-                    <button class="btn btn-default btn-block">Embassies Info</button>
+                    <button class="btn btn-default btn-block" ng-click="goToEmbassiesInfoView()">Embassies Info</button>
                 </div>
                 <div class="col-md-3">
                     <button class="btn btn-default btn-block" ng-click="goToCoutriesInfoView()">Countries Info</button>
@@ -42,6 +44,11 @@
     </div>
 
     <script src="https://code.jquery.com/jquery-2.2.3.min.js" integrity="sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo=" crossorigin="anonymous"></script>
+
+    <!--jQuery UI Accordion-->
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+    <!--jQuery UI Accordion-->
 
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js"></script>
     <script src="resources/lib/angular-route.min.js"></script>
@@ -59,5 +66,8 @@
     <script src="resources/yourWay/yourWayCtrl.js"></script>
     <script src="resources/countriesInfo/countriesInfoCtrl.js"></script>
     <script src="resources/countriesInfo/countriesInfoFctr.js"></script>
+    <script src="resources/embassiesInfo/embassiesInfoCtrl.js"></script>
+    <script src="resources/embassiesInfo/embassiesInfoFctr.js"></script>
+    <script src="resources/immigrationPrograms/immigrationProgramsCtrl.js"></script>
 </body>
 </html>

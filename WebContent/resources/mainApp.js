@@ -1,4 +1,4 @@
-angular.module("mainApp", ["ngRoute", "countriesInfo"])
+angular.module("mainApp", ["ngRoute", "getInfo"])
     .config(function($routeProvider, $locationProvider) {
         $locationProvider.html5Mode(true);
         $routeProvider
@@ -16,6 +16,10 @@ angular.module("mainApp", ["ngRoute", "countriesInfo"])
             $location.path("/countries");
         };
 
+        $scope.goToEmbassiesInfoView = function() {
+            $location.path("/embassies");
+        };
+
         $scope.$on("authorization", function(event, args) {
             $scope.authorization = args.authorization;
             $scope.broadcastAuthorization();
@@ -27,5 +31,9 @@ angular.module("mainApp", ["ngRoute", "countriesInfo"])
                 authorization: $scope.authorization
             });
         };
+
+        $scope.$on("pickedCountryForImmigration", function (event, args) {
+            $scope.countryForImmigration = args.countryForImmigration;
+        });
 
     }]);

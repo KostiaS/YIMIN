@@ -1,21 +1,17 @@
 angular.module("mainApp")
-    .controller("countriesInfoCtrl", ["getAllCountries", "$scope", "$location",
-        function(getAllCountries, $scope, $location) {
+    .controller("countriesInfoCtrl", ["getAllCountries", "$scope", "$rootScope", "$location",
+        function(getAllCountries, $scope, $rootScope, $location) {
 
-            $scope.immigtateToThisCountryBtnVisibility = false;
+            $scope.immigrateToThisCountryBtnVisibility = false;
             $scope.wikiIframe = false;
 
             $scope.updateSelect = function() {
-                $scope.immigtateToThisCountryBtnVisibility = true;
+                $scope.immigrateToThisCountryBtnVisibility = true;
                 $scope.wikiIframe = true;
             };
 
-            $scope.goToImmigrationProgramsView = function() {
-                $location.path("/programs");
-            };
-
             $scope.countries = [
-                {id: -1, name: "Select country", link: ""}
+                {countryId: -1, name: "Select country", link: ""}
             ];
 
             $scope.selected = $scope.countries[0];
@@ -32,6 +28,16 @@ angular.module("mainApp")
                 }
             }
 
+            $scope.goToImmigrationProgramsView = function() {
+                $scope.emitCountryForImmigration();
+                $location.path("/programs");
+            };
+
+            $scope.emitCountryForImmigration = function() {
+                $scope.$emit("pickedCountryForImmigration", {
+                    countryForImmigration: $scope.selected});
+            };
+            
             $scope.getAllCountries();
             
     }]);
