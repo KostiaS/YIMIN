@@ -3,7 +3,7 @@
         <div class="col-md-4">
             <select ng-change="updateSelect()" ng-model="selected"
                     ng-options="item.name for item in countries track by item.countryId">
-                <!--<option value="">All</option>-->
+                <option value="" disabled>Select country</option>
             </select>
 
         </div>

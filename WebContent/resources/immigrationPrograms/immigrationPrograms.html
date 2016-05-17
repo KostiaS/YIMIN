@@ -4,6 +4,7 @@
             <div>
                 <select ng-change="updateCountrySelect()" ng-model="countrySelected"
                         ng-options="item.name for item in countries track by item.countryId">
+                    <option value="" disabled>Select country for immigration</option>
                 </select>
             </div>
             <div style="margin-top: 10%">

@@ -1,7 +1,7 @@
 angular.module("mainApp")
     .controller("countriesInfoCtrl", ["getAllCountries", "arrayConcatSrvs", "$scope", "$rootScope", "$location",
         function(getAllCountries, arrayConcatSrvs, $scope, $rootScope, $location) {
-            
+
             $scope.immigrateToThisCountryBtnVisibility = false;
             $scope.wikiIframe = false;
 
@@ -9,16 +9,11 @@ angular.module("mainApp")
                 $scope.immigrateToThisCountryBtnVisibility = true;
                 $scope.wikiIframe = true;
             };
-
-            $scope.countries = [
-                {countryId: -1, name: "Select country", link: ""}
-            ];
-
-            $scope.selected = $scope.countries[0];
             
             $scope.getAllCountries = function() {
                 getAllCountries().then(function(response) {
-                    arrayConcatSrvs.arrayConcated($scope.countries, response.countries);
+                    // arrayConcatSrvs.arrayConcated($scope.countries, response.countries);
+                    $scope.countries = response.countries;
                 })
             };
 

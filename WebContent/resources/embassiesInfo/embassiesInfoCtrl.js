@@ -6,13 +6,17 @@ angular.module("mainApp")
             $scope.embassiesInfoVisibility = false;
 
             $scope.updateEmbassyCountrySelect = function() {
+                $scope.immigrateToThisCountryBtnAccessibility = true;
                 $scope.getEmbassyLocation();
             };
 
             $scope.updateEmbassyLocationSelect = function() {
-                $scope.immigrateToThisCountryBtnVisibility = true;
-                $scope.embassiesInfoVisibility = true;
-                $scope.getEmbassyData();
+                if($scope.embassyLocationSelected != null) {
+                    $scope.immigrateToThisCountryBtnVisibility = true;
+                    $scope.immigrateToThisCountryBtnAccessibility = false;
+                    $scope.embassiesInfoVisibility = true;
+                    $scope.getEmbassyData();
+                }
             };
             
             $scope.goToImmigrationProgramsView = function() {
@@ -24,29 +28,20 @@ angular.module("mainApp")
                 $scope.$emit("pickedCountryForImmigration", {
                     countryForImmigration: $scope.embassyCountrySelected});
             };
-
-            $scope.embassyCountries = [
-                {countryId: -1, name: "Select embassy", link: ""}
-            ];
-
-            $scope.embassyLocations = [
-                {countryId: -1, name: "Select country", link: ""}
-            ];
-
-            $scope.embassyCountrySelected = $scope.embassyCountries[0];
-            $scope.embassyLocationSelected = $scope.embassyLocations[0];
             
             $scope.getEmbassyCountry = function() {
                 getAllCountries().then(function(response) {
-                    $scope.embassyCountries = $scope.embassyCountries.slice(0, 1);
-                    $scope.embassyCountries = arrayConcatSrvs.arrayConcated($scope.embassyCountries, response.countries);
+                    // $scope.embassyCountries = $scope.embassyCountries.slice(0, 1);
+                    // $scope.embassyCountries = arrayConcatSrvs.arrayConcated($scope.embassyCountries, response.countries);
+                    $scope.embassyCountries = response.countries;
                 })
             };
 
             $scope.getEmbassyLocation = function () {
                 getEmbassyLocation($scope.embassyCountrySelected).then(function (response) {
-                    $scope.embassyLocations = $scope.embassyLocations.slice(0, 1);
-                    $scope.embassyLocations = arrayConcatSrvs.arrayConcated($scope.embassyLocations, response.locations);
+                    // $scope.embassyLocations = $scope.embassyLocations.slice(0, 1);
+                    // $scope.embassyLocations = arrayConcatSrvs.arrayConcated($scope.embassyLocations, response.locations);
+                    $scope.embassyLocations = response.locations;
                 })
             };
             
