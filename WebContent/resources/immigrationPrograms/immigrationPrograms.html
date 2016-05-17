@@ -2,33 +2,32 @@
     <div class="row">
         <div class="col-md-4">
             <div>
-                <select ng-change="updateCountrySelect()" ng-model="countrySelected"
+                <select class="btn-block" ng-change="updateCountrySelect()" ng-model="countrySelected"
                         ng-options="item.name for item in countries track by item.countryId">
                     <option value="" disabled>Select country for immigration</option>
                 </select>
             </div>
             <div style="margin-top: 10%">
-                <select ng-change="updateCategorySelect()" ng-model="categorySelected"
+                <select class="btn-block" ng-change="updateCategorySelect()" ng-model="categorySelected"
                         ng-options="item.name for item in categories track by item.countryId">
+                    <option value="" disabled>Select category of program</option>
                 </select>
             </div>
             <div style="margin-top: 10%">
-                <select ng-change="updateProgramSelect()" ng-model="programSelected"
+                <select class="btn-block" ng-change="updateProgramSelect()" ng-model="programSelected"
                         ng-options="item.name for item in programs track by item.countryId">
+                    <option value="" disabled>Select immigration program</option>
                 </select>
+            </div>
+            <div style="margin-top: 10%">
+                <p class="text-center">Click Your Way to get a program suitable to you</p>
+                <button class="btn btn-default center-block" ng-click="goToYourWayView()">Your Way</button>
             </div>
         </div>
 
         <div class="col-md-8">
             <div width="750px" class="well" ng-show="programMenuVisibility">
 
-            </div>
-        </div>
-        <div class="row" style="margin-top: 2%">
-            <div class="col-md-4">
-                <button class="btn btn-default" ng-show="immigrateToThisCountryBtnVisibility"
-                        ng-click="goToYourWayView()">Your Way
-                </button>
             </div>
         </div>
     </div>

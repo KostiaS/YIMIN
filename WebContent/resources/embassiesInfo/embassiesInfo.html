@@ -12,13 +12,13 @@
     <div class="row">
         <div class="col-md-4">
             <div>
-                <select ng-change="updateEmbassyCountrySelect()" ng-model="embassyCountrySelected"
+                <select class="btn-block" ng-change="updateEmbassyCountrySelect()" ng-model="embassyCountrySelected"
                         ng-options="item.name for item in embassyCountries track by item.countryId">
                     <option value="" disabled>Select embassy</option>
                 </select>
             </div>
             <div style="margin-top: 10%">
-                <select ng-change="updateEmbassyLocationSelect()" ng-model="embassyLocationSelected"
+                <select class="btn-block" ng-change="updateEmbassyLocationSelect()" ng-model="embassyLocationSelected"
                         ng-options="item.name for item in embassyLocations track by item.countryId">
                     <option value="" disabled>Select country</option>
                 </select>
@@ -48,14 +48,16 @@
                         </tr>
                     </table>
                 </div>
+            </div>
         </div>
     </div>
     <div class="row" style="margin-top: 2%">
         <div class="col-md-4">
-            <button class="btn btn-default" ng-show="immigrateToThisCountryBtnVisibility"
+            <div>
+            <button class="btn btn-default btn-block" ng-show="immigrateToThisCountryBtnVisibility"
                     ng-click="goToImmigrationProgramsView()" ng-disabled="immigrateToThisCountryBtnAccessibility">Immigrate to this country
             </button>
+            </div>
         </div>
-    </div>
     </div>
 </div>

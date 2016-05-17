@@ -15,9 +15,9 @@ angular.module("mainApp")
         });
         $scope.viewTrigger = function() {
             if($scope.authorization == false) {
-                $scope.yourWayViewUrl = "resources/yourWay/yourWayAuthorizedView.html";
-            } else {
                 $scope.yourWayViewUrl = "resources/yourWay/yourWayNotAuthorizedView.html";
+            } else {
+                $scope.yourWayViewUrl = "resources/yourWay/yourWayAuthorizedView.html";
             }
         };
 

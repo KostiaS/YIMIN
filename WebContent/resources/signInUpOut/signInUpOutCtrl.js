@@ -1,5 +1,6 @@
 angular.module("mainApp")
-    .controller("signInUpOutCtrl", ["$scope", "$rootScope", "$http", "$window", function($scope, $rootScope, $http, $window) {
+    .controller("signInUpOutCtrl", ["authorizationSrvs", "$scope", "$rootScope", "$http", "$window",
+            function(authorizationSrvs, $scope, $rootScope, $http, $window) {
         $scope.signInUpOutUrl = "resources/signInUpOut/signInUpView.html";
         $scope.signInUpOutUrlTrigger = function() {
             $scope.signInUpOutUrl = "resources/signInUpOut/signOutView.html"
@@ -21,7 +22,14 @@ angular.module("mainApp")
 
         $scope.signInUser = function(userDetails, isValid) {
             if(isValid) {
-                console.log("yeah");
+                
+                //--Start---Authorization plug!---
+                authorizationSrvs(userDetails).then(function (response) {
+                    $scope.authorization = response.authorization;
+                    $scope.emitAuthorization();
+                });
+                //--End---Authorization plug!---
+
                 //$scope.jsonUserDetails = angular.toJson(userDetails);
                 //console.log($scope.jsonUserDetails);
                 //console.log(userDetails);
@@ -39,12 +47,7 @@ angular.module("mainApp")
                 //        }
                 //    )
                 //---End---Working code for authorization!---
-
-                //--Start---Realization only for PhpStorm!---
-                $scope.authorization = true;
-                $scope.emitAuthorization();
-                //--End---Realization only for PhpStorm!---
-
+                
             }
             else {
                 $scope.showError = true;

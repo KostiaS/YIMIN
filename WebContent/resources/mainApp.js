@@ -5,6 +5,8 @@ angular.module("mainApp", ["ngRoute", "commonHttpRequests", "commonServices"])
         "ROOT_CONTEXT": "/yimin",
         "REQUEST_MAPPING": "/api",
         
+        "SIGN_IN": "/sign_in",
+        "SIGN_UP": "/sign_up",
         "COUNTRIES": "/countries",
         "LIST_OF_COUNTRIES_BY_EMBASSY": "/list_of_countries_by_embassy",
         "EMBASSIES_IN_COUNTRY": "/embassies_in_country"
@@ -38,7 +40,6 @@ angular.module("mainApp", ["ngRoute", "commonHttpRequests", "commonServices"])
         $scope.$on("authorization", function(event, args) {
             $scope.authorization = args.authorization;
             $scope.broadcastAuthorization();
-            console.log($scope.authorization);
         });
 
         $scope.broadcastAuthorization = function() {
