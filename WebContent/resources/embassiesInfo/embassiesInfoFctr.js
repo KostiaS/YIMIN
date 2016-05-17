@@ -1,7 +1,8 @@
-angular.module("getInfo")
-    .factory("getEmbassyLocation", ["$http", function($http) {
+angular.module("commonHttpRequests")
+    .factory("getEmbassyLocation", ["URLS", "$http", function(URLS, $http) {
         return function (embassyCountrySelected) {
-            return $http.post("http://localhost:8080/yimin/api/list_of_countries_by_embassy", embassyCountrySelected)
+            return $http.post(URLS.URL + ":" + URLS.PORT + URLS.ROOT_CONTEXT + URLS.REQUEST_MAPPING
+                        + URLS.LIST_OF_COUNTRIES_BY_EMBASSY, embassyCountrySelected)
                 .then(function(response) {
                     return {
                         locations: response.data
@@ -9,9 +10,10 @@ angular.module("getInfo")
                 })
         }
     }])
-    .factory("getEmbassyData", ["$http", function ($http) {
+    .factory("getEmbassyData", ["URLS", "$http", function (URLS, $http) {
         return function (postData) {
-            return $http.post("http://localhost:8080/yimin/api/embassies_in_country", postData)
+            return $http.post(URLS.URL + ":" + URLS.PORT + URLS.ROOT_CONTEXT + URLS.REQUEST_MAPPING
+                        + URLS.EMBASSIES_IN_COUNTRY, postData)
                 .then(function (response) {
                     return {
                         embassyData: response.data

@@ -1,3 +1,34 @@
-<div ng-controller="immigrationProgramsCtrl">
-    immigration programms - {{countryForImmigration.name}}
+<div style="margin-top: 2%" ng-controller="immigrationProgramsCtrl">
+    <div class="row">
+        <div class="col-md-4">
+            <div>
+                <select ng-change="updateCountrySelect()" ng-model="countrySelected"
+                        ng-options="item.name for item in countries track by item.countryId">
+                </select>
+            </div>
+            <div style="margin-top: 10%">
+                <select ng-change="updateCategorySelect()" ng-model="categorySelected"
+                        ng-options="item.name for item in categories track by item.countryId">
+                </select>
+            </div>
+            <div style="margin-top: 10%">
+                <select ng-change="updateProgramSelect()" ng-model="programSelected"
+                        ng-options="item.name for item in programs track by item.countryId">
+                </select>
+            </div>
+        </div>
+
+        <div class="col-md-8">
+            <div width="750px" class="well" ng-show="programMenuVisibility">
+
+            </div>
+        </div>
+        <div class="row" style="margin-top: 2%">
+            <div class="col-md-4">
+                <button class="btn btn-default" ng-show="immigrateToThisCountryBtnVisibility"
+                        ng-click="goToYourWayView()">Your Way
+                </button>
+            </div>
+        </div>
+    </div>
 </div>

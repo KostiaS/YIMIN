@@ -1,6 +1,6 @@
 angular.module("mainApp")
-    .controller("embassiesInfoCtrl", ["getAllCountries", "getEmbassyLocation", "getEmbassyData", "$scope", "$location",
-        function(getAllCountries, getEmbassyLocation, getEmbassyData, $scope, $location) {
+    .controller("embassiesInfoCtrl", ["getAllCountries", "getEmbassyLocation", "getEmbassyData", "arrayConcatSrvs", "$scope", "$location",
+        function(getAllCountries, getEmbassyLocation, getEmbassyData, arrayConcatSrvs, $scope, $location) {
 
             $scope.immigrateToThisCountryBtnVisibility = false;
             $scope.embassiesInfoVisibility = false;
@@ -39,14 +39,14 @@ angular.module("mainApp")
             $scope.getEmbassyCountry = function() {
                 getAllCountries().then(function(response) {
                     $scope.embassyCountries = $scope.embassyCountries.slice(0, 1);
-                    arrayConcat($scope.embassyCountries, response.countries);
+                    $scope.embassyCountries = arrayConcatSrvs.arrayConcated($scope.embassyCountries, response.countries);
                 })
             };
 
             $scope.getEmbassyLocation = function () {
                 getEmbassyLocation($scope.embassyCountrySelected).then(function (response) {
                     $scope.embassyLocations = $scope.embassyLocations.slice(0, 1);
-                    arrayConcat($scope.embassyLocations, response.locations)
+                    $scope.embassyLocations = arrayConcatSrvs.arrayConcated($scope.embassyLocations, response.locations);
                 })
             };
             
@@ -57,18 +57,17 @@ angular.module("mainApp")
                 })
             };
 
-            function arrayConcat(base, pushedArray) {
-                for(var i = 0; i < pushedArray.length; i++) {
-                    base.push(pushedArray[i]);
-                }
-            }
-
             $scope.getEmbassyCountry();
 
             $scope.accordion = {
                 current: null
             };
 
-            // $scope.embassies = [{type: "type1", phone: "phone1"}, {type: "type2", phone: "phone2"}, {type: "type3", phone: "phone3"}];
+/*            $scope.embassies = [
+                {type: "type1", phone: "phone1", fax: "fax1", email: "email1", address: "address1"},
+                {type: "type2", phone: "phone2", fax: "fax2", email: "email2", address: "address2"},
+                {type: "type3", phone: "phone3", fax: "fax3", email: "email3", address: "address3"},
+                {type: "type4", phone: "phone4", fax: "fax4", email: "email4", address: "address4"}
+            ];*/
             
     }]);
