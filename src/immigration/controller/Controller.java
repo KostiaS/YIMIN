@@ -1,5 +1,10 @@
 package immigration.controller;
 
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonToken;
+import com.fasterxml.jackson.core.TreeNode;
+import com.fasterxml.jackson.databind.MappingJsonFactory;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import immigration.dao.*;
 import immigration.interfaces.*;
 import immigration.model.interfaces.IModel;
@@ -8,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 
+import java.io.IOException;
 import java.util.*;
 
 
@@ -90,12 +96,27 @@ public class Controller {
      * for view 6 in flow
      * @value country - country of imigratiom
      * @value category - category of program to imigration
+     * @param strJson - Example of json : [{"countryId":1},{"category":"category106"}]
+     * @return Json list of programs
      */
-    /*@RequestMapping(value = Constants.IMIGRATION_PROGRAMS, method = RequestMethod.POST)
+    @RequestMapping(value = Constants.IMIGRATION_PROGRAMS, method = RequestMethod.POST)
     public List<Programs> getPrograms(@RequestBody String strJson){
+        MappingJsonFactory factory = new MappingJsonFactory();
+        ObjectMapper om = new ObjectMapper();
+        JsonParser parser = null;
+        Country country=null;
+        Programs programs = null;
+        try {
+            parser = factory.createParser(strJson);
+            parser.nextToken();
 
+            TreeNode node = parser.readValueAsTree();
+            country = om.readValue(node.get(0).toString(), Country.class);
+            programs = om.readValue(node.get(1).toString(), Programs.class);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return model.getProgram(country, programs);
-    }*/
-
-
+    }
 }
