@@ -82,6 +82,20 @@ public class DbFunctionality implements IModel {
         return query.getResultList();
     }
 
+    @Override
+    public List<String> getCategoryOfProgram(Country country) {
+        Query query = em.createQuery("select category from Programs p where p.country.CountryId = "+country.getCountryId());
+        return query.getResultList();
+    }
+
+    @Override
+    public List<Programs> getProgram(Country country, Programs category) {
+        String parsedCategory = category.getCategory();
+        Query query = em.createQuery("select p from Programs p where p.country.CountryId = "+country.getCountryId()+" and category = '"+parsedCategory+"'");
+        return query.getResultList();
+    }
+
+
     @SuppressWarnings("unchecked")
     public <T> T getObjectFromDbById (Class <T>  nameOfClass, int objectId){
         String className = nameOfClass.getSimpleName();
