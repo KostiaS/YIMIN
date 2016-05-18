@@ -16,7 +16,7 @@ import immigration.interfaces.*;
 
 public class RandomPersistObject {
 	private static final int STEP_AMOUNT = 10;
-	private static final int COUNTYES_AMOUNT = 142;
+	private static final int COUNTYES_AMOUNT = 52;
 	private static final int EMBASSYES_AMOUNT = 400;
 	private static final int PROGRAMS_AMOUNT = 120;
 	private static final int MAX_PROGRAMSTEP = 10;// value should be bigger or equals 6
@@ -192,11 +192,10 @@ public class RandomPersistObject {
 	public void generateEmbassyList() {
 		for (int i = 1; i < EMBASSYES_AMOUNT; i++) {
 			Embassy embassy = new Embassy();
-
 			embassy.setPhone(ig.phoneGenerator());
 			embassy.setFax(ig.phoneGenerator());
 			embassy.setEmail(ig.randomEmail(i));
-			embassy.setType(ig.statusGenerator(4, "type"));
+			embassy.setType(ig.statusGenerator(20, "type"));
 			embassy.setLink(ig.randomString("www.Embasy", i) + ".gov");
 			embassy.setAddress(ig.randomString("addressOfEmbassy", i));
 			embassy.setCountry(getRandomObjectFromDb(new Country()));

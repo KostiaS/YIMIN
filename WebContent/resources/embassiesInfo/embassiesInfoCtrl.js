@@ -58,7 +58,7 @@ angular.module("mainApp")
                 current: null
             };
 
-/*            $scope.embassies = [
+            /*$scope.embassies = [
                 {type: "type1", phone: "phone1", fax: "fax1", email: "email1", address: "address1"},
                 {type: "type2", phone: "phone2", fax: "fax2", email: "email2", address: "address2"},
                 {type: "type3", phone: "phone3", fax: "fax3", email: "email3", address: "address3"},
