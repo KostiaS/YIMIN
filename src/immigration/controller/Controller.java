@@ -7,8 +7,8 @@ import immigration.model.interfaces.IModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.LinkedList;
-import java.util.List;
+
+import java.util.*;
 
 
 /**
@@ -48,7 +48,7 @@ public class Controller {
     }
     /**
     * <p>get country list</p>
-    *for view 2 in flow
+    *for view 2 adn 6 flow
     */
     @RequestMapping(value = Constants.COUNTRIES, method = RequestMethod.GET)
     public List<Country> getListOfCountry(){
@@ -76,5 +76,26 @@ public class Controller {
         Country locationCountry = parameters[1];
         return model.getEmbassyListOfCountry(countryOfEmbassy,locationCountry);
     }
+    /**
+     * <p>get categories of program using </p>
+     * for view 6 in flow
+     * @return list of values - categories
+     */
+    @RequestMapping(value = Constants.CATEGORIES_OF_PROGRAM_BY_COUNTRY, method = RequestMethod.POST)
+    public List<String> getCategoryOfProgram(@RequestBody Country country){
+        return model.getCategoryOfProgram(country);
+    }
+    /**
+     * <p>get programs of imigration</p>
+     * for view 6 in flow
+     * @value country - country of imigratiom
+     * @value category - category of program to imigration
+     */
+    /*@RequestMapping(value = Constants.IMIGRATION_PROGRAMS, method = RequestMethod.POST)
+    public List<Programs> getPrograms(@RequestBody String strJson){
+
+        return model.getProgram(country, programs);
+    }*/
+
 
 }
