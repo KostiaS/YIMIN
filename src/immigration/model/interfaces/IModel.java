@@ -1,9 +1,6 @@
 package immigration.model.interfaces;
 
-import immigration.dao.Country;
-import immigration.dao.Embassy;
-import immigration.dao.Person;
-import immigration.dao.PersonData;
+import immigration.dao.*;
 
 import java.util.List;
 
@@ -22,4 +19,8 @@ public interface IModel {
     List<Country> getListOfCountryWithEmbassy(Country countryWichEmbassySearched);
 
     List<Embassy> getEmbassyListOfCountry(Country countryOfEmbassy, Country locationCountry);
+
+    List<String> getCategoryOfProgram(Country country);
+
+    List<Programs> getProgram(Country country, Programs category);
 }

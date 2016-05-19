@@ -1,5 +1,10 @@
 package immigration.controller;
 
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonToken;
+import com.fasterxml.jackson.core.TreeNode;
+import com.fasterxml.jackson.databind.MappingJsonFactory;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import immigration.dao.*;
 import immigration.interfaces.*;
 import immigration.model.interfaces.IModel;
@@ -7,8 +12,9 @@ import immigration.model.interfaces.IModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.LinkedList;
-import java.util.List;
+
+import java.io.IOException;
+import java.util.*;
 
 
 /**
@@ -48,7 +54,7 @@ public class Controller {
     }
     /**
     * <p>get country list</p>
-    *for view 2 in flow
+    *for view 2 adn 6 flow
     */
     @RequestMapping(value = Constants.COUNTRIES, method = RequestMethod.GET)
     public List<Country> getListOfCountry(){
@@ -76,5 +82,41 @@ public class Controller {
         Country locationCountry = parameters[1];
         return model.getEmbassyListOfCountry(countryOfEmbassy,locationCountry);
     }
+    /**
+     * <p>get categories of program using </p>
+     * for view 6 in flow
+     * @return list of values - categories
+     */
+    @RequestMapping(value = Constants.CATEGORIES_OF_PROGRAM_BY_COUNTRY, method = RequestMethod.POST)
+    public List<String> getCategoryOfProgram(@RequestBody Country country){
+        return model.getCategoryOfProgram(country);
+    }
+    /**
+     * <p>get programs of imigration</p>
+     * for view 6 in flow
+     * @value country - country of imigratiom
+     * @value category - category of program to imigration
+     * @param strJson - Example of json : [{"countryId":1},{"category":"category106"}]
+     * @return Json list of programs
+     */
+    @RequestMapping(value = Constants.IMIGRATION_PROGRAMS, method = RequestMethod.POST)
+    public List<Programs> getPrograms(@RequestBody String strJson){
+        MappingJsonFactory factory = new MappingJsonFactory();
+        ObjectMapper om = new ObjectMapper();
+        JsonParser parser = null;
+        Country country=null;
+        Programs programs = null;
+        try {
+            parser = factory.createParser(strJson);
+            parser.nextToken();
 
+            TreeNode node = parser.readValueAsTree();
+            country = om.readValue(node.get(0).toString(), Country.class);
+            programs = om.readValue(node.get(1).toString(), Programs.class);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return model.getProgram(country, programs);
+    }
 }
