@@ -21,10 +21,10 @@
                 <ng-include src="signInUpOutUrl" ng-controller="signInUpOutCtrl" />
             </div>
             <div class="col-md-1 col-md-offset-7">
-                <button class="btn btn-default" style="margin-top: 20px">Help</button>
+                <button class="btn btn-default pull-right" style="margin-top: 20px">Help</button>
             </div>
         </div>
-        <div class="row">
+        <div class="row" style="margin-top: 1%">
             <!--<div class="btn-group">-->
                 <div class="col-md-3">
                     <button class="btn btn-default btn-block" ng-click="goToYourWayView()">Your Way</button>
@@ -40,7 +40,7 @@
                 </div>
             <!--</div>-->
         </div>
-        <div ng-view></div>
+        <div class="row" ng-view></div>
     </div>
 
     <script src="https://code.jquery.com/jquery-2.2.3.min.js" integrity="sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo=" crossorigin="anonymous"></script>
