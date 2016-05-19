@@ -37,19 +37,22 @@ angular.module("mainApp", ["ngRoute", "commonHttpRequests", "commonServices"])
             $location.path("/countries");
         };
 
-        $scope.$on("authorization", function(event, args) {
-            $scope.authorization = args.authorization;
-            $scope.broadcastAuthorization();
-        });
-
-        $scope.broadcastAuthorization = function() {
-            $rootScope.$broadcast("authorizationBroadcasted", {
-                authorization: $scope.authorization
-            });
-        };
+        // $scope.$on("authorization", function(event, args) {
+        //     $scope.authorization.status = args.authorization;
+        //     $scope.broadcastAuthorization();
+        // });
+        //
+        // $scope.broadcastAuthorization = function() {
+        //     $rootScope.$broadcast("authorizationBroadcasted", {
+        //         authorization: $scope.authorization.status
+        //     });
+        // };
 
         $scope.$on("pickedCountryForImmigration", function (event, args) {
             $scope.countryForImmigration = args.countryForImmigration;
         });
+        
+        $scope.authorization = {status: false};
+        // $scope.authorization.status ? $scope.authorization.status = true : $scope.authorization.status = false;
 
     }]);
