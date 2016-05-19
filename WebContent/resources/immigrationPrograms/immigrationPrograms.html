@@ -9,7 +9,7 @@
             </div>
             <div style="margin-top: 10%">
                 <select class="btn-block" ng-change="updateCategorySelect()" ng-model="categorySelected"
-                        ng-options="item.name for item in categories track by item.countryId">
+                        ng-options="item for item in categories">
                     <option value="" disabled>Select category of program</option>
                 </select>
             </div>

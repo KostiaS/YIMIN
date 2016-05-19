@@ -3,7 +3,7 @@ angular.module("commonHttpRequests")
         return function (embassyCountrySelected) {
             return $http.post(URLS.URL + ":" + URLS.PORT + URLS.ROOT_CONTEXT + URLS.REQUEST_MAPPING
                         + URLS.LIST_OF_COUNTRIES_BY_EMBASSY, embassyCountrySelected)
-                .then(function(response) {
+                .then(function (response) {
                     return {
                         locations: response.data
                     }
