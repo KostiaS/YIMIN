@@ -26,6 +26,7 @@ angular.module("mainApp", ["ngRoute", "commonHttpRequests", "commonServices"])
         };
 
         $scope.goToImmigrationProgramsView = function() {
+            $scope.countryForImmigration = null;
             $location.path("/programs");
         };
 
@@ -50,9 +51,18 @@ angular.module("mainApp", ["ngRoute", "commonHttpRequests", "commonServices"])
 
         $scope.$on("pickedCountryForImmigration", function (event, args) {
             $scope.countryForImmigration = args.countryForImmigration;
+            $scope.$broadcastCountryForImmigration();
         });
+
+        $scope.$broadcastCountryForImmigration = function () {
+            $rootScope.$broadcast("countryForImmigration", {
+                countryForImmigration: $scope.countryForImmigration
+            });
+        };
         
         $scope.authorization = {status: false};
         // $scope.authorization.status ? $scope.authorization.status = true : $scope.authorization.status = false;
+        
+        // $scope.countryForImmigration = {country: {}};
 
     }]);

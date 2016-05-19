@@ -18,6 +18,8 @@ angular.module("mainApp")
             };
 
             $scope.goToImmigrationProgramsView = function() {
+                // $scope.countryForImmigration.country = $scope.selected;
+                // console.log($scope.countryForImmigration.country);
                 $scope.emitCountryForImmigration();
                 $location.path("/programs");
             };

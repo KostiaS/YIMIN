@@ -21,6 +21,7 @@ angular.module("mainApp")
             
             $scope.goToImmigrationProgramsView = function() {
                 $scope.emitCountryForImmigration();
+                // $scope.countryForImmigration.country = $scope.embassyCountrySelected;
                 $location.path("/programs");
             };
 

@@ -70,5 +70,11 @@ angular.module("mainApp")
                             }
                         }
                     }
+                };
+
+                $scope.signOut = function () {
+                    $scope.authorization.status = false;
                 }
+                
+                
             }]);
