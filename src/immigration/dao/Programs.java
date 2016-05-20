@@ -2,6 +2,7 @@ package immigration.dao;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.persistence.*;
@@ -35,7 +36,8 @@ public class Programs {
 	@JsonIgnore
 	@ManyToOne
 	Country country;
-	
+
+
 	public void setProperties(Map<String, String> properties) throws NumberFormatException{
 		{
 			String property=null;
@@ -59,6 +61,10 @@ public class Programs {
 				ProgramId=Integer.parseInt(property);
 		}
 	}
+    @JsonIgnore
+    @OneToMany(mappedBy = "programs")
+    List<Requirements> requirements;
+
 	@JsonIgnore
 	public Map<String, Object> getProperties(){
 		Map<String, Object> res=new HashMap<String, Object>();

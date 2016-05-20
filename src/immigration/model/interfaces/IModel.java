@@ -23,4 +23,8 @@ public interface IModel {
     List<String> getCategoryOfProgram(Country country);
 
     List<Programs> getProgram(Country country, Programs category);
+
+    List<ProgramStep> getProgramStepByCountry(Programs program);
+
+    List<Documents> getDocumentsByProgramId(Programs programs);
 }

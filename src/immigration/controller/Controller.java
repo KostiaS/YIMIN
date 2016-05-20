@@ -95,7 +95,7 @@ public class Controller {
      * <p>get programs of imigration</p>
      * for view 6 in flow
      * @value country - country of imigratiom
-     * @value category - category of program to imigration
+     * @value programs - category of program to imigration
      * @param strJson - Example of json : [{"countryId":1},{"category":"category106"}]
      * @return Json list of programs
      */
@@ -119,4 +119,22 @@ public class Controller {
         }
         return model.getProgram(country, programs);
     }
+    /**
+     * <p>get list of programs steps by program id </p>
+     * @param program - json Example {"programId":93}
+     *                for flow 7
+     */
+    @RequestMapping(value = Constants.STEPS, method = RequestMethod.POST)
+    public List<ProgramStep> getProgramsStepList (@RequestBody Programs program){
+        return model.getProgramStepByCountry(program);
+    }
+    /**
+     * <p> get list of program documents</p>
+     *@param program - json Example {"programId":93}
+     */
+    @RequestMapping(value = Constants.LIST_OF_DOC, method = RequestMethod.POST)
+    List<Documents> getDocumentsByProgramId(@RequestBody Programs programs){
+        return model.getDocumentsByProgramId(programs);
+    }
+
 }

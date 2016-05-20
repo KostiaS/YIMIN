@@ -9,4 +9,6 @@ public class Constants {
     public static final String EMBASSIES_IN_COUNTRY = "/embassies_in_country";
     public static final String CATEGORIES_OF_PROGRAM_BY_COUNTRY = "/category_of_program_by_country";
     public static final String IMIGRATION_PROGRAMS = "/imigration_programs";
+    public static final String STEPS = "/steps";
+    public static final String LIST_OF_DOC = "/list_of_documents";
 }
