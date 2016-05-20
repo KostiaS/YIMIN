@@ -12,6 +12,7 @@ import javax.persistence.*;
 
 @Entity
 public class Requirements {
+    @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     int RequirementsId;
 
