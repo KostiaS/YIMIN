@@ -15,7 +15,7 @@
             </div>
             <div style="margin-top: 10%">
                 <select class="btn-block" ng-change="updateProgramSelect()" ng-model="programSelected"
-                        ng-options="item.name for item in programs track by item.countryId">
+                        ng-options="item.name for item in programs track by item.programId">
                     <option value="" disabled>Select immigration program</option>
                 </select>
             </div>

@@ -7,6 +7,10 @@ angular.module("mainApp")
             $scope.updateCountrySelect = function () {
                 $scope.getCategories();
             };
+            
+            $scope.updateCategorySelect = function () {
+                $scope.getPrograms();
+            };
 
             $scope.updateProgramSelect = function() {
                 $scope.programMenuVisibility = true;
@@ -18,12 +22,22 @@ angular.module("mainApp")
                     // arrayConcatSrvs.arrayConcated($scope.countries, response.countries);
                     $scope.countries = response.countries;
                     $scope.countrySelected = $scope.countryForImmigration;
+                    if ($scope.countrySelected != null) {
+                        $scope.updateCountrySelect()
+                    } 
                 })
             };
             
             $scope.getCategories = function () {
                 getCategories($scope.countrySelected).then(function (response) {
                     $scope.categories = response.categories;
+                })
+            };
+
+            $scope.getPrograms = function () {
+                // $scope.concatObj($scope.countrySelected, $scope.categorySelected);
+                getPrograms([$scope.countrySelected, {category: $scope.categorySelected}]).then(function (response) {
+                    $scope.programs = response.programs;
                 })
             };
 
