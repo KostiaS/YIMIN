@@ -1,6 +1,8 @@
 // Create by Sergey Nov 20, 2015 7:18:20 PM
 package immigration.dao;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -18,7 +20,7 @@ public class ProgramStep {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private int id;
-
+    @JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "id_program", referencedColumnName = "ProgramId", nullable = false)
 	private Programs program;
