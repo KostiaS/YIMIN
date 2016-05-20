@@ -6,12 +6,13 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.*;
 
 
-/**
- * Created by UA C on 20.05.2016.
- */
+/*
+* Created by UA C on 20.05.2016.
+*/
 
 @Entity
 public class Requirements {
+    @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     int RequirementsId;
 
