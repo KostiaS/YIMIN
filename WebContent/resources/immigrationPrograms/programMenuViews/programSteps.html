@@ -1,1 +1,25 @@
-<div>hi there</div>
+<style>
+    .description {
+        background-color: white;
+        border: 1px solid transparent;
+        border-radius: 4px;
+        padding-left: 25px;
+        padding-right: 25px;
+    }
+</style>
+
+<div class="row">
+    <div class="col-md-4">
+        <button class="btn btn-default btn-block" ng-click="programStepDescription(item.step.description)"
+                ng-repeat="item in programSteps.steps | orderBy: 'stepOrder'">
+            <div class="text-left">
+                {{item.stepOrder}}) {{item.step.name}}
+            </div>
+        </button>
+    </div>
+    <div class="col-md-8" ng-show="programStepDescriptionVisibility">
+        <div class="description">
+            {{stepDescriptionTmp}}
+        </div>
+    </div>
+</div>

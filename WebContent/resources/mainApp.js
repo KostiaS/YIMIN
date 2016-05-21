@@ -11,7 +11,9 @@ angular.module("mainApp", ["ngRoute", "commonHttpRequests", "commonServices"])
         "LIST_OF_COUNTRIES_BY_EMBASSY": "/list_of_countries_by_embassy",
         "EMBASSIES_IN_COUNTRY": "/embassies_in_country",
         "CATEGORIES_OF_PROGRAM_BY_COUNTRY": "/category_of_program_by_country",
-        "IMIGRATION_PROGRAMS": "/imigration_programs"
+        "IMIGRATION_PROGRAMS": "/imigration_programs",
+        "STEPS": "/steps",
+        "LIST_OF_DOC": "/list_of_documents"
     })
     .config(function($routeProvider, $locationProvider) {
         $locationProvider.html5Mode(true);

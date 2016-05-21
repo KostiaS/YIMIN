@@ -26,16 +26,16 @@
             </div>
         </div>
 
-        <div class="col-md-8" ng-switch on="mode.value">
-            <div ng-switch-when="clean" width="750px" class="well" ng-show="programMenuVisibility">
+        <div class="col-md-8" ng-switch on="mode.value" ng-show="programMenuVisibility">
+            <div ng-switch-when="clean" width="750px" class="well">
                 <div class="row">
                     <h5 class="text-center">{{programSelected.description}}</h5>
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                         <button class="btn btn-default btn-block" style="margin-top: 10%" ng-click="steps()">Steps</button>
                         <button class="btn btn-default btn-block" style="margin-top: 10%" ng-click="requirements()">Requirements</button>
                         <button class="btn btn-default btn-block" style="margin-top: 10%" ng-click="formsAndGuides()">Forms and guides</button>
                     </div>
-                    <div class="col-md-9"></div>
+                    <div class="col-md-8"></div>
                 </div>
             </div>
 
