@@ -1,8 +1,12 @@
 angular.module("mainApp")
     .controller("immigrationProgramsCtrl", ["getAllCountries", "getCategories", "getPrograms", "$scope", "$location",
         function(getAllCountries, getCategories, getPrograms, $scope, $location) {
-            
+
+            $scope.mode = {value: "clean"};
             $scope.programMenuVisibility = false;
+            $scope.programMenuBtnsVisibility = false;
+            
+            $scope.btnText ={steps: "Steps", requirements: "Requirements", formsAndGuides: "Forms and guides"};
 
             $scope.updateCountrySelect = function () {
                 $scope.getCategories();
@@ -35,7 +39,6 @@ angular.module("mainApp")
             };
 
             $scope.getPrograms = function () {
-                // $scope.concatObj($scope.countrySelected, $scope.categorySelected);
                 getPrograms([$scope.countrySelected, {category: $scope.categorySelected}]).then(function (response) {
                     $scope.programs = response.programs;
                 })
@@ -46,5 +49,10 @@ angular.module("mainApp")
             $scope.$on("countryForImmigration", function (event, args) {
                 $scope.countryForImmigration = args.countryForImmigration;
             });
+
+            $scope.steps = function () {
+                $scope.mode.value = "dirty";
+                $scope.btnText.steps = "Steps:"
+            }
 
         }]);

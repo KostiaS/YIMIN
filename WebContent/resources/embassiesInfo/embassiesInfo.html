@@ -27,7 +27,7 @@
 
         <div class="col-md-8">
             <div width="750px" class="well" ng-show="embassiesInfoVisibility">
-                <h4>Embassies and consulates of {{embassyCountrySelected.name}} in {{embassyLocationSelected.name}}</h4>
+                <h4 class="text-center">Embassies and consulates of {{embassyCountrySelected.name}} in {{embassyLocationSelected.name}}</h4>
                 <div id="accordion">
                     <div  ng-repeat-start="item in embassyData"
                           ng-click="accordion.current = item.type">
