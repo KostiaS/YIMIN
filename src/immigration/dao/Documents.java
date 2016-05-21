@@ -1,5 +1,7 @@
 package immigration.dao;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.List;
 
 import javax.persistence.*;
@@ -13,10 +15,10 @@ public class Documents {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	int DocId;
-	
+	@JsonIgnore
 	@ManyToOne
 	Programs prog;
-	
+    @JsonIgnore
 	@OneToMany
 	List <DocumentField> documentField;
 	
@@ -26,7 +28,13 @@ public class Documents {
 		this.image = image;
 	}
 
-	public Documents() {
+    public int getDocId() {
+        return DocId;
+    }
+
+
+
+    public Documents() {
 		super();
 	}
 

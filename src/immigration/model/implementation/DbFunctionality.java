@@ -6,7 +6,6 @@ import immigration.dao.*;
 import immigration.model.interfaces.IModel;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.LinkedList;
 import java.util.List;
 
 public class DbFunctionality implements IModel {
@@ -92,6 +91,18 @@ public class DbFunctionality implements IModel {
     public List<Programs> getProgram(Country country, Programs category) {
         String parsedCategory = category.getCategory();
         Query query = em.createQuery("select p from Programs p where p.country.CountryId = "+country.getCountryId()+" and category = '"+parsedCategory+"'");
+        return query.getResultList();
+    }
+
+    @Override
+    public List<ProgramStep> getProgramStepByCountry(Programs program) {
+        Query query = em.createQuery(" select p from ProgramStep p where p.program.ProgramId ="+ program.getProgramId());
+        return query.getResultList();
+    }
+
+    @Override
+    public List<Documents> getDocumentsByProgramId(Programs programs) {
+        Query query = em.createQuery("select p from Documents p where p.prog.ProgramId ="+programs.getProgramId());
         return query.getResultList();
     }
 
