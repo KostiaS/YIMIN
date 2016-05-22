@@ -1,4 +1,5 @@
 <div class="container" style="margin-top: 2%" ng-controller="immigrationProgramsCtrl">
+    <h4 class="text-center" style="margin-bottom: 2%">Here you can get information about the immigration programs, download forms and guides</h4>
     <div class="row">
         <div class="col-md-4">
             <div>
@@ -25,9 +26,33 @@
             </div>
         </div>
 
-        <div class="col-md-8">
-            <div width="750px" class="well" ng-show="programMenuVisibility">
+        <div class="col-md-8" ng-switch on="mode.value" ng-show="programMenuVisibility">
+            <div ng-switch-when="clean" width="750px" class="well">
+                <div class="row">
+                    <h5 class="text-center">{{programSelected.description}}</h5>
+                    <div class="col-md-4">
+                        <button class="btn btn-default btn-block" style="margin-top: 10%" ng-click="steps()">Steps</button>
+                        <button class="btn btn-default btn-block" style="margin-top: 10%" ng-click="requirements()">Requirements</button>
+                        <button class="btn btn-default btn-block" style="margin-top: 10%" ng-click="formsAndGuides()">Forms and guides</button>
+                    </div>
+                    <div class="col-md-8"></div>
+                </div>
+            </div>
 
+            <div ng-switch-when="dirty" width="750px" class="well">
+                <div class="row">
+                    <div class="col-md-4">
+                        <button class="btn btn-default btn-block" ng-click="programSteps()">{{btnText.steps}}</button>
+                    </div>
+                    <div class="col-md-4">
+                        <button class="btn btn-default btn-block" ng-click="programRequirements()">{{btnText.requirements}}</button>
+                    </div>
+                    <div class="col-md-4">
+                        <button class="btn btn-default btn-block" ng-click="programFormsAndGuides()">{{btnText.formsAndGuides}}</button>
+                    </div>
+                </div>
+                <h5 class="text-center">{{programSelected.description}}</h5>
+                <ng-include src="programMenuUrl" ng-controller="programMenuCtrl"></ng-include>
             </div>
         </div>
     </div>
