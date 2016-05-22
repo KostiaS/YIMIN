@@ -1,6 +1,10 @@
 package immigration.gen;
 
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.sql.Blob;
 import java.util.*;
 
 import javax.persistence.EntityManager;
@@ -8,6 +12,8 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
 import javax.persistence.Query;
 
+import org.hibernate.Hibernate;
+import org.hibernate.Session;
 import org.springframework.transaction.annotation.Transactional;
 
 import immigration.dao.*;
@@ -15,14 +21,15 @@ import immigration.interfaces.*;
 
 
 public class RandomPersistObject {
-	private static final int STEP_AMOUNT = 10;
+	private static final int STEP_AMOUNT = 5;
 	private static final int COUNTYES_AMOUNT = 52;
 	private static final int EMBASSYES_AMOUNT = 400;
-	private static final int PROGRAMS_AMOUNT = 120;
+	private static final int PROGRAMS_AMOUNT = 50;
 	private static final int MAX_PROGRAMSTEP = 10;// value should be bigger or equals 6
 	private static final int DOCUMENTS_AMOUNT = 150;
 	private static final int FIELDNAMES_AMOUNT = 150;
- 
+	private static final String PHOTO_FILE_PATH = "../Yimin/resources/doc.jpg";
+
 		
 	int city = 1;
 	int region = 1;
@@ -81,7 +88,22 @@ public class RandomPersistObject {
 		}
 		return randomObject;
 	}
-	
+
+    @SuppressWarnings("unchecked")
+    public <T> T getObjectFromDbById (Class <T>  nameOfClass, int id){
+        String className = nameOfClass.getSimpleName();
+        Query q = em.createQuery ("SELECT p FROM "+className+" p WHERE p.id = ?1");
+        q.setParameter(1,id);
+        T randomObject = null;
+        try {
+            randomObject = (T)q.getSingleResult();
+        } catch (Exception e) {
+            System.out.println("em not found object "+className+" in DB and id = "+id);
+        }
+        return randomObject;
+
+    }
+
 	@Transactional
 	private void generatePersonCustomData() {
 		for(int i=0;i<ig.randBetween(0, personDataCounter);i++){
@@ -109,6 +131,8 @@ public class RandomPersistObject {
 	public void generateDocumentsList(){
 		for (int i = 1; i < DOCUMENTS_AMOUNT; i++) {
 			Documents documents = new Documents();
+            documents.setFile(generateBlobFromImage());
+            documents.setNameOfFile("doc.jpg");
 			documents.setImage(ig.randomString("www.photoRepository", i) + ".com");
 			documents.setType(ig.statusGenerator(5, "Type"));
 			documents.setProg(getRandomObjectFromDb(new Programs()));
@@ -119,7 +143,22 @@ public class RandomPersistObject {
 		}
 		System.out.println("DOC LIST PERSISTED");
 	}
-	@Transactional
+    @Transactional
+    private Blob generateBlobFromImage() {
+        Session session = em.unwrap(Session.class);
+        File file = new File(PHOTO_FILE_PATH);
+        FileInputStream inputStream = null;
+        try {
+            inputStream = new FileInputStream(file);
+        } catch (FileNotFoundException e) {
+            System.out.println(e.getMessage()+"cant find file");
+        }
+        Blob blob = Hibernate.getLobCreator(session)
+                .createBlob(inputStream, file.length());
+        return blob;
+    }
+
+    @Transactional
 	private List<DocumentField> generateDocumentFieldList() {
 		List<DocumentField> docFieldList = new ArrayList<>();
 		for (int i = 0; i < ig.randBetween(0, 15); i++){
@@ -162,16 +201,19 @@ public class RandomPersistObject {
 	}
 
 	private void generateProgramStep() {
-		for(int i = 1;i<ig.randBetween(5, MAX_PROGRAMSTEP); i++){
-		ProgramStep programStep = new ProgramStep();
-		programStep.setDescription(ig.randomString("description", i));
-		programStep.setFileName(ig.randomString("description", i));
-		programStep.setProgram(getRandomObjectFromDb(new Programs()));
-		programStep.setStep(getRandomObjectFromDb(new Step()));
-		
-		programStep.setStepOrder(i);
-		em.persist(programStep);
-		}
+        int programsCount =1;
+        for (int y = 0;y<PROGRAMS_AMOUNT-2;y++) {
+            programsCount++;
+            for (int i = 1; i < ig.randBetween(5, MAX_PROGRAMSTEP); i++) {
+                ProgramStep programStep = new ProgramStep();
+                programStep.setDescription(ig.randomString("description", i));
+                programStep.setFileName(ig.randomString("description", i));
+                programStep.setProgram(getObjectFromDbById(Programs.class, programsCount));
+                programStep.setStep(getRandomObjectFromDb(new Step()));
+                programStep.setStepOrder(i);
+                em.persist(programStep);
+            }
+        }
 		em.clear();
 	}
 

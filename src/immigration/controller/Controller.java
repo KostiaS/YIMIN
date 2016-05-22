@@ -1,7 +1,7 @@
 package immigration.controller;
 
 import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonToken;
+
 import com.fasterxml.jackson.core.TreeNode;
 import com.fasterxml.jackson.databind.MappingJsonFactory;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 
 import java.io.IOException;
+import java.sql.Blob;
 import java.util.*;
 
 
@@ -135,6 +136,15 @@ public class Controller {
     @RequestMapping(value = Constants.LIST_OF_DOC, method = RequestMethod.POST)
     List<Documents> getDocumentsByProgramId(@RequestBody Programs programs){
         return model.getDocumentsByProgramId(programs);
+    }
+
+    /**
+     * <p>download document </p>
+     *
+     */
+    @RequestMapping(value = Constants.GET_DOC, method = RequestMethod.GET)
+    public Blob downloadPDFFile(){
+        return null;
     }
 
 }

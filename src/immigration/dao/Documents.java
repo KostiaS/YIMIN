@@ -2,6 +2,7 @@ package immigration.dao;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import java.sql.Blob;
 import java.util.List;
 
 import javax.persistence.*;
@@ -11,7 +12,9 @@ public class Documents {
 	
 	String type;
 	String image;
-	
+    String nameOfFile;
+    @JsonIgnore
+	Blob file;
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	int DocId;
@@ -38,7 +41,27 @@ public class Documents {
 		super();
 	}
 
-	public List<DocumentField> getDocumentField() {
+    public String getNameOfFile() {
+        return nameOfFile;
+    }
+
+    public void setNameOfFile(String nameOfFile) {
+        this.nameOfFile = nameOfFile;
+    }
+
+    public Blob getFile() {
+        return file;
+    }
+
+    public void setFile(Blob file) {
+        this.file = file;
+    }
+
+    public void setDocId(int docId) {
+        DocId = docId;
+    }
+
+    public List<DocumentField> getDocumentField() {
 		return documentField;
 	}
 
@@ -75,6 +98,5 @@ public class Documents {
 		return "Documents [type=" + type + ", image=" + image + ", DocId="
 				+ DocId + "]";
 	}
-	
-	
+
 }
