@@ -31,9 +31,12 @@
                 <div class="row">
                     <h5 class="text-center">{{programSelected.description}}</h5>
                     <div class="col-md-4">
-                        <button class="btn btn-default btn-block" style="margin-top: 10%" ng-click="steps()">Steps</button>
-                        <button class="btn btn-default btn-block" style="margin-top: 10%" ng-click="requirements()">Requirements</button>
-                        <button class="btn btn-default btn-block" style="margin-top: 10%" ng-click="formsAndGuides()">Forms and guides</button>
+                        <button class="btn btn-default btn-block" style="margin-top: 10%"
+                                ng-click="programMenuHandler(viewsUrls.steps, btnText.dirty.steps)">Steps</button>
+                        <button class="btn btn-default btn-block" style="margin-top: 10%"
+                                ng-click="programMenuHandler(viewsUrls.requirements, btnText.dirty.requirements)">Requirements</button>
+                        <button class="btn btn-default btn-block" style="margin-top: 10%"
+                                ng-click="programMenuHandler(viewsUrls.formsAndGuides, btnText.dirty.formsAndGuides)">Forms and guides</button>
                     </div>
                     <div class="col-md-8"></div>
                 </div>
@@ -42,17 +45,26 @@
             <div ng-switch-when="dirty" width="750px" class="well">
                 <div class="row">
                     <div class="col-md-4">
-                        <button class="btn btn-default btn-block" ng-click="programSteps()">{{btnText.steps}}</button>
+                        <button class="btn btn-default btn-block"
+                                ng-click="programMenuHandler(viewsUrls.steps, btnText.dirty.steps)">
+                            {{btnText.show.steps}}
+                        </button>
                     </div>
                     <div class="col-md-4">
-                        <button class="btn btn-default btn-block" ng-click="programRequirements()">{{btnText.requirements}}</button>
+                        <button class="btn btn-default btn-block"
+                                ng-click="programMenuHandler(viewsUrls.requirements, btnText.dirty.requirements)">
+                            {{btnText.show.requirements}}
+                        </button>
                     </div>
                     <div class="col-md-4">
-                        <button class="btn btn-default btn-block" ng-click="programFormsAndGuides()">{{btnText.formsAndGuides}}</button>
+                        <button class="btn btn-default btn-block"
+                                ng-click="programMenuHandler(viewsUrls.formsAndGuides, btnText.dirty.formsAndGuides)">
+                            {{btnText.show.formsAndGuides}}
+                        </button>
                     </div>
                 </div>
                 <h5 class="text-center">{{programSelected.description}}</h5>
-                <ng-include src="programMenuUrl" ng-controller="programMenuCtrl"></ng-include>
+                <ng-include src="programMenuUrl.url" ng-controller="programMenuCtrl"></ng-include>
             </div>
         </div>
     </div>

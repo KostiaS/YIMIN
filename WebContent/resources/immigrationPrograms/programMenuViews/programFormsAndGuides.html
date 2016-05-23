@@ -1,0 +1,15 @@
+<div class="row" ng-init="init()">
+    <div class="col-md-4">
+        <div>
+        <select class="btn-block" ng-change="updateDocumentSelect()" ng-model="documentSelected.doc"
+                ng-options="item.docId for item in programDocuments.docs track by item.docId">
+            <option value="" disabled>Select form/guide</option>
+        </select>
+        </div>
+        <div ng-show="downloadCompleteBtnsVisibility" style="margin-top: 10%">
+            <button class="btn btn-default btn-block" ng-click="downloadForm()">Download the form</button>
+            <button class="btn btn-default btn-block" style="margin-top: 10%"
+                    ng-click="completeForm()">Complete the form</button>
+        </div>
+    </div>
+</div>

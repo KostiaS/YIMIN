@@ -13,7 +13,8 @@ angular.module("mainApp", ["ngRoute", "commonHttpRequests", "commonServices"])
         "CATEGORIES_OF_PROGRAM_BY_COUNTRY": "/category_of_program_by_country",
         "IMIGRATION_PROGRAMS": "/imigration_programs",
         "STEPS": "/steps",
-        "LIST_OF_DOC": "/list_of_documents"
+        "LIST_OF_DOC": "/list_of_documents",
+        "GET_DOC": "/get_doc"
     })
     .config(function($routeProvider, $locationProvider) {
         $locationProvider.html5Mode(true);
