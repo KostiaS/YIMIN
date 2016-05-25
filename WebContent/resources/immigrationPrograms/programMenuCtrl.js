@@ -1,9 +1,10 @@
 angular.module("mainApp")
-    .controller("programMenuCtrl", ["URLS", "postRequest", "$scope",
-        function (URLS, postRequest, $scope) {
-            
+    .controller("programMenuCtrl", ["URLS", "postRequest", "$scope", "$location",
+        function (URLS, postRequest, $scope, $location) {
+
             $scope.init = function () {
                 $scope.documentSelected = {doc: null};
+                $scope.mode = {complete: "false"};
             };
 
             $scope.$watch("documentSelected.doc", function () {
@@ -33,5 +34,30 @@ angular.module("mainApp")
                     ? $scope.downloadCompleteBtnsVisibility = false
                     : $scope.downloadCompleteBtnsVisibility = true;
             };
+            
+            $scope.completeForm = function () {
+                $scope.mode.complete = "true";
+            };
+
+
+            //Authorization
+            $scope.viewTrigger = function() {
+                $scope.authorization.status
+                    ? $scope.goToYourWayView()
+                    : console.log("authorization error");
+            };
+
+            $scope.$watch("authorization.status", function () {
+                $scope.viewTrigger();
+            });
+
+            $scope.goToYourWayView = function() {
+                $location.path("/yourway");
+            };
+            //Authorization
+
+            $scope.signUp = function () {
+                $location.path("/registration");
+            }
 
         }]);

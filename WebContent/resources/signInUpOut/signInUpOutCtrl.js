@@ -1,6 +1,6 @@
 angular.module("mainApp")
-    .controller("signInUpOutCtrl", ["authorizationSrvs", "$scope", "$rootScope", "$http", "$window",
-            function(authorizationSrvs, $scope, $rootScope, $http, $window) {
+    .controller("signInUpOutCtrl", ["authorizationSrvs", "$scope", "$rootScope", "$http", "$window", "$location",
+            function(authorizationSrvs, $scope, $rootScope, $http, $window, $location) {
                 
                 $scope.signInUpOutUrlTrigger = function() {
                     $scope.authorization.status
@@ -74,7 +74,10 @@ angular.module("mainApp")
 
                 $scope.signOut = function () {
                     $scope.authorization.status = false;
+                };
+
+                $scope.signUp = function () {
+                    $location.path("/registration");
                 }
-                
                 
             }]);

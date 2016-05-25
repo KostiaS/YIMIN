@@ -22,8 +22,23 @@ angular.module("mainApp", ["ngRoute", "commonHttpRequests", "commonServices"])
             .when("/yourway", {templateUrl: "resources/yourWay/yourWay.html"})
             .when("/programs", {templateUrl: "resources/immigrationPrograms/immigrationPrograms.html"})
             .when("/embassies", {templateUrl: "resources/embassiesInfo/embassiesInfo.html"})
-            .when("/countries", {templateUrl: "resources/countriesInfo/countriesInfo.html"});
+            .when("/countries", {templateUrl: "resources/countriesInfo/countriesInfo.html"})
+            .when("/registration", {templateUrl: "resources/registration/registration.html"});
     })
+    .directive('pwCheck', [function () {
+        return {
+            scope: true,
+            require: 'ngModel',
+            link: function (scope, elem, attrs, ctrl) {
+                var firstPassword = '#' + attrs.pwCheck;
+                elem.add(firstPassword).on('keyup', function () {
+                    scope.$apply(function () {
+                        ctrl.$setValidity('pwmatch', elem.val() === $(firstPassword).val());
+                    });
+                });
+            }
+        }
+    }])
     .controller("mainAppCtrl", ["$scope", "$rootScope", "$location", function($scope, $rootScope, $location) {
 
         $scope.goToYourWayView = function() {

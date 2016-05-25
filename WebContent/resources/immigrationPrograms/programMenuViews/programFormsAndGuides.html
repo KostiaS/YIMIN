@@ -1,15 +1,62 @@
 <div class="row" ng-init="init()">
-    <div class="col-md-4">
-        <div>
-        <select class="btn-block" ng-change="updateDocumentSelect()" ng-model="documentSelected.doc"
-                ng-options="item.docId for item in programDocuments.docs track by item.docId">
-            <option value="" disabled>Select form/guide</option>
-        </select>
+    <div class="col-md-4" ng-switch on="mode.complete">
+        <div ng-switch-when="false">
+            <select class="btn-block" ng-change="updateDocumentSelect()" ng-model="documentSelected.doc"
+                    ng-options="item.docId for item in programDocuments.docs track by item.docId">
+                <option value="" disabled>Select form/guide</option>
+            </select>
+
+            <div ng-show="downloadCompleteBtnsVisibility" style="margin-top: 10%">
+                <button class="btn btn-default btn-block" ng-click="downloadForm()">Download the form</button>
+                <button class="btn btn-default btn-block" style="margin-top: 10%"
+                        ng-click="completeForm()">Complete the form</button>
+            </div>
         </div>
-        <div ng-show="downloadCompleteBtnsVisibility" style="margin-top: 10%">
-            <button class="btn btn-default btn-block" ng-click="downloadForm()">Download the form</button>
-            <button class="btn btn-default btn-block" style="margin-top: 10%"
-                    ng-click="completeForm()">Complete the form</button>
+
+        <div ng-switch-when="true">
+            <h5 class="text-center">Complete the form</h5>
+            <div>
+                <span>
+                    If you want to fill in this form or an explanation of the points (data)
+                    or download fill form
+                </span>
+            </div>
+            <div style="margin-top: 5%;">
+                <span>You need</span>
+            </div>
+
+            <div class="row" style="margin-top: 5%" ng-controller="signInUpOutCtrl">
+                <form name="signInForm" novalidate ng-submit="signInUser(userDetails, signInForm.$valid)">
+                    <div class="col-md-8">
+                        <div class="form-group">
+                            <input id="email" name="email" type="email" class="form-control"
+                                   required ng-model="userDetails.username" placeholder="E-mail">
+                            <div class="error" ng-show="showError">
+                                {{getError(signInForm.email.$error)}}
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <input id="password" name="password" type="text" class="form-control"
+                                   required ng-model="userDetails.password" placeholder="Password">
+                            <div class="error" ng-show="showError">
+                                {{getError(signInForm.password.$error)}}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <button type="submit" class="btn btn-default btn-sm" style="margin-top: 20px">Sign In</button>
+                    </div>
+                </form>
+            </div>
+            <div class="text-center">
+                <span>OR</span>
+            </div>
+            <div>
+                <button class="btn btn-default btn-sm center-block" style="margin-top: 15px" ng-click="signUp()">Sign Up</button>
+            </div>
+
         </div>
     </div>
+    <div class="col-md-8">document preview</div>
 </div>

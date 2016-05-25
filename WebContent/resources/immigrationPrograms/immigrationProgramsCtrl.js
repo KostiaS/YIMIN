@@ -121,7 +121,8 @@ angular.module("mainApp")
             $scope.viewsUrls = {
                 steps: "resources/immigrationPrograms/programMenuViews/programSteps.html",
                 requirements: "resources/immigrationPrograms/programMenuViews/programRequirements.html",
-                formsAndGuides: "resources/immigrationPrograms/programMenuViews/programFormsAndGuides.html"
+                formsAndGuides: "resources/immigrationPrograms/programMenuViews/programFormsAndGuides.html",
+                completeForm: "resources/immigrationPrograms/programMenuViews/completeForm.html"
             };
 
             $scope.programMenuHandler = function (url, btnText) {
