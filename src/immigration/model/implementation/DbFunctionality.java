@@ -6,9 +6,11 @@ import immigration.dao.*;
 import immigration.model.interfaces.IModel;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.Serializable;
+import java.sql.Blob;
 import java.util.List;
 
-public class DbFunctionality implements IModel {
+public class DbFunctionality implements IModel  {
 
     @PersistenceContext(unitName = "springHibernate", type = PersistenceContextType.EXTENDED)
     EntityManager em;
@@ -104,6 +106,11 @@ public class DbFunctionality implements IModel {
     public List<Documents> getDocumentsByProgramId(Programs programs) {
         Query query = em.createQuery("select p from Documents p where p.prog.ProgramId ="+programs.getProgramId());
         return query.getResultList();
+    }
+
+    @Override
+    public Blob getDocById(Documents document) {
+       return  em.find(Documents.class,document.getDocId()).getFile();
     }
 
 

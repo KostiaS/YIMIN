@@ -1,19 +1,23 @@
 package immigration.dao;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.core.SerializableString;
+import com.fasterxml.jackson.databind.ser.std.SerializableSerializer;
 
+import java.io.Serializable;
 import java.sql.Blob;
 import java.util.List;
 
 import javax.persistence.*;
 
 @Entity
-public class Documents {
+public class Documents  {
 	
 	String type;
 	String image;
     String nameOfFile;
     @JsonIgnore
+	@Lob
 	Blob file;
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
