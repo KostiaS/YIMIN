@@ -24,8 +24,8 @@ public class RandomPersistObject {
 	private static final int STEP_AMOUNT = 5;
 	private static final int COUNTYES_AMOUNT = 52;
 	private static final int EMBASSYES_AMOUNT = 400;
-	private static final int PROGRAMS_AMOUNT = 50;
-	private static final int MAX_PROGRAMSTEP = 10;// value should be bigger or equals 6
+	private static final int PROGRAMS_AMOUNT = 50;//shoud be less than country
+	private static final int MAX_PROGRAMSTEP = 10;// value should be bigger or equals STEP_AMOUNT
 	private static final int DOCUMENTS_AMOUNT = 150;
 	private static final int FIELDNAMES_AMOUNT = 150;
 	private static final String PHOTO_FILE_PATH = "../Yimin/resources/doc.jpg";
@@ -177,21 +177,21 @@ public class RandomPersistObject {
 	@Transactional
 	public void generateProgramsList() {
 		for (int i = 1; i < PROGRAMS_AMOUNT; i++) {
-			Programs programs = new Programs();
+			for(int y = 0 ; y<3;y++) {
+                Programs programs = new Programs();
+                programs.setCategory(ig.randomString("category", i));
+                programs.setCountry(getObjectFromDbById(Country.class, i));
+                programs.setDescription(ig.randomString("description", i));
+                programs.setEnabled(ig.booleanGenerator());
+                programs.setLink(ig.randomString("www.programs", i) + ".com");
+                programs.setModified(ig.getRandomData());
+                programs.setName(ig.randomString("nameOfPrograms", i));
+                programs.setStartProgram(ig.getRandomData());
 
-			programs.setCategory(ig.randomString("category", i));
-			programs.setCountry(getRandomObjectFromDb(new Country()));
-			programs.setDescription(ig.randomString("description", i));
-			programs.setEnabled(ig.booleanGenerator());
-			programs.setLink(ig.randomString("www.programs", i) + ".com");
-			programs.setModified(ig.getRandomData());
-			programs.setName(ig.randomString("nameOfPrograms", i));
-			programs.setStartProgram(ig.getRandomData());
+                em.persist(programs);
 
-			em.persist(programs);
-			
-			em.clear();
-
+                em.clear();
+            }
 		}
 		System.out.println("PROGRAMS LIST PERSISTED");
 		generateSteps();

@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.*;
 
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Blob;
+import java.sql.SQLException;
 import java.util.*;
 
 
@@ -131,7 +133,7 @@ public class Controller {
     }
     /**
      * <p> get list of program documents</p>
-     *@param program - json Example {"programId":93}
+     *@param programs - json Example {"programId":93}
      */
     @RequestMapping(value = Constants.LIST_OF_DOC, method = RequestMethod.POST)
     List<Documents> getDocumentsByProgramId(@RequestBody Programs programs){
@@ -140,11 +142,24 @@ public class Controller {
 
     /**
      * <p>download document </p>
-     *
+     * @param document- json {"docId":1}
+     * @return -byte array encoded in base 64
      */
-    @RequestMapping(value = Constants.GET_DOC, method = RequestMethod.GET)
-    public Blob downloadPDFFile(){
-        return null;
+    @RequestMapping(value = Constants.GET_DOC, method = RequestMethod.POST)
+    public byte[] downloadPDFFile(@RequestBody Documents document){
+       Blob blob =  model.getDocById(document);
+        int blobLength = 0;
+        byte[] blobAsBytes = null;
+        try {
+            blobLength = (int) blob.length();
+
+        blobAsBytes = blob.getBytes(1, blobLength);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        byte[] encodedByteArray = Base64.getEncoder().encode(blobAsBytes);
+        return  encodedByteArray;
     }
 
 }

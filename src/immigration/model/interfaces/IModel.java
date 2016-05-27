@@ -2,6 +2,7 @@ package immigration.model.interfaces;
 
 import immigration.dao.*;
 
+import java.sql.Blob;
 import java.util.List;
 
 public interface IModel {
@@ -27,4 +28,6 @@ public interface IModel {
     List<ProgramStep> getProgramStepByCountry(Programs program);
 
     List<Documents> getDocumentsByProgramId(Programs programs);
+
+    Blob getDocById(Documents document);
 }
