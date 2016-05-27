@@ -14,7 +14,9 @@ angular.module("mainApp", ["ngRoute", "commonHttpRequests", "commonServices"])
         "IMIGRATION_PROGRAMS": "/imigration_programs",
         "STEPS": "/steps",
         "LIST_OF_DOC": "/list_of_documents",
-        "GET_DOC": "/get_doc"
+        "GET_DOC": "/get_doc",
+        "PERSONAL_DATA": "/person_data",
+        "SAVE_PERSON_DATA": "/save_person_data"
     })
     .config(function($routeProvider, $locationProvider) {
         $locationProvider.html5Mode(true);
@@ -23,7 +25,10 @@ angular.module("mainApp", ["ngRoute", "commonHttpRequests", "commonServices"])
             .when("/programs", {templateUrl: "resources/immigrationPrograms/immigrationPrograms.html"})
             .when("/embassies", {templateUrl: "resources/embassiesInfo/embassiesInfo.html"})
             .when("/countries", {templateUrl: "resources/countriesInfo/countriesInfo.html"})
-            .when("/registration", {templateUrl: "resources/registration/registration.html"});
+            .when("/registration", {templateUrl: "resources/registration/registration.html"})
+            .when("/programs/countries-and-categories", {templateUrl: "resources/registration/registration.html"})
+            .when("/programs/requirements", {templateUrl: "resources/registration/registration.html"})
+            .when("/yourway/personal-data", {templateUrl: "resources/yourWay/personalData/personalData.html"});
     })
     .directive('pwCheck', [function () {
         return {

@@ -1,0 +1,65 @@
+<style>
+    .margin-phones {
+        margin-left: 15px;
+    }
+    #line {
+        border-bottom: 1px solid gray;
+        margin-bottom: 15px;
+    }
+    .astext {
+        background:none;
+        border:none;
+        margin:0;
+        padding:0;
+        color: grey;
+        font-weight: bold;
+    }
+</style>
+<script>
+    $('.pull-down').each(function() {
+        var $this=$(this);
+        $this.css('margin-top', $this.parent().height()-$this.height())
+    });
+</script>
+<div class="container" ng-controller="personalDataCtrl">
+    <div class="row">
+        <div class="col-md-6">
+            <h1 class="pull-right">Your Way</h1>
+        </div>
+        <div class="col-md-6 pull-down">
+            <h4 class="pull-left">Personal data</h4>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3">
+            <button>
+                <img src="resources/img/YourWay/YourWay-YourPhotoHere-100x100.gif">
+            </button>
+        </div>
+        <div  class="col-md-9">
+            <div>Last name: <i>{{personData.lastName}}</i></div>
+            <div>First name: <i>{{personData.firstName}}</i></div>
+            <div>Sex: <i>{{personData.sex}}</i></div>
+            <div>Birthday: <i>{{personData.birthdate}}</i></div>
+            <div>Marital status: <i>{{personData.familyStatus}}</i></div>
+            <div>Phone:
+                <div class="margin-phones">
+                    <div>mobile: <i>{{personData.mobilephone}}</i></div>
+                    <div>home: <i>{{personData.homephone}}</i></div>
+                    <div>work: <i>{{personData.workphone}}</i></div>
+                </div>
+            </div>
+            <div>Skills/occupation: <i>{{personData.ocupation}}</i></div>
+            <div>Education: <i>{{personData.education}}</i></div>
+            <div id="line"></div>
+            <div class="row">
+            <div class="col-md-6">
+                <button class="astext">View additional data</button>
+            </div>
+            <div class="col-md-6">
+                <button class="btn btn-default pull-right">Change your data</button>
+            </div>
+            </div>
+        </div>
+    </div>
+</div>

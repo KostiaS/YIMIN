@@ -1,6 +1,6 @@
 angular.module("mainApp")
-    .controller("countriesInfoCtrl", ["getAllCountries", "arrayConcatSrvs", "$scope", "$rootScope", "$location",
-        function(getAllCountries, arrayConcatSrvs, $scope, $rootScope, $location) {
+    .controller("countriesInfoCtrl", ["URLS", "getRequest", "arrayConcatSrvs", "$scope", "$rootScope", "$location",
+        function(URLS, getRequest, arrayConcatSrvs, $scope, $rootScope, $location) {
 
             $scope.immigrateToThisCountryBtnVisibility = false;
             $scope.wikiIframe = false;
@@ -11,10 +11,11 @@ angular.module("mainApp")
             };
             
             $scope.getAllCountries = function() {
-                getAllCountries().then(function(response) {
-                    // arrayConcatSrvs.arrayConcated($scope.countries, response.countries);
-                    $scope.countries = response.countries;
-                })
+                getRequest(URLS.URL + ":" + URLS.PORT + URLS.ROOT_CONTEXT + URLS.REQUEST_MAPPING + URLS.COUNTRIES, "")
+                    .then(function(response) {
+                        // arrayConcatSrvs.arrayConcated($scope.countries, response.countries);
+                        $scope.countries = response.response;
+                    })
             };
 
             $scope.goToImmigrationProgramsView = function() {

@@ -1,14 +1,6 @@
-angular.module("commonHttpRequests")
-    .factory("postRequest", ["URLS", "$http", function (URLS, $http) {
-        return function (url, postArg) {
-            return $http.post(url, postArg)
-                .then(function (response) {
-                    return {
-                        response: response.data
-                    }
-                })
-        }
-    }]);
+angular.module("commonHttpRequests");
+
+    // }]);
     // .factory("getCategories", ["URLS", "$http", function (URLS, $http) {
     //     return function (countrySelected) {
     //         return $http.post(URLS.URL + ":" + URLS.PORT + URLS.ROOT_CONTEXT + URLS.REQUEST_MAPPING

@@ -1,9 +1,10 @@
 angular.module("mainApp")
-    .controller("signInUpOutCtrl", ["authorizationSrvs", "$scope", "$rootScope", "$http", "$window", "$location",
-            function(authorizationSrvs, $scope, $rootScope, $http, $window, $location) {
+    .controller("signInUpOutCtrl", ["authorizationSrvs", "authService", "session", "$scope", "$rootScope", "$http", "$window", "$location",
+            function(authorizationSrvs, authService, session, $scope, $rootScope, $http, $window, $location) {
                 
                 $scope.signInUpOutUrlTrigger = function() {
-                    $scope.authorization.status
+                    // $scope.authorization.status
+                    authService.isAuthenticated()
                         ? $scope.signInUpOutUrl = "resources/signInUpOut/signOutView.html"
                         : $scope.signInUpOutUrl = "resources/signInUpOut/signInUpView.html";
                 };
@@ -33,6 +34,9 @@ angular.module("mainApp")
                         //--Start---Authorization plug!---
                         authorizationSrvs(userDetails).then(function (response) {
                             $scope.authorization.status = response.authorization;
+                            response.authorization
+                                ? session.create(1, 1, "role_user")
+                                : console.log("error: wrong email or password");
                             // $scope.emitAuthorization();
                             // $scope.signInUpOutUrlTrigger();
                         });
@@ -74,6 +78,7 @@ angular.module("mainApp")
 
                 $scope.signOut = function () {
                     $scope.authorization.status = false;
+                    session.destroy();
                 };
 
                 $scope.signUp = function () {
