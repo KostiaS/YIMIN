@@ -9,13 +9,34 @@ angular.module("commonHttpRequests", [])
                 })
         }
     }])
-    .factory("getAllCountries", ["URLS", "$http", function(URLS, $http) {
-        return function () {
-            return $http.get(URLS.URL + ":" + URLS.PORT + URLS.ROOT_CONTEXT + URLS.REQUEST_MAPPING + URLS.COUNTRIES)
+    // .factory("getAllCountries", ["URLS", "$http", function(URLS, $http) {
+    //     return function () {
+    //         return $http.get(URLS.URL + ":" + URLS.PORT + URLS.ROOT_CONTEXT + URLS.REQUEST_MAPPING + URLS.COUNTRIES)
+    //             .then(function(response) {
+    //                 return {
+    //                     countries: response.data
+    //                 }
+    //             })
+    //     }
+    // }])
+    .factory("getRequest", ["URLS", "$http", function(URLS, $http) {
+        return function (url, suffix) {
+            return $http.get(url + "/" + suffix)
                 .then(function(response) {
                     return {
-                        countries: response.data
+                        response: response.data
+                    }
+                })
+        }
+    }])
+    .factory("postRequest", ["URLS", "$http", function (URLS, $http) {
+        return function (url, postArg) {
+            return $http.post(url, postArg)
+                .then(function (response) {
+                    return {
+                        response: response.data
                     }
                 })
         }
     }]);
+

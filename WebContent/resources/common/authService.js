@@ -1,7 +1,8 @@
 angular.module("commonServices")
     .factory("authService", function ($http, session) {
         var authSrvs = {};
-        suthSrvs.isAuthenticated = function () {
+        authSrvs.isAuthenticated = function () {
             return !!session.userId;
-        }
+        };
+        return authSrvs;
     });

@@ -1,6 +1,6 @@
 angular.module("mainApp")
-    .controller("embassiesInfoCtrl", ["getAllCountries", "getEmbassyLocation", "getEmbassyData", "arrayConcatSrvs", "$scope", "$location",
-        function(getAllCountries, getEmbassyLocation, getEmbassyData, arrayConcatSrvs, $scope, $location) {
+    .controller("embassiesInfoCtrl", ["URLS", "getRequest", "getEmbassyLocation", "getEmbassyData", "arrayConcatSrvs", "$scope", "$location",
+        function(URLS, getRequest, getEmbassyLocation, getEmbassyData, arrayConcatSrvs, $scope, $location) {
 
             $scope.immigrateToThisCountryBtnVisibility = false;
             $scope.embassiesInfoVisibility = false;
@@ -31,11 +31,12 @@ angular.module("mainApp")
             };
             
             $scope.getEmbassyCountry = function() {
-                getAllCountries().then(function(response) {
-                    // $scope.embassyCountries = $scope.embassyCountries.slice(0, 1);
-                    // $scope.embassyCountries = arrayConcatSrvs.arrayConcated($scope.embassyCountries, response.countries);
-                    $scope.embassyCountries = response.countries;
-                })
+                getRequest(URLS.URL + ":" + URLS.PORT + URLS.ROOT_CONTEXT + URLS.REQUEST_MAPPING + URLS.COUNTRIES, "")
+                    .then(function(response) {
+                        // $scope.embassyCountries = $scope.embassyCountries.slice(0, 1);
+                        // $scope.embassyCountries = arrayConcatSrvs.arrayConcated($scope.embassyCountries, response.countries);
+                        $scope.embassyCountries = response.response;
+                    })
             };
 
             $scope.getEmbassyLocation = function () {

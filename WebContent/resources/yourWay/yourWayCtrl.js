@@ -1,5 +1,6 @@
 angular.module("mainApp")
-    .controller("yourWayCtrl", ["$scope", "$rootScope", "$http", function($scope, $rootScope, $http) {
+    .controller("yourWayCtrl", ["authService", "$scope", "$rootScope", "$http", "$location",
+        function(authService, $scope, $rootScope, $http, $location) {
 
         //$scope.$on("authorizationBroadcasted", function(event, args) {
         //    $scope.authorization = args.authorization;
@@ -14,13 +15,20 @@ angular.module("mainApp")
         //
         // });
         $scope.viewTrigger = function() {
-            $scope.authorization.status
+            // $scope.authorization.status
+            authService.isAuthenticated()
                 ? $scope.yourWayViewUrl = "resources/yourWay/yourWayAuthorizedView.html"
                 : $scope.yourWayViewUrl = "resources/yourWay/yourWayNotAuthorizedView.html";
         };
 
-        $scope.$watch("authorization.status", function () {
+        $scope.$watch(function () {
+            return authService.isAuthenticated();
+        }, function () {
             $scope.viewTrigger();
         });
+
+        $scope.goToPersonalDataView = function () {
+            $location.path("/yourway/personal-data");
+        };
 
     }]);

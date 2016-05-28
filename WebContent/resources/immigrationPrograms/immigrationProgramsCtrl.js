@@ -1,7 +1,7 @@
 angular.module("mainApp")
-    .controller("immigrationProgramsCtrl", ["postRequest", "URLS", "getAllCountries", /*"getCategories", "getPrograms", "getProgramSteps",*/
+    .controller("immigrationProgramsCtrl", ["URLS", "getRequest", "postRequest", /*"getCategories", "getPrograms", "getProgramSteps",*/
         "$scope", "$rootScope", "$location",
-        function(postRequest, URLS, getAllCountries, /*getCategories, getPrograms, getProgramSteps,*/ $scope, $rootScope, $location) {
+        function(URLS, getRequest, postRequest, /*getCategories, getPrograms, getProgramSteps,*/ $scope, $rootScope, $location) {
             
             $scope.mode = {value: "clean"};
             $scope.programMenuVisibility = false;
@@ -78,15 +78,16 @@ angular.module("mainApp")
             // };
 
             $scope.getAllCountries = function() {
-                getAllCountries().then(function (response) {
-                    // $scope.countries = $scope.countries.slice(0, 1);
-                    // arrayConcatSrvs.arrayConcated($scope.countries, response.countries);
-                    $scope.countries = response.countries;
-                    $scope.countrySelected = $scope.countryForImmigration;
-                    if ($scope.countrySelected != null) {
-                        $scope.updateCountrySelect()
-                    } 
-                })
+                getRequest(URLS.URL + ":" + URLS.PORT + URLS.ROOT_CONTEXT + URLS.REQUEST_MAPPING + URLS.COUNTRIES, "")
+                    .then(function (response) {
+                        // $scope.countries = $scope.countries.slice(0, 1);
+                        // arrayConcatSrvs.arrayConcated($scope.countries, response.countries);
+                        $scope.countries = response.response;
+                        $scope.countrySelected = $scope.countryForImmigration;
+                        if ($scope.countrySelected != null) {
+                            $scope.updateCountrySelect()
+                        } 
+                    })
             };
 
             $scope.getCategories = function () {
