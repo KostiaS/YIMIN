@@ -10,6 +10,7 @@ import immigration.interfaces.*;
 import immigration.model.interfaces.IModel;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -145,7 +146,7 @@ public class Controller {
      * @param document- json {"docId":1}
      * @return -byte array encoded in base 64
      */
-    @RequestMapping(value = Constants.GET_DOC, method = RequestMethod.POST)
+    @RequestMapping(value = Constants.GET_DOC, method = RequestMethod.POST, produces = MediaType.TEXT_PLAIN_VALUE)
     public byte[] downloadPDFFile(@RequestBody Documents document){
        Blob blob =  model.getDocById(document);
         int blobLength = 0;
