@@ -13,4 +13,5 @@ public class Constants {
     public static final String STEPS = "/steps";
     public static final String LIST_OF_DOC = "/list_of_documents";
     public static final String GET_DOC = "/get_doc";
+    public static final String GET_MASK = "/get_mask";
 }

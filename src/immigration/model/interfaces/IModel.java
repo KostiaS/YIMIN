@@ -30,4 +30,8 @@ public interface IModel {
     List<Documents> getDocumentsByProgramId(Programs programs);
 
     Blob getDocById(Documents document);
+
+    byte[] fromBlobToBase64ByteArray(Blob blob);
+
+    Blob getMaskByDocId(Documents document);
 }

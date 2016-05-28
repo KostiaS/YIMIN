@@ -8,6 +8,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
 import java.sql.Blob;
+import java.sql.SQLException;
+import java.util.Base64;
 import java.util.List;
 
 public class DbFunctionality implements IModel  {
@@ -111,6 +113,28 @@ public class DbFunctionality implements IModel  {
     @Override
     public Blob getDocById(Documents document) {
        return  em.find(Documents.class,document.getDocId()).getFile();
+    }
+
+    @Override
+    public Blob getMaskByDocId(Documents document) {
+        return  em.find(Documents.class,document.getDocId()).getMask();
+    }
+
+    @Override
+    public byte[] fromBlobToBase64ByteArray(Blob blob) {
+
+        int blobLength = 0;
+        byte[] blobAsBytes = null;
+        try {
+            blobLength = (int) blob.length();
+
+            blobAsBytes = blob.getBytes(1, blobLength);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return Base64.getEncoder().encode(blobAsBytes);
+
     }
 
 

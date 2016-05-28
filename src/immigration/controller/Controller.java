@@ -147,20 +147,18 @@ public class Controller {
      * @return -byte array encoded in base 64
      */
     @RequestMapping(value = Constants.GET_DOC, method = RequestMethod.POST, produces = MediaType.TEXT_PLAIN_VALUE)
-    public byte[] downloadPDFFile(@RequestBody Documents document){
+    public byte[] downloadDocument(@RequestBody Documents document){
        Blob blob =  model.getDocById(document);
-        int blobLength = 0;
-        byte[] blobAsBytes = null;
-        try {
-            blobLength = (int) blob.length();
-
-        blobAsBytes = blob.getBytes(1, blobLength);
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        byte[] encodedByteArray = Base64.getEncoder().encode(blobAsBytes);
-        return  encodedByteArray;
+        return  model.fromBlobToBase64ByteArray(blob);
     }
-
+    /**
+     * <p>download HTML document </p>
+     * @param document- json {"docId":1}
+     * @return -byte array encoded in base 64 in header TEXT/HTML
+     */
+    @RequestMapping(value = Constants.GET_MASK, method = RequestMethod.POST, produces = MediaType.TEXT_HTML_VALUE)
+    public byte[] downloadMask(@RequestBody Documents document){
+        Blob blob =  model.getMaskByDocId(document);
+        return model.fromBlobToBase64ByteArray(blob);
+    }
 }

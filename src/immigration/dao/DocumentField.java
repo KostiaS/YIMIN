@@ -8,21 +8,12 @@ public class DocumentField {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	int id;
-	@AttributeOverrides({
-		@AttributeOverride(name="x", column= @Column(name="XleftUp")),
-		@AttributeOverride(name="y", column= @Column(name="YleftUp"))
-	})
-	Point leftUp;
-	@AttributeOverrides({
-		@AttributeOverride(name="x", column= @Column(name="XrightDown")),
-		@AttributeOverride(name="y", column= @Column(name="YrightDown"))
-	})
-	Point rightDown;
+	String name;
+	String value;
 	String attribute;
 	Boolean flagPersonData;
 	
 	public DocumentField() {
-		
 	}
 
 	public int getId() {
@@ -31,22 +22,6 @@ public class DocumentField {
 
 	public void setId(int id) {
 		this.id = id;
-	}
-
-	public Point getLeftUp() {
-		return leftUp;
-	}
-
-	public void setLeftUp(Point leftUp) {
-		this.leftUp = leftUp;
-	}
-
-	public Point getRightDown() {
-		return rightDown;
-	}
-
-	public void setRightDown(Point rightDown) {
-		this.rightDown = rightDown;
 	}
 
 	public String getAttribute() {

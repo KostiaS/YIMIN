@@ -12,19 +12,26 @@ import javax.persistence.*;
 
 @Entity
 public class Documents  {
-	
-	String type;
-	String image;
-    String nameOfFile;
-    @JsonIgnore
-	@Lob
-	Blob file;
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	int DocId;
+
+	String type;
+	String image;
+    String nameOfFile;
+
+    @JsonIgnore
+	@Lob
+	Blob file;
+
+	@JsonIgnore
+	@Lob
+	Blob mask;
+
 	@JsonIgnore
 	@ManyToOne
 	Programs prog;
+
     @JsonIgnore
 	@OneToMany
 	List <DocumentField> documentField;
@@ -34,18 +41,23 @@ public class Documents  {
 		this.type = type;
 		this.image = image;
 	}
+	public Documents() {
+		super();
+	}
 
     public int getDocId() {
         return DocId;
     }
 
-
-
-    public Documents() {
-		super();
+	public Blob getMask() {
+		return mask;
 	}
 
-    public String getNameOfFile() {
+	public void setMask(Blob mask) {
+		this.mask = mask;
+	}
+
+	public String getNameOfFile() {
         return nameOfFile;
     }
 

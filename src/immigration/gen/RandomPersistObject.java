@@ -29,8 +29,9 @@ public class RandomPersistObject {
 	private static final int DOCUMENTS_AMOUNT = 150;
 	private static final int FIELDNAMES_AMOUNT = 150;
 	private static final String PHOTO_FILE_PATH = "../Yimin/resources/doc.jpg";
+	private static final String MASK_FILE_PATH = "../Yimin/resources/mask.html";
 
-		
+
 	int city = 1;
 	int region = 1;
 	int street = 1;
@@ -131,7 +132,8 @@ public class RandomPersistObject {
 	public void generateDocumentsList(){
 		for (int i = 1; i < DOCUMENTS_AMOUNT; i++) {
 			Documents documents = new Documents();
-            documents.setFile(generateBlobFromImage());
+            documents.setFile(generateBlobFromFile(PHOTO_FILE_PATH));
+			documents.setMask(generateBlobFromFile(MASK_FILE_PATH));
             documents.setNameOfFile("doc.jpg");
 			documents.setImage(ig.randomString("www.photoRepository", i) + ".com");
 			documents.setType(ig.statusGenerator(5, "Type"));
@@ -144,9 +146,9 @@ public class RandomPersistObject {
 		System.out.println("DOC LIST PERSISTED");
 	}
     @Transactional
-    private Blob generateBlobFromImage() {
+    private Blob generateBlobFromFile(String path) {
         Session session = em.unwrap(Session.class);
-        File file = new File(PHOTO_FILE_PATH);
+        File file = new File(path);
         FileInputStream inputStream = null;
         try {
             inputStream = new FileInputStream(file);
@@ -165,9 +167,7 @@ public class RandomPersistObject {
 			DocumentField documentField = new DocumentField();
 			documentField.setAttribute(ig.randomString("attribute", i));
 			documentField.setFlagPersonData(ig.booleanGenerator());
-			documentField.setLeftUp(generatePoint());
-			documentField.setRightDown(generatePoint());
-			
+
 			em.persist(documentField);
 			docFieldList.add(documentField);
 		}
@@ -362,12 +362,6 @@ public class RandomPersistObject {
 		}
 	}
 
-	private Point generatePoint() {
-        Point point = new Point();
-        point.setX(ig.doubleGenerator());
-        point.setY(ig.doubleGenerator());
-        return point;
-    }
 	@Transactional
 	public void generateWay(){
 		for (int i = 0 ;i<10;i++){
