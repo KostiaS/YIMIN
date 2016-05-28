@@ -14,4 +14,6 @@ public class Constants {
     public static final String LIST_OF_DOC = "/list_of_documents";
     public static final String GET_DOC = "/get_doc";
     public static final String GET_MASK = "/get_mask";
+    public static final String GET_CUSTOM_DATA = "/get_custom_data";
+    public static final String UPDATE_CUSTOM_DATA_VALUE = "/save_custom_data";
 }

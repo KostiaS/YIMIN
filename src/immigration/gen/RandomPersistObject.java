@@ -27,7 +27,7 @@ public class RandomPersistObject {
 	private static final int PROGRAMS_AMOUNT = 50;//shoud be less than country
 	private static final int MAX_PROGRAMSTEP = 10;// value should be bigger or equals STEP_AMOUNT
 	private static final int DOCUMENTS_AMOUNT = 150;
-	private static final int FIELDNAMES_AMOUNT = 150;
+	private static final int FIELDNAMES_AMOUNT = 20;
 	private static final String PHOTO_FILE_PATH = "../Yimin/resources/doc.jpg";
 	private static final String MASK_FILE_PATH = "../Yimin/resources/mask.html";
 
@@ -107,14 +107,15 @@ public class RandomPersistObject {
 
 	@Transactional
 	private void generatePersonCustomData() {
-		for(int i=0;i<ig.randBetween(0, personDataCounter);i++){
-			PersonCustomData personCustomData = new PersonCustomData();
-			personCustomData.setPersonData(getRandomObjectFromDb(new PersonData ()));
-			personCustomData.setValue(ig.randomString("values", i)); 
-			personCustomData.setFieldNames(getRandomObjectFromDb(new FieldNames()));
-			 
-			em.persist(personCustomData);
-		}
+        for(int i=1;i<personDataCounter-2;i++) {
+            for (int y = 0; y < 5; y++) {
+                PersonCustomData personCustomData = new PersonCustomData();
+                personCustomData.setPersonData(getObjectFromDbById(PersonData.class,i));
+                personCustomData.setValue(ig.randomString("some value", i));
+                personCustomData.setFieldNames(getRandomObjectFromDb(new FieldNames()));
+                em.persist(personCustomData);
+            }
+        }
 	}
 	
 	@Transactional

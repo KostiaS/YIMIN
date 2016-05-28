@@ -34,4 +34,8 @@ public interface IModel {
     byte[] fromBlobToBase64ByteArray(Blob blob);
 
     Blob getMaskByDocId(Documents document);
+
+    List<PersonCustomData> getPersonCustomDataByPersonId(Person person);
+
+    boolean updatePersonCustomData(PersonCustomData pcd);
 }
