@@ -58,6 +58,16 @@ angular.module("mainApp")
 
             $scope.signUp = function () {
                 $location.path("/registration");
-            }
+            };
+
+            // $scope.downloadForm = function () {
+            //     var urlDoc = URLS.URL + ":" + URLS.PORT + URLS.ROOT_CONTEXT + URLS.REQUEST_MAPPING
+            //         + URLS.GET_DOC;
+            //     var doc = {"docId": 1};
+            //     postRequest(urlDoc, doc).then(function (response) {
+            //         // $scope.programSteps = response.programSteps;
+            //         $scope.downloadedDoc = response.response;
+            //     });
+            // }
 
         }]);
