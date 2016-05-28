@@ -44,6 +44,48 @@ angular.module("mainApp", ["ngRoute", "commonHttpRequests", "commonServices"])
             }
         }
     }])
+    .directive('pdfDownload', function() {
+        return {
+            restrict: 'E',
+            templateUrl: 'resources/immigrationPrograms/programMenuViews/downloadForm.tpl.html',
+            scope: true,
+            link: function (scope, element, attr) {
+                var anchor = element.children()[0];
+
+                // When the download starts, disable the link
+                scope.$on('download-start', function () {
+                    $(anchor).attr('disabled', 'disabled');
+                });
+
+                // When the download finishes, attach the data to the link. Enable the link and change its appearance.
+                scope.$on('downloaded', function (event, data) {
+                    $(anchor).attr({
+                            href: 'data:image/jpg;base64,' + data,
+                            download: attr.filename
+                        })
+                        .removeAttr('disabled')
+                        .text('Save')
+                        .removeClass('btn-primary')
+                        .addClass('btn-success');
+
+                    // Also overwrite the download pdf function to do nothing.
+                    scope.downloadForm = function () {
+                    };
+                });
+            },
+            controller: ['$scope', '$attrs', '$http', function ($scope, $attrs, $http) {
+                $scope.downloadForm = function () {
+                    $scope.$emit('download-start');
+                    $http.post($attrs.url, {"docId": 1}).then(function (response) {
+                        console.log(response.data);
+                        // var jsonObj = {data: response.data};
+                        $scope.$emit('downloaded', response.data);
+                        // $scope.$emit('downloaded', jsonObj.data);
+                    });
+                };
+            }]
+        }
+    })
     .controller("mainAppCtrl", ["$scope", "$rootScope", "$location", function($scope, $rootScope, $location) {
 
         $scope.goToYourWayView = function() {

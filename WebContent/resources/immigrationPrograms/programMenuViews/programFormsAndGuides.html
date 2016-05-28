@@ -7,7 +7,8 @@
             </select>
 
             <div ng-show="downloadCompleteBtnsVisibility" style="margin-top: 10%">
-                <button class="btn btn-default btn-block" ng-click="downloadForm()">Download the form</button>
+                <pdf-download url="http://localhost:8080/yimin/api/get_doc" filename="my-awesome-pdf"></pdf-download>
+                <!--<button class="btn btn-default btn-block" ng-click="downloadForm()">Download the form</button>-->
                 <button class="btn btn-default btn-block" style="margin-top: 10%"
                         ng-click="completeForm()">Complete the form</button>
             </div>

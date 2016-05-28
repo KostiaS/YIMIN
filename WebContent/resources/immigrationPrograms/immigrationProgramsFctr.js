@@ -1,5 +1,5 @@
-angular.module("commonHttpRequests");
-
+angular.module("commonServices");
+    
     // }]);
     // .factory("getCategories", ["URLS", "$http", function (URLS, $http) {
     //     return function (countrySelected) {
