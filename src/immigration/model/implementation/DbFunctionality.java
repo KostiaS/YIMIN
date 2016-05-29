@@ -121,6 +121,18 @@ public class DbFunctionality implements IModel  {
     }
 
     @Override
+    public List<PersonCustomData> getPersonCustomDataByPersonId(Person person) {
+        Query query = em.createQuery("select pcd from PersonCustomData pcd where pcd.personData.person.PersonId ="+person.getPersonId());
+        return query.getResultList();
+    }
+    @Transactional
+    @Override
+    public boolean updatePersonCustomData(PersonCustomData pcd) {
+        em.merge(pcd);
+        return true;
+    }
+
+    @Override
     public byte[] fromBlobToBase64ByteArray(Blob blob) {
 
         int blobLength = 0;
@@ -136,7 +148,6 @@ public class DbFunctionality implements IModel  {
         return Base64.getEncoder().encode(blobAsBytes);
 
     }
-
 
     @SuppressWarnings("unchecked")
     public <T> T getObjectFromDbById (Class <T>  nameOfClass, int objectId){

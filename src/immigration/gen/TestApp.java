@@ -11,7 +11,7 @@ public class TestApp {
         AbstractApplicationContext ctx = new FileSystemXmlApplicationContext("WebContent/WEB-INF/beansGen.xml");
         rpo = (RandomPersistObject) ctx.getBean("rpo");
 
-        fillDB(5);
+        fillDB(50);
        
         ctx.close();
     }
@@ -21,8 +21,7 @@ public class TestApp {
     	rpo.generateEmbassyList();
     	rpo.generateProgramsList();
     	rpo.generateDocumentsList();
-    	
-    	
+
     	for(int i = 0;i<qty;i++){
             rpo.fillDb(i);
             

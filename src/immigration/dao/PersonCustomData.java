@@ -1,6 +1,9 @@
 package immigration.dao;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 
 
@@ -12,7 +15,7 @@ public class PersonCustomData {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	int PersonCustomDataId;
-	
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "PersonDataId")
 	PersonData personData;
@@ -36,6 +39,10 @@ public class PersonCustomData {
 	public String toString() {
 		return "PersonCustomData [value=" + value + ", PersonDataid="
 				+ PersonCustomDataId + ", personData=" + personData + "]";
+	}
+
+	public void setPersonCustomDataId(int personCustomDataId) {
+		PersonCustomDataId = personCustomDataId;
 	}
 
 	public FieldNames getFieldNames() {

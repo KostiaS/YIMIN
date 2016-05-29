@@ -46,18 +46,27 @@ public Person(String email, String password, Date registration) {
 	this.registration = registration;
 }
 
-@Override
-public String toString() {
-	return "Person [email=" + email + ", password=" + password
-			+ ", registration=" + registration + ", lastLogin=" + lastLogin
-			+ ", PersonId=" + PersonId + ", personData=" + personData
-			+ ", familyMembers=" + familyMember.toString()+"]";
+	@Override
+	public String toString() {
+		return "Person{" +
+				"email='" + email + '\'' +
+				", password='" + password + '\'' +
+				", registration=" + registration +
+				", lastLogin=" + lastLogin +
+				", PersonId=" + PersonId +
+				", personData=" + personData +
+				", familyMember=" + familyMember +
+				'}';
+	}
+
+	public Person() {
 }
 
-public Person() {
-}
+	public void setPersonId(int personId) {
+		PersonId = personId;
+	}
 
-public String getEmail() {
+	public String getEmail() {
 	return email;
 }
 

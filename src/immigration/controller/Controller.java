@@ -15,9 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.sql.Blob;
-import java.sql.SQLException;
 import java.util.*;
 
 
@@ -160,5 +158,24 @@ public class Controller {
     public byte[] downloadMask(@RequestBody Documents document){
         Blob blob =  model.getMaskByDocId(document);
         return model.fromBlobToBase64ByteArray(blob);
+    }
+    /**
+     *<p>return list of custom data</p>
+     * @param person - {"personId":1}
+     *               for flow 19
+     */
+    @RequestMapping(value = Constants.GET_CUSTOM_DATA, method = RequestMethod.POST)
+    public List<PersonCustomData> getCustomDatabyId(@RequestBody Person person){
+        return model.getPersonCustomDataByPersonId(person);
+    }
+
+    /**
+     * <p>create or update person custom data</p>
+     * @param pcd - json {"value":"some value1","fieldNames":{"id":14,"name":"fieldName14","possibleValues":"posibleValueJson14"},"personCustomDataId":1
+     * for flow 19
+     */
+    @RequestMapping(value = Constants.UPDATE_CUSTOM_DATA_VALUE, method = RequestMethod.POST)
+    public boolean updatePersonCustomData(@RequestBody PersonCustomData pcd){
+        return model.updatePersonCustomData(pcd);
     }
 }
