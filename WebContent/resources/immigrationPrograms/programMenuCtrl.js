@@ -54,20 +54,17 @@ angular.module("mainApp")
             $scope.goToYourWayView = function() {
                 $location.path("/yourway");
             };
+            
             //Authorization
-
             $scope.signUp = function () {
                 $location.path("/registration");
             };
-
-            // $scope.downloadForm = function () {
-            //     var urlDoc = URLS.URL + ":" + URLS.PORT + URLS.ROOT_CONTEXT + URLS.REQUEST_MAPPING
-            //         + URLS.GET_DOC;
-            //     var doc = {"docId": 1};
-            //     postRequest(urlDoc, doc).then(function (response) {
-            //         // $scope.programSteps = response.programSteps;
-            //         $scope.downloadedDoc = response.response;
-            //     });
-            // }
-
+            
+            $scope.downloadedFormSrc = "#";
+            
+            $scope.changeSource = function (source) {
+                var imagePreviewElem = angular.element(document.querySelector('#preview'));
+                imagePreviewElem.attr('src', source);
+            };
+            
         }]);
