@@ -171,7 +171,7 @@ public class Controller {
 
     /**
      * <p>create or update person custom data</p>
-     * @param pcd - json {"value":"some value1","fieldNames":{"id":14,"name":"fieldName14","possibleValues":"posibleValueJson14"},"personCustomDataId":1
+     * @param pcd - json example {"value":"val1","fieldNames":{"id":14},"personCustomDataId":1,"personData":{"personDataId":1}}
      * for flow 19
      */
     @RequestMapping(value = Constants.UPDATE_CUSTOM_DATA_VALUE, method = RequestMethod.POST)
