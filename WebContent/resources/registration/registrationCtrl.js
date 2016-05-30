@@ -1,10 +1,10 @@
 angular.module("mainApp")
-    .controller("registrationCtrl", ["getAllCountries", "$scope", function (getAllCountries, $scope) {
+    .controller("registrationCtrl", ["getRequest", "$scope", function (getRequest, $scope) {
 
         $scope.userPassword = "";
         
         $scope.getAllCountries = function () {
-            getAllCountries().then(function (response) {
+            getRequest().then(function (response) {
                 $scope.countries = response.countries;
             })
         };

@@ -5,10 +5,19 @@ angular.module("mainApp")
                 getRequest(URLS.URL + ":" + URLS.PORT + URLS.ROOT_CONTEXT + URLS.REQUEST_MAPPING
                         + URLS.PERSONAL_DATA, session.userId).then(function (response) {
                     $scope.personData = response.response;
-                    $scope.sex = function () {
-                        $scope.personData.gender == m ? $scope.sex = "male" : $scope.sex = "female"
-                    }
+                    $scope.getSex = function () {
+                        $scope.personData.gender == "m" ? $scope.sex = {value: "male"} : $scope.sex = {value: "female"}
+                    }();
+                    $scope.getBirthdate = function () {
+                        var dateArray = $scope.personData.birthdate.split('-');
+                        $scope.birthday = {year: dateArray[0], month: dateArray[1], day: dateArray[2]};
+                    }();
                 })
-            };
-            $scope.getPersonData();
+            }();
+            
+            $scope.mode = {value: "getData"};
+            
+            $scope.setPersonData = function () {
+                $scope.mode.value = "setData";
+            }
     }]);

@@ -14,6 +14,9 @@
         color: grey;
         font-weight: bold;
     }
+    .offset-top {
+        margin-top: 5px;
+    }
 </style>
 <script>
     $('.pull-down').each(function() {
@@ -36,29 +39,156 @@
                 <img src="resources/img/YourWay/YourWay-YourPhotoHere-100x100.gif">
             </button>
         </div>
-        <div  class="col-md-9">
-            <div>Last name: <i>{{personData.lastName}}</i></div>
-            <div>First name: <i>{{personData.firstName}}</i></div>
-            <div>Sex: <i>{{personData.sex}}</i></div>
-            <div>Birthday: <i>{{personData.birthdate}}</i></div>
-            <div>Marital status: <i>{{personData.familyStatus}}</i></div>
-            <div>Phone:
-                <div class="margin-phones">
-                    <div>mobile: <i>{{personData.mobilephone}}</i></div>
-                    <div>home: <i>{{personData.homephone}}</i></div>
-                    <div>work: <i>{{personData.workphone}}</i></div>
+        <div class="col-md-9" ng-switch on="mode.value">
+            <div ng-switch-when="getData">
+                <div>Last name: <i>{{personData.lastName}}</i></div>
+                <div>First name: <i>{{personData.firstName}}</i></div>
+                <div>Sex: <i>{{sex.value}}</i></div>
+                <div>Birthday: <i>{{personData.birthdate}}</i></div>
+                <div>Marital status: <i>{{personData.familyStatus}}</i></div>
+                <div>Phone:
+                    <div class="margin-phones">
+                        <div>mobile: <i>{{personData.mobilephone}}</i></div>
+                        <div>home: <i>{{personData.homephone}}</i></div>
+                        <div>work: <i>{{personData.workphone}}</i></div>
+                    </div>
+                </div>
+                <div>Skills/occupation: <i>{{personData.ocupation}}</i></div>
+                <div>Education: <i>{{personData.education}}</i></div>
+                <div id="line"></div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <button class="astext">View additional data</button>
+                    </div>
+                    <div class="col-md-6">
+                        <button class="btn btn-default pull-right" ng-click="setPersonData()">Change your data</button>
+                    </div>
                 </div>
             </div>
-            <div>Skills/occupation: <i>{{personData.ocupation}}</i></div>
-            <div>Education: <i>{{personData.education}}</i></div>
-            <div id="line"></div>
-            <div class="row">
-            <div class="col-md-6">
-                <button class="astext">View additional data</button>
-            </div>
-            <div class="col-md-6">
-                <button class="btn btn-default pull-right">Change your data</button>
-            </div>
+
+            <div ng-switch-when="setData">
+                <form name="setPersonData" novalidate ng-submit="savePersonData(personData)">
+                    <div class="row offset-top">
+                        <div class="col-md-2 pull-down">Last name:</div>
+                        <div class="col-md-10 pull-down">
+                            <input name="lastName" type="text" class="form-control" ng-model="personData.lastName">
+                        </div>
+                    </div>
+                    <div class="row offset-top">
+                        <div class="col-md-2 pull-down">First name:</div>
+                        <div class="col-md-10 pull-down">
+                            <input name="firstName" type="text" class="form-control" ng-model="personData.firstName">
+                        </div>
+                    </div>
+                    <div class="row offset-top">
+                        <div class="col-md-2 pull-down">Sex:</div>
+                        <div class="col-md-2 pull-down">
+                            <div class="checkbox" style="margin-bottom: 0">
+                                <label style="padding-left: 0">
+                                    <input name="male" type="radio" ng-model="sex.value" value="male"> male
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-md-2 pull-down">
+                            <div class="checkbox" style="margin-bottom: 0">
+                                <label style="padding-left: 0">
+                                    <input name="female" type="radio" ng-model="sex.value" value="female"> female
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-md-6 pull-down"></div>
+                    </div>
+                    <div class="row offset-top">
+                        <div class="col-md-2 pull-down">Birthday:</div>
+                        <div class="col-md-2 pull-down">
+                            <input name="day" type="text" class="form-control" ng-model="birthday.day" placeholder="day">
+                        </div>
+                        <div class="col-md-1 pull-down" style="width: 1px">/</div>
+                        <div class="col-md-2 pull-down">
+                            <input name="day" type="text" class="form-control" ng-model="birthday.month" placeholder="month">
+                        </div>
+                        <div class="col-md-1 pull-down" style="width: 1px">/</div>
+                        <div class="col-md-2 pull-down">
+                            <input name="day" type="text" class="form-control" ng-model="birthday.year" placeholder="year">
+                        </div>
+                        <div class="col-md-2 pull-down"></div>
+                    </div>
+                    <div class="row offset-top">
+                        <div class="col-md-2 pull-down">Marital status:</div>
+                        <div class="col-md-2 pull-down">
+                            <div class="checkbox" style="margin-bottom: 0">
+                                <label style="padding-left: 0">
+                                    <input name="married" type="radio" ng-model="personData.familyStatus" value="married"> married
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-md-2 pull-down">
+                            <div class="checkbox" style="margin-bottom: 0">
+                                <label style="padding-left: 0">
+                                    <input name="single" type="radio" ng-model="personData.familyStatus" value="single"> single
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-md-2 pull-down">
+                            <div class="checkbox" style="margin-bottom: 0">
+                                <label style="padding-left: 0">
+                                    <input name="divorced" type="radio" ng-model="personData.familyStatus" value="divorced"> divorced
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-md-2 pull-down">
+                            <div class="checkbox" style="margin-bottom: 0">
+                                <label style="padding-left: 0">
+                                    <input name="widowed" type="radio" ng-model="personData.familyStatus" value="widowed"> widowed
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-md-2 pull-down"></div>
+                    </div>
+                    <div class="row offset-top">
+                        <div class="col-md-2 pull-down">Phone:</div>
+                        <div class="col-md-10 pull-down"></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-1 col-md-offset-1 pull-down">mobile:</div>
+                        <div class="col-md-10 pull-down">
+                            <input name="mobilePhone" type="text" class="form-control" ng-model="personData.mobilephone">
+                        </div>
+                    </div>
+                    <div class="row offset-top">
+                        <div class="col-md-1 col-md-offset-1 pull-down">home:</div>
+                        <div class="col-md-10 pull-down">
+                            <input name="homePhone" type="text" class="form-control" ng-model="personData.homephone">
+                        </div>
+                    </div>
+                    <div class="row offset-top">
+                        <div class="col-md-1 col-md-offset-1 pull-down">work:</div>
+                        <div class="col-md-10 pull-down">
+                            <input name="workPhone" type="text" class="form-control" ng-model="personData.workphone">
+                        </div>
+                    </div>
+                    <div class="row offset-top">
+                        <div class="col-md-2 pull-down">Skills/occupation:</div>
+                        <div class="col-md-10 pull-down">
+                            <input name="occupation" type="text" class="form-control" ng-model="personData.ocupation">
+                        </div>
+                    </div>
+                    <div class="row offset-top">
+                        <div class="col-md-2 pull-down">Education:</div>
+                        <div class="col-md-10 pull-down">
+                            <input name="education" type="text" class="form-control" ng-model="personData.education">
+                        </div>
+                    </div>
+                    <div class="row offset-top">
+                        <div class="col-md-2 col-md-offset-4">
+                            <button class="btn btn-primary btn-block" ng-click="savePersonData()">Save</button>
+                        </div>
+                        <div class="col-md-2">
+                            <button class="btn btn-default btn-block" ng-click="cancel()">Cancel</button>
+                        </div>
+                        <div class="col-md-4"></div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

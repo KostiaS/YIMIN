@@ -131,7 +131,7 @@ angular.module("mainApp")
                 $scope.btnText.show.formsAndGuides = btnText.formsAndGuides;
                 $scope.btnText.show.requirements = btnText.requirements;
                 $scope.programMenuUrl.url = url;
-                if($scope.mode.value = "clean") {
+                if($scope.mode.value == "clean") {
                     $scope.mode.value = "dirty";
                 }
                 // $scope.documentSelected.doc = {};
