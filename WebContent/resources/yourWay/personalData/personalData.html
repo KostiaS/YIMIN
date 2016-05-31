@@ -71,13 +71,13 @@
                     <div class="row offset-top">
                         <div class="col-md-2 pull-down">Last name:</div>
                         <div class="col-md-10 pull-down">
-                            <input name="lastName" type="text" class="form-control" ng-model="personData.lastName">
+                            <input name="lastName" type="text" class="form-control" ng-model="personDataDirty.lastName">
                         </div>
                     </div>
                     <div class="row offset-top">
                         <div class="col-md-2 pull-down">First name:</div>
                         <div class="col-md-10 pull-down">
-                            <input name="firstName" type="text" class="form-control" ng-model="personData.firstName">
+                            <input name="firstName" type="text" class="form-control" ng-model="personDataDirty.firstName">
                         </div>
                     </div>
                     <div class="row offset-top">
@@ -85,14 +85,14 @@
                         <div class="col-md-2 pull-down">
                             <div class="checkbox" style="margin-bottom: 0">
                                 <label style="padding-left: 0">
-                                    <input name="male" type="radio" ng-model="sex.value" value="male"> male
+                                    <input name="male" type="radio" ng-model="sexDirty.value" value="male"> male
                                 </label>
                             </div>
                         </div>
                         <div class="col-md-2 pull-down">
                             <div class="checkbox" style="margin-bottom: 0">
                                 <label style="padding-left: 0">
-                                    <input name="female" type="radio" ng-model="sex.value" value="female"> female
+                                    <input name="female" type="radio" ng-model="sexDirty.value" value="female"> female
                                 </label>
                             </div>
                         </div>
@@ -101,15 +101,15 @@
                     <div class="row offset-top">
                         <div class="col-md-2 pull-down">Birthday:</div>
                         <div class="col-md-2 pull-down">
-                            <input name="day" type="text" class="form-control" ng-model="birthday.day" placeholder="day">
+                            <input name="day" type="text" class="form-control" ng-model="birthdayDirty.day" placeholder="day">
                         </div>
                         <div class="col-md-1 pull-down" style="width: 1px">/</div>
                         <div class="col-md-2 pull-down">
-                            <input name="day" type="text" class="form-control" ng-model="birthday.month" placeholder="month">
+                            <input name="day" type="text" class="form-control" ng-model="birthdayDirty.month" placeholder="month">
                         </div>
                         <div class="col-md-1 pull-down" style="width: 1px">/</div>
                         <div class="col-md-2 pull-down">
-                            <input name="day" type="text" class="form-control" ng-model="birthday.year" placeholder="year">
+                            <input name="day" type="text" class="form-control" ng-model="birthdayDirty.year" placeholder="year">
                         </div>
                         <div class="col-md-2 pull-down"></div>
                     </div>
@@ -118,28 +118,28 @@
                         <div class="col-md-2 pull-down">
                             <div class="checkbox" style="margin-bottom: 0">
                                 <label style="padding-left: 0">
-                                    <input name="married" type="radio" ng-model="personData.familyStatus" value="married"> married
+                                    <input name="married" type="radio" ng-model="personDataDirty.familyStatus" value="married"> married
                                 </label>
                             </div>
                         </div>
                         <div class="col-md-2 pull-down">
                             <div class="checkbox" style="margin-bottom: 0">
                                 <label style="padding-left: 0">
-                                    <input name="single" type="radio" ng-model="personData.familyStatus" value="single"> single
+                                    <input name="single" type="radio" ng-model="personDataDirty.familyStatus" value="single"> single
                                 </label>
                             </div>
                         </div>
                         <div class="col-md-2 pull-down">
                             <div class="checkbox" style="margin-bottom: 0">
                                 <label style="padding-left: 0">
-                                    <input name="divorced" type="radio" ng-model="personData.familyStatus" value="divorced"> divorced
+                                    <input name="divorced" type="radio" ng-model="personDataDirty.familyStatus" value="divorced"> divorced
                                 </label>
                             </div>
                         </div>
                         <div class="col-md-2 pull-down">
                             <div class="checkbox" style="margin-bottom: 0">
                                 <label style="padding-left: 0">
-                                    <input name="widowed" type="radio" ng-model="personData.familyStatus" value="widowed"> widowed
+                                    <input name="widowed" type="radio" ng-model="personDataDirty.familyStatus" value="widowed"> widowed
                                 </label>
                             </div>
                         </div>
@@ -152,31 +152,31 @@
                     <div class="row">
                         <div class="col-md-1 col-md-offset-1 pull-down">mobile:</div>
                         <div class="col-md-10 pull-down">
-                            <input name="mobilePhone" type="text" class="form-control" ng-model="personData.mobilephone">
+                            <input name="mobilePhone" type="text" class="form-control" ng-model="personDataDirty.mobilephone">
                         </div>
                     </div>
                     <div class="row offset-top">
                         <div class="col-md-1 col-md-offset-1 pull-down">home:</div>
                         <div class="col-md-10 pull-down">
-                            <input name="homePhone" type="text" class="form-control" ng-model="personData.homephone">
+                            <input name="homePhone" type="text" class="form-control" ng-model="personDataDirty.homephone">
                         </div>
                     </div>
                     <div class="row offset-top">
                         <div class="col-md-1 col-md-offset-1 pull-down">work:</div>
                         <div class="col-md-10 pull-down">
-                            <input name="workPhone" type="text" class="form-control" ng-model="personData.workphone">
+                            <input name="workPhone" type="text" class="form-control" ng-model="personDataDirty.workphone">
                         </div>
                     </div>
                     <div class="row offset-top">
                         <div class="col-md-2 pull-down">Skills/occupation:</div>
                         <div class="col-md-10 pull-down">
-                            <input name="occupation" type="text" class="form-control" ng-model="personData.ocupation">
+                            <input name="occupation" type="text" class="form-control" ng-model="personDataDirty.ocupation">
                         </div>
                     </div>
                     <div class="row offset-top">
                         <div class="col-md-2 pull-down">Education:</div>
                         <div class="col-md-10 pull-down">
-                            <input name="education" type="text" class="form-control" ng-model="personData.education">
+                            <input name="education" type="text" class="form-control" ng-model="personDataDirty.education">
                         </div>
                     </div>
                     <div class="row offset-top">
