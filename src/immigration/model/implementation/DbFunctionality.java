@@ -2,11 +2,11 @@ package immigration.model.implementation;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import immigration.dao.*;
 import immigration.model.interfaces.IModel;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.Serializable;
 import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.Base64;
@@ -167,5 +167,14 @@ public class DbFunctionality implements IModel  {
         String className = nameOfClass.getSimpleName();
         System.out.println(className);
         return em.createQuery("SELECT p FROM " + className + " p").getResultList();
+    }
+    @Transactional
+   @Override
+    public boolean addProgramInWay(Person person, Programs programs ){
+       Way way = new Way();
+       way.setPersonData(person.getPersonData());
+       way.setProgram(programs);
+       em.persist(way);
+        return true;
     }
 }

@@ -1,5 +1,6 @@
 package immigration.model.interfaces;
 
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import immigration.dao.*;
 
 import java.sql.Blob;
@@ -38,4 +39,7 @@ public interface IModel {
     List<PersonCustomData> getPersonCustomDataByPersonId(Person person);
 
     boolean updatePersonCustomData(PersonCustomData pcd);
+
+    public boolean addProgramInWay(Person person, Programs programs);
+
 }
