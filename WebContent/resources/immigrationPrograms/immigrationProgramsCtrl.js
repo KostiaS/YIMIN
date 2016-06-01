@@ -101,9 +101,12 @@ angular.module("mainApp")
             };
 
             $scope.getPrograms = function () {
+                console.log($scope.countrySelected);
+                console.log($scope.categorySelected);
                 var url = URLS.URL + ":" + URLS.PORT + URLS.ROOT_CONTEXT + URLS.REQUEST_MAPPING
                             + URLS.IMIGRATION_PROGRAMS;
-                postRequest(url, [$scope.countrySelected, {category: $scope.categorySelected}])
+                postRequest(url,
+                        {param: [{countryId: $scope.countrySelected.countryId}, {category: $scope.categorySelected}]})
                     .then(function (response) {
                         $scope.programs = response.response;
                 // getPrograms([$scope.countrySelected, {category: $scope.categorySelected}]).then(function (response) {
