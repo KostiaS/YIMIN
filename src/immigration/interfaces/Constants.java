@@ -16,4 +16,5 @@ public class Constants {
     public static final String GET_MASK = "/get_mask";
     public static final String GET_CUSTOM_DATA = "/get_custom_data";
     public static final String UPDATE_CUSTOM_DATA_VALUE = "/save_custom_data";
+    public static final String ADD_PROGRAM_IN_WAY = "/add_program_in_way";
 }

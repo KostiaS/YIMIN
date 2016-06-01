@@ -1,10 +1,7 @@
 package immigration.controller;
 
-import com.fasterxml.jackson.core.JsonParser;
-
-import com.fasterxml.jackson.core.TreeNode;
-import com.fasterxml.jackson.databind.MappingJsonFactory;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import immigration.dao.*;
 import immigration.interfaces.*;
 import immigration.model.interfaces.IModel;
@@ -98,23 +95,18 @@ public class Controller {
      * for view 6 in flow
      * @value country - country of imigratiom
      * @value programs - category of program to imigration
-     * @param strJson - Example of json : [{"countryId":1},{"category":"category106"}]
+     * @param jsonObject - Example of json : {"param":[{"countryId":1},{"category":"category1"}]}
      * @return Json list of programs
      */
     @RequestMapping(value = Constants.IMIGRATION_PROGRAMS, method = RequestMethod.POST)
-    public List<Programs> getPrograms(@RequestBody String strJson){
-        MappingJsonFactory factory = new MappingJsonFactory();
+    public List<Programs> getPrograms(@RequestBody ObjectNode jsonObject){
         ObjectMapper om = new ObjectMapper();
-        JsonParser parser = null;
         Country country=null;
         Programs programs = null;
         try {
-            parser = factory.createParser(strJson);
-            parser.nextToken();
 
-            TreeNode node = parser.readValueAsTree();
-            country = om.readValue(node.get(0).toString(), Country.class);
-            programs = om.readValue(node.get(1).toString(), Programs.class);
+            country = om.readValue(jsonObject.get("param").get(0).toString(), Country.class);
+            programs = om.readValue(jsonObject.get("param").get(1).toString(), Programs.class);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -178,4 +170,24 @@ public class Controller {
     public boolean updatePersonCustomData(@RequestBody PersonCustomData pcd){
         return model.updatePersonCustomData(pcd);
     }
+    /**
+     *<p>add program to your way</p>
+     * @param jsonObject - json example {"param":[{"personData":{"personDataId":1}},{"programId":1}]}
+     */
+    @RequestMapping(value=Constants.ADD_PROGRAM_IN_WAY, method = RequestMethod.POST)
+    public boolean addProgramInWay(@RequestBody ObjectNode jsonObject){
+        ObjectMapper om = new ObjectMapper();
+        Person person = null;
+        Programs programs = null;
+        try {
+
+            person = om.readValue(jsonObject.get("param").get(0).toString(), Person.class);
+            programs = om.readValue(jsonObject.get("param").get(1).toString(), Programs.class);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return model.addProgramInWay(person, programs);
+    }
+
 }
