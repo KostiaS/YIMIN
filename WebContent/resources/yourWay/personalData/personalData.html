@@ -58,10 +58,34 @@
                 <div id="line"></div>
                 <div class="row">
                     <div class="col-md-6">
-                        <button class="astext">View additional data</button>
+                        <button class="astext" ng-click="viewAdditionalData()">View additional data</button>
                     </div>
                     <div class="col-md-6">
-                        <button class="btn btn-default pull-right" ng-click="setPersonData()">Change your data</button>
+                        <button class="btn btn-default pull-right" ng-click="setPersonData()" ng-hide="showPersonCustomData">Change your data</button>
+                    </div>
+                </div>
+                <div id="{{$index}}" class="row" ng-show="showPersonCustomData" ng-repeat="item in personCustomData">
+                    <div class="col-md-3">
+                        <span>{{item.fieldNames.name}}</span>
+                    </div>
+                    <div class="col-md-2">
+                        <input class="btn-block" type="text" ng-model="item.value" ng-disabled="inputDisabled[$index]">
+                    </div>
+                    <div class="col-md-1">
+                        <button class="btn btn-default btn-xs" ng-hide="inputDisabled[$index]"
+                            ng-click="saveChangedCustomData($index)">ok</button>
+                    </div>
+                    <div class="col-md-2">
+                        <button class="btn btn-default btn-xs" ng-click="changeCustomData($index)">{{btnText[$index]}}</button>
+                    </div>
+                    <div class="col-md-1">
+                        <button class="btn btn-default btn-xs">Remove</button>
+                    </div>
+                    <div class="col-md-3">
+                        <select class="btn-block" ng-change="updateSelect()" ng-model="selected"
+                                ng-options="item.fieldNames.id for item in personCustomData track by item.personCustomDataId">
+                            <option value="" disabled>For some forms this value?</option>
+                        </select>
                     </div>
                 </div>
             </div>

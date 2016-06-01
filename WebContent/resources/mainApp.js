@@ -16,7 +16,9 @@ angular.module("mainApp", ["ngRoute", "commonHttpRequests", "commonServices"])
         "LIST_OF_DOC": "/list_of_documents",
         "GET_DOC": "/get_doc",
         "PERSONAL_DATA": "/person_data",
-        "SAVE_PERSON_DATA": "/save_person_data"
+        "SAVE_PERSON_DATA": "/save_person_data",
+        "GET_CUSTOM_DATA": "/get_custom_data",
+        "UPDATE_CUSTOM_DATA_VALUE": "/save_custom_data"
     })
     .config(function($routeProvider, $locationProvider) {
         $locationProvider.html5Mode(true);

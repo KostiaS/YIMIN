@@ -2,9 +2,13 @@ angular.module("mainApp")
     .controller("personalDataCtrl", ["URLS", "getRequest", "postRequest", "session", "$scope",
         function (URLS, getRequest, postRequest, session, $scope) {
 
+            $scope.showPersonCustomData = false;
+
             $scope.personDataDirty = {};
             $scope.sexDirty = {};
             $scope.birthdayDirty = {};
+
+            $scope.personCustomDataDirty = [];
 
             $scope.getPersonData = function () {
                 getRequest(URLS.URL + ":" + URLS.PORT + URLS.ROOT_CONTEXT + URLS.REQUEST_MAPPING
@@ -60,5 +64,73 @@ angular.module("mainApp")
                     ? $scope.personDataDirty.birthdate
                         = $scope.birthdayDirty.year + "-" + $scope.birthdayDirty.month + "-" + $scope.birthdayDirty.day
                     : $scope.personData.birthdate = $scope.dateArray[0] + "-" + $scope.dateArray[1] + "-" + $scope.dateArray[2];
+            }
+            
+            $scope.viewAdditionalData = function () {
+                postRequest(URLS.URL + ":" + URLS.PORT + URLS.ROOT_CONTEXT + URLS.REQUEST_MAPPING
+                        + URLS.GET_CUSTOM_DATA, {personId: session.userId}).then(function (response) {
+                    $scope.personCustomData = response.response;
+                    fillInputDisabled();
+                    fillCounters();
+                    fillBtnText();
+                    $scope.showPersonCustomData = true;
+                })
+            };
+            
+            function fillInputDisabled() {
+                $scope.inputDisabled = [$scope.personCustomData.length];
+                for (var i = 0; i < $scope.personCustomData.length; i++) {
+                    $scope.inputDisabled[i] = true;
+                }
+            }
+
+            function fillCounters() {
+                $scope.counter = [$scope.personCustomData.length];
+                for (var i = 0; i < $scope.personCustomData.length; i++) {
+                    $scope.counter[i] = 0;
+                }
+            }
+
+            function fillBtnText() {
+                $scope.btnText = [$scope.personCustomData.length];
+                for (var i = 0; i < $scope.personCustomData.length; i++) {
+                    $scope.btnText[i] = "Change value";
+                }
+            }
+
+            var flag = false;
+            
+
+            $scope.changeCustomData = function (index) {
+                $scope.counter[index]++;
+                if (flag == false) cloneAllPersonCustomData();
+                function cloneAllPersonCustomData() {
+                    angular.copy($scope.personCustomData, $scope.personCustomDataDirty);
+                    flag = true;
+                }
+                if($scope.counter[index] % 2 != 0) {
+                    angular.copy($scope.personCustomData[index], $scope.personCustomDataDirty[index]);
+                    $scope.inputDisabled[index] = false;
+                    $scope.btnText[index] = "Cancel";
+                } else {
+                    angular.copy($scope.personCustomDataDirty[index], $scope.personCustomData[index]);
+                    $scope.inputDisabled[index] = true;
+                    $scope.btnText[index] = "Change value";
+                }
+            };
+            
+            $scope.saveChangedCustomData = function (index) {
+                var customData = $scope.personCustomData[index];
+                postRequest(URLS.URL + ":" + URLS.PORT + URLS.ROOT_CONTEXT + URLS.REQUEST_MAPPING
+                        + URLS.UPDATE_CUSTOM_DATA_VALUE, {
+                            value: customData.value,
+                            fieldNames: {id: customData.fieldNames.id},
+                            personCustomDataId: customData.personCustomDataId,
+                            personData: {personDataId: customData.personData.personDataId}
+                            }).then(function (response) {
+                    $scope.counter[index]++;
+                    $scope.inputDisabled[index] = true;
+                    $scope.btnText[index] = "Change value";
+                })
             }
     }]);
