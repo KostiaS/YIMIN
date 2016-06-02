@@ -17,15 +17,17 @@ angular.module("mainApp")
             };
 
             $scope.updateDocumentSelect = function () {
-
+                $scope.getDocument();
             };
 
             $scope.getDocument = function () {
                 var urlDoc = URLS.URL + ":" + URLS.PORT + URLS.ROOT_CONTEXT + URLS.REQUEST_MAPPING
                     + URLS.GET_DOC;
-                postRequest(urlDoc, $scope.documentSelected).then(function (response) {
+                postRequest(urlDoc, {"docId": 1}/*$scope.documentSelected*/).then(function (response) {
                     // $scope.programSteps = response.programSteps;
-                    $scope.programSteps.steps = response.response;
+                    $scope.programDocument = response.response;
+                    $scope.downloadedFormSrc = 'data:image/jpg;base64,' + $scope.programDocument;
+                    $scope.changeSource();
                 });
             };
 
@@ -60,11 +62,20 @@ angular.module("mainApp")
                 $location.path("/registration");
             };
             
-            $scope.downloadedFormSrc = "#";
+            // $scope.downloadedFormSrc = "#";
             
-            $scope.changeSource = function (source) {
+            // $scope.changeSource = function (source) {
+            //     var imagePreviewElem = angular.element(document.querySelector('#preview'));
+            //     imagePreviewElem.attr('src', source);
+            // };
+            
+            $scope.changeSource = function () {
                 var imagePreviewElem = angular.element(document.querySelector('#preview'));
-                imagePreviewElem.attr('src', source);
+                imagePreviewElem.attr('src', $scope.downloadedFormSrc);
             };
+
+            // $scope.downloadForm = function () {
+            //    
+            // }
             
         }]);

@@ -101,8 +101,6 @@ angular.module("mainApp")
             };
 
             $scope.getPrograms = function () {
-                console.log($scope.countrySelected);
-                console.log($scope.categorySelected);
                 var url = URLS.URL + ":" + URLS.PORT + URLS.ROOT_CONTEXT + URLS.REQUEST_MAPPING
                             + URLS.IMIGRATION_PROGRAMS;
                 postRequest(url,
