@@ -101,26 +101,28 @@ angular.module("mainApp")
             var flag = false;
             
 
-            $scope.changeCustomData = function (index) {
+            $scope.changeCustomData = function (index, item) {
                 $scope.counter[index]++;
                 if (flag == false) cloneAllPersonCustomData();
                 function cloneAllPersonCustomData() {
                     angular.copy($scope.personCustomData, $scope.personCustomDataDirty);
                     flag = true;
                 }
+                var itemIndex = $scope.personCustomData.indexOf(item);
                 if($scope.counter[index] % 2 != 0) {
-                    angular.copy($scope.personCustomData[index], $scope.personCustomDataDirty[index]);
+                    angular.copy($scope.personCustomData[itemIndex], $scope.personCustomDataDirty[itemIndex]);
                     $scope.inputDisabled[index] = false;
                     $scope.btnText[index] = "Cancel";
                 } else {
-                    angular.copy($scope.personCustomDataDirty[index], $scope.personCustomData[index]);
+                    angular.copy($scope.personCustomDataDirty[itemIndex], $scope.personCustomData[itemIndex]);
                     $scope.inputDisabled[index] = true;
                     $scope.btnText[index] = "Change value";
                 }
             };
             
-            $scope.saveChangedCustomData = function (index) {
-                var customData = $scope.personCustomData[index];
+            $scope.saveChangedCustomData = function (index, item, remove) {
+                var itemIndex = $scope.personCustomData.indexOf(item);
+                var customData = $scope.personCustomData[itemIndex];
                 postRequest(URLS.URL + ":" + URLS.PORT + URLS.ROOT_CONTEXT + URLS.REQUEST_MAPPING
                         + URLS.UPDATE_CUSTOM_DATA_VALUE, {
                             value: customData.value,
@@ -128,9 +130,22 @@ angular.module("mainApp")
                             personCustomDataId: customData.personCustomDataId,
                             personData: {personDataId: customData.personData.personDataId}
                             }).then(function (response) {
-                    $scope.counter[index]++;
-                    $scope.inputDisabled[index] = true;
-                    $scope.btnText[index] = "Change value";
+                    if(remove != true) { 
+                        $scope.counter[index]++;
+                        $scope.inputDisabled[index] = true;
+                        $scope.btnText[index] = "Change value";
+                    }
                 })
+            };
+            
+            $scope.checkNotNull = function (item) {
+                return item.value != null;
+            };
+            
+            $scope.removeCustomData = function (item) {
+                var index = $scope.personCustomData.indexOf(item);
+                $scope.personCustomData[index].value = null;
+                var remove = true;
+                $scope.saveChangedCustomData(index, item, remove);
             }
     }]);

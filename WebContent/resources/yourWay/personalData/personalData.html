@@ -64,7 +64,8 @@
                         <button class="btn btn-default pull-right" ng-click="setPersonData()" ng-hide="showPersonCustomData">Change your data</button>
                     </div>
                 </div>
-                <div id="{{$index}}" class="row" ng-show="showPersonCustomData" ng-repeat="item in personCustomData">
+                <div id="{{$index}}" class="row" ng-show="showPersonCustomData"
+                        ng-repeat="item in personCustomData | filter: checkNotNull track by item.personCustomDataId">
                     <div class="col-md-3">
                         <span>{{item.fieldNames.name}}</span>
                     </div>
@@ -73,13 +74,13 @@
                     </div>
                     <div class="col-md-1">
                         <button class="btn btn-default btn-xs" ng-hide="inputDisabled[$index]"
-                            ng-click="saveChangedCustomData($index)">ok</button>
+                            ng-click="saveChangedCustomData($index, item, null)">ok</button>
                     </div>
                     <div class="col-md-2">
-                        <button class="btn btn-default btn-xs" ng-click="changeCustomData($index)">{{btnText[$index]}}</button>
+                        <button class="btn btn-default btn-xs" ng-click="changeCustomData($index, item)">{{btnText[$index]}}</button>
                     </div>
                     <div class="col-md-1">
-                        <button class="btn btn-default btn-xs">Remove</button>
+                        <button class="btn btn-default btn-xs" ng-click="removeCustomData(item)">Remove</button>
                     </div>
                     <div class="col-md-3">
                         <select class="btn-block" ng-change="updateSelect()" ng-model="selected"
