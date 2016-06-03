@@ -45,4 +45,6 @@ public interface IModel {
     List<Programs> getProgramsListFromWay(Person person);
 
     boolean deleteProgramFromWay(Person person, Programs programs);
+
+    int getValutationOfWayProg(ObjectNode jsonObject);
 }
