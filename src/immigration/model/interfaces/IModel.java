@@ -42,4 +42,7 @@ public interface IModel {
 
     public boolean addProgramInWay(Person person, Programs programs);
 
+    List<Programs> getProgramsListFromWay(Person person);
+
+    boolean deleteProgramFromWay(Person person, Programs programs);
 }

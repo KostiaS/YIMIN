@@ -172,9 +172,30 @@ public class DbFunctionality implements IModel  {
    @Override
     public boolean addProgramInWay(Person person, Programs programs ){
        Way way = new Way();
-       way.setPersonData(person.getPersonData());
+       way.setPersonData(getPersonDataById(person.getPersonId()));
        way.setProgram(programs);
        em.persist(way);
         return true;
+    }
+
+    @Override
+    public List<Programs> getProgramsListFromWay(Person person) {
+        return em.createQuery("select w from Way w where w.personData.person.id ="+person.getPersonId()).getResultList();
+    }
+    @Transactional
+    @Override
+    public boolean deleteProgramFromWay(Person person, Programs programs) {
+
+        Query getWayId = em.createQuery("select w.WayId from Way w where w.program.ProgramId = ?1 and w.personData.person.PersonId = ?2");
+        getWayId.setParameter(2,person.getPersonId()).setParameter(1,programs.getProgramId());
+        int wayId = (Integer)getWayId.getSingleResult();
+
+        int wdDel =  em.createQuery("delete from WayDocuments wd where wd.way.WayId = "+ wayId).executeUpdate();
+        int wsDel = em.createQuery("delete from WaySteps ws where ws.way.WayId ="+wayId).executeUpdate();
+
+        Query query = em.createQuery("delete from Way w where w.WayId = "+wayId);
+
+        int i = query.executeUpdate();
+        return i>0 ? true : false;
     }
 }

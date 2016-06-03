@@ -17,4 +17,6 @@ public class Constants {
     public static final String GET_CUSTOM_DATA = "/get_custom_data";
     public static final String UPDATE_CUSTOM_DATA_VALUE = "/save_custom_data";
     public static final String ADD_PROGRAM_IN_WAY = "/add_program_in_way";
+    public static final String GET_PROGRAMS_LIST_FROM_WAY = "/get_programs_list_from_way";
+    public static final String DELETE_PROGRAM_FROM_WAY = "/delete_program_from_way";
 }
