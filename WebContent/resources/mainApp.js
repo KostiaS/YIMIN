@@ -15,10 +15,14 @@ angular.module("mainApp", ["ngRoute", "commonHttpRequests", "commonServices"])
         "STEPS": "/steps",
         "LIST_OF_DOC": "/list_of_documents",
         "GET_DOC": "/get_doc",
+        "GET_MASK": "/get_mask",
         "PERSONAL_DATA": "/person_data",
         "SAVE_PERSON_DATA": "/save_person_data",
         "GET_CUSTOM_DATA": "/get_custom_data",
-        "UPDATE_CUSTOM_DATA_VALUE": "/save_custom_data"
+        "UPDATE_CUSTOM_DATA_VALUE": "/save_custom_data",
+        "ADD_PROGRAM_IN_WAY": "/add_program_in_way",
+        "GET_PROGRAMS_LIST_FROM_WAY": "/get_programs_list_from_way",
+        "DELETE_PROGRAM_FROM_WAY": "/delete_program_from_way"
     })
     .config(function($routeProvider, $locationProvider) {
         $locationProvider.html5Mode(true);

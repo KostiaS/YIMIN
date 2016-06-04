@@ -1,9 +1,9 @@
 angular.module("mainApp")
-    .controller("immigrationProgramsCtrl", ["URLS", "getRequest", "postRequest", "authService", /*"getCategories", "getPrograms", "getProgramSteps",*/
+    .controller("immigrationProgramsCtrl", ["URLS", "getRequest", "postRequest", "authService", "session", /*"getCategories", "getPrograms", "getProgramSteps",*/
         "$scope", "$rootScope", "$location",
-        function(URLS, getRequest, postRequest, authService,/*getCategories, getPrograms, getProgramSteps,*/ $scope, $rootScope, $location) {
+        function(URLS, getRequest, postRequest, authService, session,/*getCategories, getPrograms, getProgramSteps,*/ $scope, $rootScope, $location) {
             
-            $scope.mode = {value: "clean", btnAddProgram: false};
+            $scope.mode = {value: "clean", btnAddProgram: true};
             $scope.programMenuVisibility = false;
             $scope.programMenuBtnsVisibility = false;
             
@@ -28,6 +28,10 @@ angular.module("mainApp")
                         text: "To get a program suitable to you click",
                         btn: "Filter by requirements"
                     };
+                    var urlProgramsList = URLS.URL + ":" + URLS.PORT + URLS.ROOT_CONTEXT + URLS.REQUEST_MAPPING + URLS.GET_PROGRAMS_LIST_FROM_WAY;
+                    postRequest(urlProgramsList, {personId: session.userId}).then(function (response) {
+                        $scope.programList = response.response;
+                    });
                     // if()
                 } else {
                     $scope.btnDescripText = {
@@ -162,6 +166,13 @@ angular.module("mainApp")
                     $scope.mode.value = "dirty";
                 }
                 // $scope.documentSelected.doc = {};
+            };
+
+            $scope.addProgramToYourWay = function () {
+                var url = URLS.URL + ":" + URLS.PORT + URLS.ROOT_CONTEXT + URLS.REQUEST_MAPPING
+                    + URLS.ADD_PROGRAM_IN_WAY;
+                postRequest(url, {"param":[{"personId":session.userId}, {"programId": $scope.programSelected.programId}]})
+                    .then(function (response) {})
             };
 
 
