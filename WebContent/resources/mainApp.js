@@ -30,7 +30,9 @@ angular.module("mainApp", ["ngRoute", "commonHttpRequests", "commonServices"])
             .when("/registration", {templateUrl: "resources/registration/registration.html"})
             .when("/programs/countries-and-categories", {templateUrl: "resources/registration/registration.html"})
             .when("/programs/requirements", {templateUrl: "resources/registration/registration.html"})
-            .when("/yourway/personal-data", {templateUrl: "resources/yourWay/personalData/personalData.html"});
+            .when("/yourway/personal-data", {templateUrl: "resources/yourWay/personalData/personalData.html"})
+            .when("/yourway/your-immigration", {templateUrl: "resources/yourWay/yourImmigration/immigrationProgramsStart.html"})
+            .when("/programs/choose-by-requirements", {templateUrl: "resources/immigrationPrograms/chooseByRequirements/chooseByRequirements.html"})
     })
     .directive('pwCheck', [function () {
         return {

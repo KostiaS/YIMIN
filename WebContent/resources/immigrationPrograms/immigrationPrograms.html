@@ -21,13 +21,13 @@
                 </select>
             </div>
             <div style="margin-top: 10%">
-                <p class="text-center">Click Your Way to get a program suitable to you</p>
-                <button class="btn btn-default center-block" ng-click="goToYourWayView()">Your Way</button>
+                <p class="text-center">{{btnDescripText.text}}</p>
+                <button class="btn btn-default center-block" ng-click="clickHandler()">{{btnDescripText.btn}}</button>
             </div>
         </div>
 
-        <div class="col-md-8" ng-switch on="mode.value" ng-show="programMenuVisibility">
-            <div ng-switch-when="clean" width="750px" class="well">
+        <div class="col-md-8 well" ng-switch on="mode.value" ng-show="programMenuVisibility">
+            <div ng-switch-when="clean" width="750px">
                 <div class="row">
                     <h5 class="text-center">{{programSelected.description}}</h5>
                     <div class="col-md-4">
@@ -42,7 +42,7 @@
                 </div>
             </div>
 
-            <div ng-switch-when="dirty" width="750px" class="well">
+            <div ng-switch-when="dirty" width="750px">
                 <div class="row">
                     <div class="col-md-4">
                         <button class="btn btn-default btn-block"
@@ -66,6 +66,9 @@
                 <h5 class="text-center">{{programSelected.description}}</h5>
                 <ng-include src="programMenuUrl.url" ng-controller="programMenuCtrl"></ng-include>
             </div>
+            <button class="btn btn-primary center-block" ng-click="addProgramToYourWay()" ng-show="mode.btnAddProgram"
+                    style="margin-top: 15px">Add this program to Your Way
+            </button>
         </div>
     </div>
 </div>
