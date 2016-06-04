@@ -374,15 +374,17 @@ public class RandomPersistObject {
 
     @Transactional
     public void generateWay() {
-        for (int i = 0; i < 10; i++) {
-            Way way = new Way();
-            way.setEndDate(ig.getRandomData());
-            way.setFinished(ig.booleanGenerator());
-            way.setProgram(getRandomObjectFromDb(new Programs()));
-            way.setStartDate(ig.getRandomData());
-            way.setPersonData(getRandomObjectFromDb(new PersonData()));
-            em.persist(way);
-            em.clear();
+        for (int i = 1; i < countPersons; i++) {
+            for( int x = 0; x <3 ;x++) {
+                Way way = new Way();
+                way.setEndDate(ig.getRandomData());
+                way.setFinished(ig.booleanGenerator());
+                way.setProgram(getRandomObjectFromDb(new Programs()));
+                way.setStartDate(ig.getRandomData());
+                way.setPersonData(getObjectFromDbById(PersonData.class,i));
+                em.persist(way);
+                em.clear();
+            }
         }
         generateWayDocuments();
         generateWaySteps();
@@ -390,27 +392,32 @@ public class RandomPersistObject {
     }
 
     private void generateWaySteps() {
-        for (int i = 0; i < 10; i++) {
-            WaySteps waysteps = new WaySteps();
-            waysteps.setDone(ig.booleanGenerator());
-            waysteps.setInformation(ig.randomString("information", i));
-            waysteps.setProgSteps(getRandomObjectFromDb(new ProgramStep()));
-            waysteps.setWay(getRandomObjectFromDb(new Way()));
-            em.persist(waysteps);
-            em.clear();
+
+        for (int i = 1; i < countPersons; i++) {
+            for (int x = 0; x < 10; x++) {
+                WaySteps waysteps = new WaySteps();
+                waysteps.setDone(ig.booleanGenerator());
+                waysteps.setInformation(ig.randomString("information", i));
+                waysteps.setProgSteps(getRandomObjectFromDb(new ProgramStep()));
+                waysteps.setWay(getObjectFromDbById(Way.class,i));
+                em.persist(waysteps);
+                em.clear();
+            }
         }
     }
 
     @Transactional
     public void generateWayDocuments() {
-        for (int i = 0; i < 10; i++) {
-            WayDocuments wayDocuments = new WayDocuments();
-            wayDocuments.setReady(ig.booleanGenerator());
-            wayDocuments.setPersonDocument(getRandomObjectFromDb(new PersonDocuments()));
-            wayDocuments.setRequiredDocument(getRandomObjectFromDb(new Documents()));
-            wayDocuments.setWay(getRandomObjectFromDb(new Way()));
-            em.persist(wayDocuments);
-            em.clear();
+        for (int i = 1; i < countPersons; i++) {
+            for (int x = 0; x < 10; x++) {
+                WayDocuments wayDocuments = new WayDocuments();
+                wayDocuments.setReady(ig.booleanGenerator());
+                wayDocuments.setPersonDocument(getRandomObjectFromDb(new PersonDocuments()));
+                wayDocuments.setRequiredDocument(getRandomObjectFromDb(new Documents()));
+                wayDocuments.setWay(getObjectFromDbById(Way.class,i));
+                em.persist(wayDocuments);
+                em.clear();
+            }
         }
     }
 
