@@ -3,13 +3,14 @@ angular.module("mainApp")
         "$scope", "$rootScope", "$location",
         function(URLS, getRequest, postRequest, authService, session,/*getCategories, getPrograms, getProgramSteps,*/ $scope, $rootScope, $location) {
             
-            $scope.mode = {value: "clean", btnAddProgram: true};
+            $scope.mode = {value: "clean", btnAddProgram: false, textProgramInWay: false};
             $scope.programMenuVisibility = false;
             $scope.programMenuBtnsVisibility = false;
             
             $scope.programSteps = {steps: []};
             $scope.programDocuments = {docs: []};
             $scope.documentSelected = {doc: {}};
+            $scope.programSelected = null;
             
             $scope.btnText = {
                 clean: {steps: "Steps", requirements: "Requirements", formsAndGuides: "Forms and guides"},
@@ -28,16 +29,34 @@ angular.module("mainApp")
                         text: "To get a program suitable to you click",
                         btn: "Filter by requirements"
                     };
-                    var urlProgramsList = URLS.URL + ":" + URLS.PORT + URLS.ROOT_CONTEXT + URLS.REQUEST_MAPPING + URLS.GET_PROGRAMS_LIST_FROM_WAY;
-                    postRequest(urlProgramsList, {personId: session.userId}).then(function (response) {
-                        $scope.programList = response.response;
-                    });
-                    // if()
                 } else {
                     $scope.btnDescripText = {
                         text: "Click Your Way to get a program suitable to you",
                         btn: "Your Way"
                     };
+                }
+            };
+
+            $scope.addProgramToYourWayButtonTrigger = function () {
+                if(!!session.listOfPrograms && $scope.programSelected != null) {
+                    var flag = false;
+                    for(var i = 0; i < session.listOfPrograms.length; i++) {
+                        if(session.listOfPrograms[i].program.programId == $scope.programSelected.programId) {
+                            flag = true;
+                            break;
+                        }
+                    }
+                    if(flag) {
+                        $scope.mode.btnAddProgram = false;
+                        $scope.mode.textProgramInWay = true;
+                    } else {
+                        $scope.mode.btnAddProgram = true;
+                        $scope.mode.textProgramInWay = false;
+                    }
+                    // flag ? $scope.mode.btnAddProgram = false : $scope.mode.btnAddProgram = true;
+                } else {
+                    $scope.mode.btnAddProgram = false;
+                    $scope.mode.textProgramInWay = false;
                 }
             };
             
@@ -47,12 +66,19 @@ angular.module("mainApp")
                 $scope.viewTrigger();
             });
 
+            $scope.$watch(function () {
+                return !!session.listOfPrograms;
+            }, function () {
+                $scope.addProgramToYourWayButtonTrigger();
+            });
+
             $scope.clickHandler = function () {
                 authService.isAuthenticated() ? $location.path("/programs/choose-by-requirements") : $scope.goToYourWayView();
             };
 
             $scope.updateCountrySelect = function () {
                 $scope.getCategories();
+                $scope.programSelected = null;
                 if($scope.categorySelected != null) {
                     $scope.programMenuVisibility = false;
                     $scope.mode.value = "clean";
@@ -64,12 +90,11 @@ angular.module("mainApp")
             };
 
             $scope.updateProgramSelect = function() {
-                if($scope.programSelected != null) {
-                    $scope.programMenuVisibility = true;
-                }
                 var urlSteps = URLS.URL + ":" + URLS.PORT + URLS.ROOT_CONTEXT + URLS.REQUEST_MAPPING + URLS.STEPS;
                 var urlDocuments = URLS.URL + ":" + URLS.PORT + URLS.ROOT_CONTEXT + URLS.REQUEST_MAPPING + URLS.LIST_OF_DOC;
                 if($scope.programSelected != null) {
+                    $scope.addProgramToYourWayButtonTrigger();
+                    $scope.programMenuVisibility = true;
                     postRequest(urlSteps, $scope.programSelected).then(function (response) {
                         // $scope.programSteps = response.programSteps;
                         $scope.programSteps.steps = response.response;
@@ -132,7 +157,7 @@ angular.module("mainApp")
 
             $scope.getPrograms = function () {
                 var url = URLS.URL + ":" + URLS.PORT + URLS.ROOT_CONTEXT + URLS.REQUEST_MAPPING
-                            + URLS.IMIGRATION_PROGRAMS;
+                            + URLS.IMMIGRATION_PROGRAMS;
                 postRequest(url,
                         {param: [{countryId: $scope.countrySelected.countryId}, {category: $scope.categorySelected}]})
                     .then(function (response) {

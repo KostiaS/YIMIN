@@ -10,7 +10,11 @@ angular.module("commonServices")
             this.userId = null;
             this.userRole = null;
         };
-        this.addListOfCoutries = function () {
-            
+        
+        this.addUpdateListOfPrograms = function (listOfPrograms) {
+            this.listOfPrograms = listOfPrograms;
+        };
+        this.clearListOfPrograms = function () {
+            this.listOfPrograms = null;
         }
     });
