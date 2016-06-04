@@ -111,7 +111,7 @@ public class Controller {
      * @value country - country of imigratiom
      * @value programs - category of program to imigration
      */
-    @RequestMapping(value = Constants.IMIGRATION_PROGRAMS, method = RequestMethod.POST)
+    @RequestMapping(value = Constants.IMMIGRATION_PROGRAMS, method = RequestMethod.POST)
     public List<Programs> getPrograms(@RequestBody ObjectNode jsonObject) {
         ObjectMapper om = new ObjectMapper();
         Country country = null;
@@ -246,6 +246,15 @@ public class Controller {
             e.printStackTrace();
         }
         return model.deleteProgramFromWay(person, programs);
+    }
+    /**
+     * <p>get valuation about complete of program 0-100%</p>
+     *  @parm jsonObject  {"param":[{"personId":1}},{"programId":1}]}
+     *  for flow 23 in web
+     */
+    @RequestMapping(value = Constants.GET_VALUATION_OF_WAY_PROG, method = RequestMethod.POST)
+    public int getValutationOfWayProg(@RequestBody ObjectNode jsonObject) {
+        return model.getValutationOfWayProg(jsonObject);
     }
 
 }

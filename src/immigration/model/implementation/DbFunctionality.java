@@ -2,11 +2,14 @@ package immigration.model.implementation;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import immigration.dao.*;
 import immigration.model.interfaces.IModel;
+import org.hibernate.mapping.Collection;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
 import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.Base64;
@@ -197,5 +200,32 @@ public class DbFunctionality implements IModel  {
 
         int i = query.executeUpdate();
         return i>0 ? true : false;
+    }
+
+    public <T> T getObjectFromJson (ObjectNode jsonObj,int index,Class <T>  nameOfClass){
+        ObjectMapper om = new ObjectMapper();
+        T choosenObject = null;
+        try {
+            choosenObject = om.readValue(jsonObj.get("param").get(index).toString(),nameOfClass);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return choosenObject;
+    }
+    @Override
+    public int getValutationOfWayProg(ObjectNode jsonObject) {
+        Person person = getObjectFromJson(jsonObject,0,Person.class);
+        Programs programs = getObjectFromJson(jsonObject,1,Programs.class);
+        Query query = em.createQuery("select ws.isDone from WaySteps ws where ws.way.WayId = " +
+                "(select w.WayId from Way w where w.program.ProgramId = ?1 and w.personData.person.PersonId = ?2)");
+        query.setParameter(1,programs.getProgramId()).setParameter(2,person.getPersonId());
+        List result = query.getResultList();
+        int totalSteps = result.size();
+        int eachStepPcnt = 100/totalSteps;
+        int totalPcnt = 0;
+        for(Object x : result){
+            if((Boolean)x)totalPcnt+=eachStepPcnt;
+        }
+        return totalPcnt;
     }
 }
