@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.IOException;
 import java.sql.Blob;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 
@@ -175,9 +176,45 @@ public class DbFunctionality implements IModel  {
    @Override
     public boolean addProgramInWay(Person person, Programs programs ){
        Way way = new Way();
-       way.setPersonData(getPersonDataById(person.getPersonId()));
+       way.setPersonData(getPersonDataById(person.getPersonData().getPersonDataId()));
        way.setProgram(programs);
        em.persist(way);
+        generateWaySteps(way.getWayId(),programs.getProgramId());
+        generateWayDocuments(way.getWayId(),programs.getProgramId());
+        return true;
+    }
+@Transactional
+    private boolean generateWayDocuments(int wayId, int programId) {
+       Query query = em.createQuery("select doc from Documents doc where doc.prog.ProgramId ="+programId);
+        List docList = query.getResultList();
+        for(int i=0;i<docList.size();i++) {
+            WayDocuments wayDocuments = new WayDocuments();
+            wayDocuments.setReady(false);
+            wayDocuments.setRequiredDocument((Documents) docList.get(i));
+            wayDocuments.setWay(getObjectFromDbById(Way.class, wayId));
+            em.persist(wayDocuments);
+            em.clear();
+        }
+        return true;
+    }
+
+    private PersonData getPersonDataByPersonId(int personDataId) {
+        return (PersonData)em.createQuery("select pd from PersonData pd where pd.PersonDataId ="+personDataId).getSingleResult();
+    }
+    @Transactional
+    private boolean generateWaySteps(int wayId, int programId) {
+       List programlist = em.createQuery("select ps from ProgramStep ps where ps.program.ProgramId ="+programId).getResultList();
+        int coutnOfSteps = programlist.size();
+        for(int i = 0;i<coutnOfSteps;i++) {
+            WaySteps waysteps = new WaySteps();
+            waysteps.setDone(false);
+            //waysteps.setInformation("");
+            waysteps.setProgSteps((ProgramStep)programlist.get(i));
+            waysteps.setWay(getObjectFromDbById(Way.class, wayId));
+            em.persist(waysteps);
+            em.clear();
+
+        }
         return true;
     }
 

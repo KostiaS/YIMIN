@@ -135,18 +135,20 @@ public class RandomPersistObject {
 
     @Transactional
     public void generateDocumentsList() {
-        for (int i = 1; i < DOCUMENTS_AMOUNT; i++) {
-            Documents documents = new Documents();
-            documents.setFile(generateBlobFromFile(PHOTO_FILE_PATH));
-            documents.setMask(generateBlobFromFile(MASK_FILE_PATH));
-            documents.setNameOfFile("doc.jpg");
-            documents.setImage(ig.randomString("www.photoRepository", i) + ".com");
-            documents.setType(ig.statusGenerator(5, "Type"));
-            documents.setProg(getRandomObjectFromDb(new Programs()));
-            documents.setDocumentField(generateDocumentFieldList());
-            em.persist(documents);
-            em.flush();
-            em.clear();
+        for (int i = 1; i < PROGRAMS_AMOUNT; i++) {
+            for(int x =0;x< ig.randBetween(3,10);x++) {
+                Documents documents = new Documents();
+                documents.setFile(generateBlobFromFile(PHOTO_FILE_PATH));
+                documents.setMask(generateBlobFromFile(MASK_FILE_PATH));
+                documents.setNameOfFile("doc.jpg");
+                documents.setImage(ig.randomString("www.photoRepository"+x, i) + ".com");
+                documents.setType(ig.statusGenerator(5, "Type"));
+                documents.setProg(getObjectFromDbById(Programs.class,i));
+                documents.setDocumentField(generateDocumentFieldList());
+                em.persist(documents);
+                em.flush();
+                em.clear();
+            }
         }
         System.out.println("DOC LIST PERSISTED");
     }
