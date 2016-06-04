@@ -1,0 +1,20 @@
+<script>
+    $('.pull-down').each(function() {
+        var $this=$(this);
+        $this.css('margin-top', $this.parent().height()-$this.height())
+    });
+</script>
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <h1 class="pull-right">Your Way</h1>
+        </div>
+        <div class="col-md-6 pull-down">
+            <h4 class="pull-left">Your immigration</h4>
+        </div>
+    </div>
+    <h4 class="text-center" style="margin-top: 115px;">Choose immigration program to fill form</h4>
+    <h4 class="text-center">for this program</h4>
+    <button class="btn btn-default center-block" style="margin-top: 90px;"
+        ng-click="goToImmigrationProgramsView()">Choose a program</button>
+</div>

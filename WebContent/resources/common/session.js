@@ -10,4 +10,7 @@ angular.module("commonServices")
             this.userId = null;
             this.userRole = null;
         };
+        this.addListOfCoutries = function () {
+            
+        }
     });

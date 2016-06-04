@@ -1,9 +1,9 @@
 angular.module("mainApp")
-    .controller("immigrationProgramsCtrl", ["URLS", "getRequest", "postRequest", /*"getCategories", "getPrograms", "getProgramSteps",*/
+    .controller("immigrationProgramsCtrl", ["URLS", "getRequest", "postRequest", "authService", /*"getCategories", "getPrograms", "getProgramSteps",*/
         "$scope", "$rootScope", "$location",
-        function(URLS, getRequest, postRequest, /*getCategories, getPrograms, getProgramSteps,*/ $scope, $rootScope, $location) {
+        function(URLS, getRequest, postRequest, authService,/*getCategories, getPrograms, getProgramSteps,*/ $scope, $rootScope, $location) {
             
-            $scope.mode = {value: "clean"};
+            $scope.mode = {value: "clean", btnAddProgram: false};
             $scope.programMenuVisibility = false;
             $scope.programMenuBtnsVisibility = false;
             
@@ -19,6 +19,32 @@ angular.module("mainApp")
                     formsAndGuides: {steps: "Steps", requirements: "Requirements", formsAndGuides: "Forms and guides:"}
                 },
                 show: {steps: "Steps", requirements: "Requirements", formsAndGuides: "Forms and guides"}
+            };
+            
+            
+            $scope.viewTrigger = function () {
+                if(authService.isAuthenticated()) {
+                    $scope.btnDescripText = {
+                        text: "To get a program suitable to you click",
+                        btn: "Filter by requirements"
+                    };
+                    // if()
+                } else {
+                    $scope.btnDescripText = {
+                        text: "Click Your Way to get a program suitable to you",
+                        btn: "Your Way"
+                    };
+                }
+            };
+            
+            $scope.$watch(function () {
+                return authService.isAuthenticated();
+            }, function () {
+                $scope.viewTrigger();
+            });
+
+            $scope.clickHandler = function () {
+                authService.isAuthenticated() ? $location.path("/programs/choose-by-requirements") : $scope.goToYourWayView();
             };
 
             $scope.updateCountrySelect = function () {
