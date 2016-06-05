@@ -224,7 +224,7 @@ public class Controller {
      */
 
     @RequestMapping(value = Constants.GET_PROGRAMS_LIST_FROM_WAY, method = RequestMethod.POST)
-    public List<Programs> getProgramsListFromWay(@RequestBody Person person) {
+    public List<Way> getProgramsListFromWay(@RequestBody Person person) {
         return model.getProgramsListFromWay(person);
     }
     /**

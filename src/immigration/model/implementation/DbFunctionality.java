@@ -219,7 +219,7 @@ public class DbFunctionality implements IModel  {
     }
 
     @Override
-    public List<Programs> getProgramsListFromWay(Person person) {
+    public List<Way> getProgramsListFromWay(Person person) {
         return em.createQuery("select w from Way w where w.personData.person.id ="+person.getPersonId()).getResultList();
     }
     @Transactional
