@@ -258,6 +258,7 @@ public class DbFunctionality implements IModel  {
         query.setParameter(1,programs.getProgramId()).setParameter(2,person.getPersonId());
         List result = query.getResultList();
         int totalSteps = result.size();
+        if(totalSteps == 0)return 100;
         int eachStepPcnt = 100/totalSteps;
         int totalPcnt = 0;
         for(Object x : result){

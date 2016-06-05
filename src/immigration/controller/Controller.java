@@ -50,6 +50,19 @@ public class Controller {
     /**
      * <p>update person data by id</p>
      * for view 17 in flow
+     * @param personData - json {"identify":"2140934024",
+     *                   "birthdate":"1990-06-14",
+     *                   "firstName":"firstname0",
+     *                   "lastName":"lastname0",
+     *                   "gender":"f",
+     *                   "familyStatus":"familyStatus2",
+     *                   "workphone":"+570848475",
+     *                   "mobilephone":"+766456184",
+     *                   "homephone":"+500747931",
+     *                   "ocupation":"occupation0",
+     *                   "education":"education0",
+     *                   "birthplace":{"countryId":6},
+     *                   "personDataId":1}
      */
     @RequestMapping(value = Constants.SAVE_PERSON_DATA, method = RequestMethod.POST)
     public boolean savePersonData(@RequestBody PersonData personData) {
@@ -68,7 +81,7 @@ public class Controller {
     /**
      * <p>get list of countries whe present embassy of country from parameter</p>
      *
-     * @param countryWichEmbassySearched - country which embassy we search
+     * @param countryWichEmbassySearched - json {"countryId":1} country which embassy we search
      *                                   for view 4 in flow
      */
     @RequestMapping(value = Constants.LIST_OF_COUNTRIES_BY_EMBASSY, method = RequestMethod.POST)
@@ -80,6 +93,7 @@ public class Controller {
      * <p>get information about embassy in country</p>
      *
      * @return list of json embassies
+     * @param parameters - json [{"countryId":1},{"countryId":21}]
      * @value countryOfEmbassy - embassies of this country we search
      * @value locationCountry - location where we search embassy
      * for view 5 in flow
@@ -94,7 +108,7 @@ public class Controller {
     /**
      * <p>get categories of program using </p>
      * for view 6 in flow
-     *
+     *@param country - {"countryId":2}
      * @return list of values - categories
      */
     @RequestMapping(value = Constants.CATEGORIES_OF_PROGRAM_BY_COUNTRY, method = RequestMethod.POST)
