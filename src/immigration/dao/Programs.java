@@ -27,13 +27,12 @@ public class Programs {
 	boolean enabled;
 	Date modified;
 	Date startDate;
-	
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	int ProgramId;
 	
-	@JsonIgnore
+
 	@ManyToOne
 	Country country;
 
@@ -79,7 +78,7 @@ public class Programs {
 	
 	
 	
-	@JsonIgnore
+
 	public Country getCountry() {
 		return country;
 	}
