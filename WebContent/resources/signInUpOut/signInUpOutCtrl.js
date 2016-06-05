@@ -38,8 +38,13 @@ angular.module("mainApp")
                                 ? session.create(1, 1, "role_user")
                                 : console.log("error: wrong email or password");
                             var urlProgramsList = URLS.URL + ":" + URLS.PORT + URLS.ROOT_CONTEXT + URLS.REQUEST_MAPPING + URLS.GET_PROGRAMS_LIST_FROM_WAY;
-                            postRequest(urlProgramsList, {personId: 1}).then(function (programs) {
-                                session.addUpdateListOfPrograms(programs.response);
+                            postRequest(urlProgramsList, {personId: session.userId}).then(function (programs) {
+                                if(!!programs.response) {
+                                    if(programs.response.length > 0)
+                                        session.addUpdateListOfPrograms(programs.response);
+                                } else {
+                                    session.addUpdateListOfPrograms(null);
+                                }
                             });
 
                             // $scope.emitAuthorization();
@@ -84,7 +89,9 @@ angular.module("mainApp")
                 $scope.signOut = function () {
                     $scope.authorization.status = false;
                     session.destroy();
-                    session.clearListOfPrograms();
+                    if ($location.path().split("/")[1] == "yourway") {
+                            $location.path("/yourway");
+                    }
                 };
 
                 $scope.signUp = function () {

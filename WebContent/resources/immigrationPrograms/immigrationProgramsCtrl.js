@@ -3,7 +3,13 @@ angular.module("mainApp")
         "$scope", "$rootScope", "$location",
         function(URLS, getRequest, postRequest, authService, session,/*getCategories, getPrograms, getProgramSteps,*/ $scope, $rootScope, $location) {
             
-            $scope.mode = {value: "clean", btnAddProgram: false, textProgramInWay: false};
+            $scope.mode = {
+                value: "clean",
+                btnAddProgram: false,
+                textProgramInWay: false,
+                yourPrograms: session.yourProgramsMarker
+            };
+            
             $scope.programMenuVisibility = false;
             $scope.programMenuBtnsVisibility = false;
             
@@ -23,6 +29,8 @@ angular.module("mainApp")
             };
             
             
+            $scope.yourImmigrationPrograms = session.listOfPrograms;
+            
             $scope.viewTrigger = function () {
                 if(authService.isAuthenticated()) {
                     $scope.btnDescripText = {
@@ -38,7 +46,7 @@ angular.module("mainApp")
             };
 
             $scope.addProgramToYourWayButtonTrigger = function () {
-                if(!!session.listOfPrograms && $scope.programSelected != null) {
+                if(session.listOfPrograms != null && $scope.programSelected != null) {
                     var flag = false;
                     for(var i = 0; i < session.listOfPrograms.length; i++) {
                         if(session.listOfPrograms[i].program.programId == $scope.programSelected.programId) {
@@ -67,7 +75,7 @@ angular.module("mainApp")
             });
 
             $scope.$watch(function () {
-                return !!session.listOfPrograms;
+                return session.listOfPrograms;
             }, function () {
                 $scope.addProgramToYourWayButtonTrigger();
             });
@@ -148,7 +156,7 @@ angular.module("mainApp")
             $scope.getCategories = function () {
                 var url = URLS.URL + ":" + URLS.PORT + URLS.ROOT_CONTEXT + URLS.REQUEST_MAPPING
                             + URLS.CATEGORIES_OF_PROGRAM_BY_COUNTRY;
-                postRequest(url, $scope.countrySelected).then(function (response) {
+                postRequest(url, {countryId: $scope.countrySelected.countryId}).then(function (response) {
                     $scope.categories = response.response;
                 // getCategories($scope.countrySelected).then(function (response) {
                 //     $scope.categories = response.categories;

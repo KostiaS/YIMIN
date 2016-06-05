@@ -9,12 +9,21 @@ angular.module("commonServices")
             this.id = null;
             this.userId = null;
             this.userRole = null;
+
+            this.addUpdateListOfPrograms(null);
+            this.programsMarker(null);
+            this.programsFulfillment(null);
         };
         
         this.addUpdateListOfPrograms = function (listOfPrograms) {
             this.listOfPrograms = listOfPrograms;
         };
-        this.clearListOfPrograms = function () {
-            this.listOfPrograms = null;
+        
+        this.programsMarker = function (value) {
+            this.yourProgramsMarker = value;
+        };
+
+        this.programsFulfillment = function (fulfillment) {
+            this.fulfillment = fulfillment;
         }
     });

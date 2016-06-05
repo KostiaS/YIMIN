@@ -22,7 +22,8 @@ angular.module("mainApp", ["ngRoute", "commonHttpRequests", "commonServices"])
         "UPDATE_CUSTOM_DATA_VALUE": "/save_custom_data",
         "ADD_PROGRAM_IN_WAY": "/add_program_in_way",
         "GET_PROGRAMS_LIST_FROM_WAY": "/get_programs_list_from_way",
-        "DELETE_PROGRAM_FROM_WAY": "/delete_program_from_way"
+        "DELETE_PROGRAM_FROM_WAY": "/delete_program_from_way",
+        "GET_VALUATION_OF_WAY_PROG": "/get_valuation_of_way_prog"
     })
     .config(function($routeProvider, $locationProvider) {
         $locationProvider.html5Mode(true);
@@ -35,8 +36,9 @@ angular.module("mainApp", ["ngRoute", "commonHttpRequests", "commonServices"])
             .when("/programs/countries-and-categories", {templateUrl: "resources/registration/registration.html"})
             .when("/programs/requirements", {templateUrl: "resources/registration/registration.html"})
             .when("/yourway/personal-data", {templateUrl: "resources/yourWay/personalData/personalData.html"})
-            .when("/yourway/your-immigration", {templateUrl: "resources/yourWay/yourImmigration/immigrationProgramsStart.html"})
+            .when("/yourway/immigration", {templateUrl: "resources/yourWay/yourImmigration/immigrationProgramsStart.html"})
             .when("/programs/choose-by-requirements", {templateUrl: "resources/immigrationPrograms/chooseByRequirements/chooseByRequirements.html"})
+            .when("/yourway/immigration/programs", {templateUrl: "resources/immigrationPrograms/immigrationPrograms.html"})
     })
     .directive('pwCheck', [function () {
         return {
@@ -69,13 +71,15 @@ angular.module("mainApp", ["ngRoute", "commonHttpRequests", "commonServices"])
             }
         };
     })
-    .controller("mainAppCtrl", ["$scope", "$rootScope", "$location", function($scope, $rootScope, $location) {
+    .controller("mainAppCtrl", ["session", "$scope", "$rootScope", "$location",
+            function(session, $scope, $rootScope, $location) {
 
         $scope.goToYourWayView = function() {
             $location.path("/yourway");
         };
 
         $scope.goToImmigrationProgramsView = function() {
+            session.clearYourProgramsMarker();
             $scope.countryForImmigration = null;
             $location.path("/programs");
         };

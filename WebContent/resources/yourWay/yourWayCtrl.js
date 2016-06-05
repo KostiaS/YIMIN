@@ -1,6 +1,6 @@
 angular.module("mainApp")
-    .controller("yourWayCtrl", ["authService", "$scope", "$rootScope", "$http", "$location",
-        function(authService, $scope, $rootScope, $http, $location) {
+    .controller("yourWayCtrl", ["authService", "URLS", "postRequest", "session", "$scope", "$rootScope", "$http", "$location",
+        function(authService, URLS, postRequest, session, $scope, $rootScope, $http, $location) {
 
             //$scope.$on("authorizationBroadcasted", function(event, args) {
             //    $scope.authorization = args.authorization;
@@ -32,11 +32,36 @@ angular.module("mainApp")
             };
 
             $scope.goToYourImmigrationView = function () {
-                $location.path("/yourway/your-immigration")
+                if(session.listOfPrograms) {
+                    session.programsMarker(true);
+                    // getProgramsFulfillment();
+                    $location.path("/yourway/immigration/programs");
+                } else {
+                    session.programsMarker(null);
+                    $location.path("/yourway/immigration");
+                }
             };
 
-            $scope.goToImmigrationProgramsView = function() {
-                $location.path("/programs");
-            };
-
+            function getProgramsFulfillment() {
+                var url = URLS.URL + ":" + URLS.PORT + URLS.ROOT_CONTEXT + URLS.REQUEST_MAPPING +
+                        URLS.GET_VALUATION_OF_WAY_PROG;
+                var programsFullfillment = [];
+                for(var i = 0; i <session.listOfPrograms.length; i++) {
+                    var programId = session.listOfPrograms[i].program.programId;
+                    postRequest(
+                        url,
+                        {"param": [
+                            {"personId": session.userId},
+                            {"programId": programId}
+                        ]}
+                    ).then(function (response) {
+                        console.log(response.response);
+                        programsFullfillment.push({
+                            progarmId: programId,
+                            fulfillment: response.response});
+                    })
+                }
+                // console.log(programsFullfillment);
+                // session.programsFulfillment(programsFullfillment);
+            }
     }]);

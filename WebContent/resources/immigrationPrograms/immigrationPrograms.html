@@ -1,28 +1,64 @@
-<div class="container" style="margin-top: 2%" ng-controller="immigrationProgramsCtrl">
-    <h4 class="text-center" style="margin-bottom: 2%">Here you can get information about the immigration programs, download forms and guides</h4>
+<script>
+    $('.pull-down').each(function() {
+        var $this=$(this);
+        $this.css('margin-top', $this.parent().height()-$this.height())
+    });
+</script>
+<div class="container" ng-controller="immigrationProgramsCtrl">
+    <div ng-switch on="mode.yourPrograms">
+        <h4 class="text-center" ng-switch-default>
+            Here you can get information about the immigration programs, download forms and guides
+        </h4>
+        <div class="row" ng-switch-when="true">
+            <div class="col-md-6">
+                <h1 class="pull-right">Your Way</h1>
+            </div>
+            <div class="col-md-6 pull-down">
+                <h4 class="pull-left">Your immigration</h4>
+            </div>
+        </div>
+    </div>
     <div class="row">
-        <div class="col-md-4">
-            <div>
-                <select class="btn-block" ng-change="updateCountrySelect()" ng-model="countrySelected"
-                        ng-options="item.name for item in countries track by item.countryId">
-                    <option value="" disabled>Select country for immigration</option>
-                </select>
+        <div class="col-md-4" ng-switch on="mode.yourPrograms">
+            <div ng-switch-default>
+                <div>
+                    <select class="btn-block" ng-change="updateCountrySelect()" ng-model="$parent.countrySelected"
+                            ng-options="item.name for item in countries track by item.countryId">
+                        <option value="" disabled>Select country for immigration</option>
+                    </select>
+                </div>
+                <div style="margin-top: 10%">
+                    <select class="btn-block" ng-change="updateCategorySelect()" ng-model="$parent.categorySelected"
+                            ng-options="item for item in categories">
+                        <option value="" disabled>Select category of program</option>
+                    </select>
+                </div>
+                <div style="margin-top: 10%">
+                    <select class="btn-block" ng-change="updateProgramSelect()" ng-model="$parent.programSelected"
+                            ng-options="item.name for item in programs track by item.programId">
+                        <option value="" disabled>Select immigration program</option>
+                    </select>
+                </div>
+                <div style="margin-top: 10%">
+                    <p class="text-center">{{btnDescripText.text}}</p>
+                    <button class="btn btn-default center-block" ng-click="clickHandler()">{{btnDescripText.btn}}</button>
+                </div>
             </div>
-            <div style="margin-top: 10%">
-                <select class="btn-block" ng-change="updateCategorySelect()" ng-model="categorySelected"
-                        ng-options="item for item in categories">
-                    <option value="" disabled>Select category of program</option>
-                </select>
-            </div>
-            <div style="margin-top: 10%">
-                <select class="btn-block" ng-change="updateProgramSelect()" ng-model="programSelected"
-                        ng-options="item.name for item in programs track by item.programId">
-                    <option value="" disabled>Select immigration program</option>
-                </select>
-            </div>
-            <div style="margin-top: 10%">
-                <p class="text-center">{{btnDescripText.text}}</p>
-                <button class="btn btn-default center-block" ng-click="clickHandler()">{{btnDescripText.btn}}</button>
+
+            <div id="{{$index}}" class="row" ng-switch-when="true" ng-repeat="item in yourImmigrationPrograms">
+                <div class="col-md-8" style="margin-top: 5px">
+                    <p class="btn btn-default btn-block">
+                        {{$index + 1}}. <b>item.country.name.</b><br>
+                        {{item.program.category}}.<br>
+                        {{item.program.name}}
+                    </p>
+                </div>
+                <div class="col-md-2">
+                    {{}}
+                </div>
+                <div class="col-md-2">
+
+                </div>
             </div>
         </div>
 
