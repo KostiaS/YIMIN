@@ -212,7 +212,6 @@ angular.module("mainApp")
             };
 
             $scope.addProgramToYourWay = function () {
-                console.log({"param":[{"personId":session.userId}, {"programId": $scope.programSelected.programId}]});
                 var url = URLS.URL + ":" + URLS.PORT + URLS.ROOT_CONTEXT + URLS.REQUEST_MAPPING
                     + URLS.ADD_PROGRAM_IN_WAY;
                 postRequest(url, {"param":[{"personId":session.userId}, {"programId": $scope.programSelected.programId}]})
@@ -224,7 +223,7 @@ angular.module("mainApp")
             function updateProgramsInWay() {
                 var url = URLS.URL + ":" + URLS.PORT + URLS.ROOT_CONTEXT + URLS.REQUEST_MAPPING
                     + URLS.GET_PROGRAMS_LIST_FROM_WAY;
-                postRequest(url, {"param":[{"personId":session.userId}, {"programId": $scope.programSelected.programId}]})
+                postRequest(url, {personId: session.userId})
                     .then(function (response) {
                         session.addUpdateListOfPrograms(response.response);
                     })

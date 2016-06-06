@@ -8,11 +8,33 @@
         border: 1px solid black;
         border-radius: 4px;
     }
+
+    .equal {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .equal > div[class*='col-'] {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .vertical-align {
+        display: flex;
+        flex-direction: row;
+    }
+
+    .vertical-align > #buttonValigned {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
 </style>
 <script>
     $('.pull-down').each(function() {
-        var $this=$(this);
-        $this.css('margin-top', $this.parent().height()-$this.height())
+        var $this = $(this);
+        $this.css('margin-top', $this.parent().height() - $this.height())
     });
 </script>
 <div class="container" ng-controller="immigrationProgramsCtrl">
@@ -29,7 +51,7 @@
             </div>
         </div>
     </div>
-    <div class="row">
+    <div class="row equal vertical-align">
         <div class="col-md-4" ng-switch on="mode.yourPrograms">
             <div ng-switch-default>
                 <div>
@@ -71,6 +93,10 @@
                     <button class="btn btn-default btn-xs" ng-click="removeProgramFromWay(item)">Remove</button>
                 </div>
             </div>
+        </div>
+
+        <div id="buttonValigned" class="col-md-8" ng-show="mode.yourPrograms">
+            <button class="btn btn-default center-block" ng-click="goToImmigrationProgramsView()">Choose a new program</button>
         </div>
 
         <div class="col-md-8 well" ng-switch on="mode.value" ng-show="programMenuVisibility">
