@@ -8,23 +8,25 @@
         border: 1px solid black;
         border-radius: 4px;
     }
-
     .equal {
         display: flex;
         flex-wrap: wrap;
     }
-
     .equal > div[class*='col-'] {
         display: flex;
         flex-direction: column;
     }
-
     .vertical-align {
         display: flex;
         flex-direction: row;
     }
-
     .vertical-align > #buttonValigned {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .vertical-align > div > #pickedProgramValign {
         display: flex;
         align-items: center;
         justify-content: center;
@@ -79,23 +81,33 @@
             </div>
 
             <div id="{{$index}}" class="row vcenter" ng-switch-when="true" ng-repeat="item in yourImmigrationPrograms">
-                <div class="col-md-8" style="margin-top: 5px">
-                    <p class="btn btn-default btn-block">
+                <div class="col-md-6" style="margin-top: 5px">
+                    <p class="btn btn-default btn-block" ng-click="showProgramInformation(item)">
                         {{$index + 1}}. <b>{{item.program.country.name}}.</b><br>
                         {{item.program.category}}.<br>
                         {{item.program.name}}
                     </p>
                 </div>
-                <div class="col-md-2 border">
-                    {{getFulfillment(item)}}%
+                <div class="col-md-3">
+                    <div class="border btn-block text-center">
+                        {{getFulfillment(item)}}%
+                    </div>
                 </div>
-                <div class="col-md-2">
-                    <button class="btn btn-default btn-xs" ng-click="removeProgramFromWay(item)">Remove</button>
+                <div class="col-md-3">
+                    <button class="btn btn-default btn-xs btn-block" ng-click="removeProgramFromWay(item)">Remove</button>
                 </div>
+            </div>
+
+            <div id="pickedProgramValign" ng-switch-when="picked" class="center-block">
+                <p>
+                    <b>{{yourImmigrationPrograms[index].program.country.name}}.</b><br>
+                    {{yourImmigrationPrograms[index].program.category}}.<br>
+                    {{yourImmigrationPrograms[index].program.name}}
+                </p>
             </div>
         </div>
 
-        <div id="buttonValigned" class="col-md-8" ng-show="mode.yourPrograms">
+        <div id="buttonValigned" class="col-md-8" ng-show="mode.chooseNewProgramBtnState">
             <button class="btn btn-default center-block" ng-click="goToImmigrationProgramsView()">Choose a new program</button>
         </div>
 

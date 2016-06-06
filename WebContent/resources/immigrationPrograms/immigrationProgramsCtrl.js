@@ -7,7 +7,9 @@ angular.module("mainApp")
                 value: "clean",
                 btnAddProgram: false,
                 textProgramInWay: false,
-                yourPrograms: session.yourProgramsMarker
+                yourPrograms: session.yourProgramsMarker,
+                chooseNewProgramBtnState: session.chooseNewProgramBtnState,
+                yourProgramInfoState: false
             };
             
             $scope.programMenuVisibility = false;
@@ -49,11 +51,11 @@ angular.module("mainApp")
             };
 
             $scope.addProgramToYourWayButtonTrigger = function () {
-                if(session.listOfPrograms == null && $scope.programSelected != null) {
+                if(session.listOfPrograms == null && $scope.programSelected != null && $scope.mode.yourProgramInfoState == false) {
                     $scope.mode.btnAddProgram = true;
                     $scope.mode.textProgramInWay = false;
                 } else {
-                    if(session.listOfPrograms != null && $scope.programSelected != null) {
+                    if(session.listOfPrograms != null && $scope.programSelected != null && $scope.mode.yourProgramInfoState == false) {
                         var flag = false;
                         for(var i = 0; i < session.listOfPrograms.length; i++) {
                             if(session.listOfPrograms[i].program.programId == $scope.programSelected.programId) {
@@ -87,6 +89,12 @@ angular.module("mainApp")
             }, function () {
                 $scope.addProgramToYourWayButtonTrigger();
             });
+
+            // $scope.$watch(function(scope) {
+            //     return scope.mode.chooseNewProgramBtnState
+            // },
+            //     function() {}
+            // );
 
             $scope.clickHandler = function () {
                 authService.isAuthenticated() ? $location.path("/programs/choose-by-requirements") : $scope.goToYourWayView();
@@ -251,6 +259,17 @@ angular.module("mainApp")
                             ? session.addUpdateListOfPrograms(null)
                             : session.addUpdateListOfPrograms($scope.yourImmigrationPrograms);
                     })
+            };
+
+            $scope.showProgramInformation = function (item) {
+                $scope.index = $scope.yourImmigrationPrograms.indexOf(item);
+                $scope.programSelected = $scope.yourImmigrationPrograms[$scope.index].program;
+                session.chooseNewProgramButtonState(false);
+                $scope.mode.chooseNewProgramBtnState = session.chooseNewProgramBtnState;
+                $scope.mode.yourProgramInfoState = true;
+                session.programsMarker("picked");
+                $scope.mode.yourPrograms = session.yourProgramsMarker;
+                $scope.updateProgramSelect();
             };
 
 

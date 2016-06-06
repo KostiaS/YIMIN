@@ -80,6 +80,7 @@ angular.module("mainApp", ["ngRoute", "commonHttpRequests", "commonServices"])
 
         $scope.goToImmigrationProgramsView = function() {
             session.programsMarker(null);
+            session.chooseNewProgramButtonState(false);
             $scope.countryForImmigration = null;
             $location.path("/programs");
         };

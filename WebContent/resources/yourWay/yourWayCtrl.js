@@ -67,6 +67,7 @@ angular.module("mainApp")
                 }
                 $q.all(promises).then(function() {
                     session.programsFulfillment(programsFulfillment);
+                    session.chooseNewProgramButtonState(true);
                     $location.path("/yourway/immigration/programs");
                 });
             }
