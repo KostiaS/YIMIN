@@ -79,7 +79,7 @@ angular.module("mainApp", ["ngRoute", "commonHttpRequests", "commonServices"])
         };
 
         $scope.goToImmigrationProgramsView = function() {
-            session.clearYourProgramsMarker();
+            session.programsMarker(null);
             $scope.countryForImmigration = null;
             $location.path("/programs");
         };

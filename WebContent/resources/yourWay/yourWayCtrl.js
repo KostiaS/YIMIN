@@ -1,6 +1,6 @@
 angular.module("mainApp")
-    .controller("yourWayCtrl", ["authService", "URLS", "postRequest", "session", "$scope", "$rootScope", "$http", "$location",
-        function(authService, URLS, postRequest, session, $scope, $rootScope, $http, $location) {
+    .controller("yourWayCtrl", ["authService", "URLS", "postRequest", "session", "$scope", "$rootScope", "$http", "$q", "$location",
+        function(authService, URLS, postRequest, session, $scope, $rootScope, $http, $q, $location) {
 
             //$scope.$on("authorizationBroadcasted", function(event, args) {
             //    $scope.authorization = args.authorization;
@@ -34,34 +34,40 @@ angular.module("mainApp")
             $scope.goToYourImmigrationView = function () {
                 if(session.listOfPrograms) {
                     session.programsMarker(true);
-                    // getProgramsFulfillment();
-                    $location.path("/yourway/immigration/programs");
+                    var programsFulfillment = [];
+                    getProgramsFulfillment(programsFulfillment);
+                    // $location.path("/yourway/immigration/programs");
                 } else {
                     session.programsMarker(null);
                     $location.path("/yourway/immigration");
                 }
             };
 
-            function getProgramsFulfillment() {
+            function getProgramsFulfillment(programsFulfillment) {
+                var promises = [];
                 var url = URLS.URL + ":" + URLS.PORT + URLS.ROOT_CONTEXT + URLS.REQUEST_MAPPING +
-                        URLS.GET_VALUATION_OF_WAY_PROG;
-                var programsFullfillment = [];
+                    URLS.GET_VALUATION_OF_WAY_PROG;
                 for(var i = 0; i <session.listOfPrograms.length; i++) {
-                    var programId = session.listOfPrograms[i].program.programId;
-                    postRequest(
-                        url,
-                        {"param": [
-                            {"personId": session.userId},
-                            {"programId": programId}
-                        ]}
-                    ).then(function (response) {
-                        console.log(response.response);
-                        programsFullfillment.push({
-                            progarmId: programId,
-                            fulfillment: response.response});
-                    })
+                    (function () {
+                        var local = i;
+                        var programId = session.listOfPrograms[local].program.programId;
+                        var promise = postRequest(
+                            url,
+                            {"param": [
+                                {"personId": session.userId},
+                                {"programId": programId}
+                            ]}
+                        ).then(function (response) {
+                            programsFulfillment.push({
+                                programId: programId,
+                                fulfillment: response.response});
+                        });
+                        promises.push(promise);
+                    })();
                 }
-                // console.log(programsFullfillment);
-                // session.programsFulfillment(programsFullfillment);
+                $q.all(promises).then(function() {
+                    session.programsFulfillment(programsFulfillment);
+                    $location.path("/yourway/immigration/programs");
+                });
             }
     }]);

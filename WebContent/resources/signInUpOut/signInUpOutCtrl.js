@@ -40,8 +40,11 @@ angular.module("mainApp")
                             var urlProgramsList = URLS.URL + ":" + URLS.PORT + URLS.ROOT_CONTEXT + URLS.REQUEST_MAPPING + URLS.GET_PROGRAMS_LIST_FROM_WAY;
                             postRequest(urlProgramsList, {personId: session.userId}).then(function (programs) {
                                 if(!!programs.response) {
-                                    if(programs.response.length > 0)
+                                    if(programs.response.length > 0) {
                                         session.addUpdateListOfPrograms(programs.response);
+                                    } else {
+                                        session.addUpdateListOfPrograms(null);
+                                    }
                                 } else {
                                     session.addUpdateListOfPrograms(null);
                                 }

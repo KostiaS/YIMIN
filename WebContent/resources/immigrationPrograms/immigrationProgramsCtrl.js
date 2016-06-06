@@ -37,34 +37,42 @@ angular.module("mainApp")
                         text: "To get a program suitable to you click",
                         btn: "Filter by requirements"
                     };
+                    $scope.addProgramToYourWayButtonTrigger();
                 } else {
                     $scope.btnDescripText = {
                         text: "Click Your Way to get a program suitable to you",
                         btn: "Your Way"
                     };
+                    $scope.mode.btnAddProgram = false;
+                    $scope.mode.textProgramInWay = false;
                 }
             };
 
             $scope.addProgramToYourWayButtonTrigger = function () {
-                if(session.listOfPrograms != null && $scope.programSelected != null) {
-                    var flag = false;
-                    for(var i = 0; i < session.listOfPrograms.length; i++) {
-                        if(session.listOfPrograms[i].program.programId == $scope.programSelected.programId) {
-                            flag = true;
-                            break;
+                if(session.listOfPrograms == null && $scope.programSelected != null) {
+                    $scope.mode.btnAddProgram = true;
+                    $scope.mode.textProgramInWay = false;
+                } else {
+                    if(session.listOfPrograms != null && $scope.programSelected != null) {
+                        var flag = false;
+                        for(var i = 0; i < session.listOfPrograms.length; i++) {
+                            if(session.listOfPrograms[i].program.programId == $scope.programSelected.programId) {
+                                flag = true;
+                                break;
+                            }
                         }
-                    }
-                    if(flag) {
-                        $scope.mode.btnAddProgram = false;
-                        $scope.mode.textProgramInWay = true;
+                        if(flag) {
+                            $scope.mode.btnAddProgram = false;
+                            $scope.mode.textProgramInWay = true;
+                        } else {
+                            $scope.mode.btnAddProgram = true;
+                            $scope.mode.textProgramInWay = false;
+                        }
+                        // flag ? $scope.mode.btnAddProgram = false : $scope.mode.btnAddProgram = true;
                     } else {
-                        $scope.mode.btnAddProgram = true;
+                        $scope.mode.btnAddProgram = false;
                         $scope.mode.textProgramInWay = false;
                     }
-                    // flag ? $scope.mode.btnAddProgram = false : $scope.mode.btnAddProgram = true;
-                } else {
-                    $scope.mode.btnAddProgram = false;
-                    $scope.mode.textProgramInWay = false;
                 }
             };
             
@@ -101,7 +109,9 @@ angular.module("mainApp")
                 var urlSteps = URLS.URL + ":" + URLS.PORT + URLS.ROOT_CONTEXT + URLS.REQUEST_MAPPING + URLS.STEPS;
                 var urlDocuments = URLS.URL + ":" + URLS.PORT + URLS.ROOT_CONTEXT + URLS.REQUEST_MAPPING + URLS.LIST_OF_DOC;
                 if($scope.programSelected != null) {
-                    $scope.addProgramToYourWayButtonTrigger();
+                    if(authService.isAuthenticated()) {
+                        $scope.addProgramToYourWayButtonTrigger();
+                    }
                     $scope.programMenuVisibility = true;
                     postRequest(urlSteps, $scope.programSelected).then(function (response) {
                         // $scope.programSteps = response.programSteps;
@@ -202,10 +212,46 @@ angular.module("mainApp")
             };
 
             $scope.addProgramToYourWay = function () {
+                console.log({"param":[{"personId":session.userId}, {"programId": $scope.programSelected.programId}]});
                 var url = URLS.URL + ":" + URLS.PORT + URLS.ROOT_CONTEXT + URLS.REQUEST_MAPPING
                     + URLS.ADD_PROGRAM_IN_WAY;
                 postRequest(url, {"param":[{"personId":session.userId}, {"programId": $scope.programSelected.programId}]})
-                    .then(function (response) {})
+                    .then(function (response) {
+                        updateProgramsInWay();
+                    })
+            };
+
+            function updateProgramsInWay() {
+                var url = URLS.URL + ":" + URLS.PORT + URLS.ROOT_CONTEXT + URLS.REQUEST_MAPPING
+                    + URLS.GET_PROGRAMS_LIST_FROM_WAY;
+                postRequest(url, {"param":[{"personId":session.userId}, {"programId": $scope.programSelected.programId}]})
+                    .then(function (response) {
+                        session.addUpdateListOfPrograms(response.response);
+                    })
+            }
+
+            $scope.getFulfillment = function (item) {
+                var index = $scope.yourImmigrationPrograms.indexOf(item);
+                var id = $scope.yourImmigrationPrograms[index].program.programId;
+                for (var i = 0; i < session.fulfillment.length; i++) {
+                    if(id == session.fulfillment[i].programId) {
+                        return session.fulfillment[i].fulfillment;
+                    }
+                }
+            };
+            
+            $scope.removeProgramFromWay = function (item) {
+                var index = $scope.yourImmigrationPrograms.indexOf(item);
+                var id = $scope.yourImmigrationPrograms[index].program.programId;
+                var url = URLS.URL + ":" + URLS.PORT + URLS.ROOT_CONTEXT + URLS.REQUEST_MAPPING
+                    + URLS.DELETE_PROGRAM_FROM_WAY;
+                postRequest(url, {param: [{personId: session.userId}, {programId: id}]})
+                    .then(function (response) {
+                        $scope.yourImmigrationPrograms.splice(index, 1);
+                        $scope.yourImmigrationPrograms.length == 0
+                            ? session.addUpdateListOfPrograms(null)
+                            : session.addUpdateListOfPrograms($scope.yourImmigrationPrograms);
+                    })
             };
 
 

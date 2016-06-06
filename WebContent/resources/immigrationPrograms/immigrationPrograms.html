@@ -1,3 +1,14 @@
+<style>
+    .vcenter {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .border {
+        border: 1px solid black;
+        border-radius: 4px;
+    }
+</style>
 <script>
     $('.pull-down').each(function() {
         var $this=$(this);
@@ -45,19 +56,19 @@
                 </div>
             </div>
 
-            <div id="{{$index}}" class="row" ng-switch-when="true" ng-repeat="item in yourImmigrationPrograms">
+            <div id="{{$index}}" class="row vcenter" ng-switch-when="true" ng-repeat="item in yourImmigrationPrograms">
                 <div class="col-md-8" style="margin-top: 5px">
                     <p class="btn btn-default btn-block">
-                        {{$index + 1}}. <b>item.country.name.</b><br>
+                        {{$index + 1}}. <b>{{item.program.country.name}}.</b><br>
                         {{item.program.category}}.<br>
                         {{item.program.name}}
                     </p>
                 </div>
-                <div class="col-md-2">
-                    {{}}
+                <div class="col-md-2 border">
+                    {{getFulfillment(item)}}%
                 </div>
                 <div class="col-md-2">
-
+                    <button class="btn btn-default btn-xs" ng-click="removeProgramFromWay(item)">Remove</button>
                 </div>
             </div>
         </div>
