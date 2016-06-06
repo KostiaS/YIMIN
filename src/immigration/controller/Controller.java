@@ -212,7 +212,7 @@ public class Controller {
      * <p>add program to your way</p>
      * first parameter should be person data
      *
-     * @param jsonObject - json example {"param":[{"personId":1}},{"programId":1}]}
+     * @param jsonObject - json example {"param":[{"personId":1},{"programId":1}]}
      *                   for button add this program in my way in flow 32-37
      */
     @RequestMapping(value = Constants.ADD_PROGRAM_IN_WAY, method = RequestMethod.POST)

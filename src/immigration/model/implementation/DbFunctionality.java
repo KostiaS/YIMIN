@@ -176,7 +176,7 @@ public class DbFunctionality implements IModel  {
    @Override
     public boolean addProgramInWay(Person person, Programs programs ){
        Way way = new Way();
-       way.setPersonData(getPersonDataById(person.getPersonData().getPersonDataId()));
+       way.setPersonData(getPersonDataById(person.getPersonId()));
        way.setProgram(programs);
        em.persist(way);
         generateWaySteps(way.getWayId(),programs.getProgramId());
