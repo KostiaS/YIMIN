@@ -37,9 +37,7 @@
     <div ng-switch-when="picked" class="margin-top">
         <div id="{{$index}}" class="vcenter" ng-repeat="item in programSteps.steps | orderBy: 'stepOrder'">
             <div class="col-md-1">
-                <div class="center-block">
-                    <input type="checkbox" ng-model="markStepFulfillment[$index]">
-                </div>
+                <input class="pull-right" type="checkbox" ng-model="markStepFulfillment[$index]">
             </div>
             <div class="col-md-6">
                 <button class="btn btn-default btn-block" ng-click="programStepDescription(item.step.description)">

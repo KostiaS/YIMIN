@@ -19,7 +19,7 @@ angular.module("mainApp")
             };
 
             $scope.updateDocumentSelect = function () {
-                $scope.getDocument();
+                if($scope.documentSelected.doc) $scope.getDocument();
             };
 
             $scope.getDocument = function () {
@@ -74,6 +74,14 @@ angular.module("mainApp")
             $scope.changeSource = function () {
                 var imagePreviewElem = angular.element(document.querySelector('#preview'));
                 imagePreviewElem.attr('src', $scope.downloadedFormSrc);
+            };
+            
+            $scope.completeForm = function () {
+                
+            };
+            
+            $scope.viewDownloadForm = function () {
+                
             };
 
             // $scope.markStepFulfillment = [];

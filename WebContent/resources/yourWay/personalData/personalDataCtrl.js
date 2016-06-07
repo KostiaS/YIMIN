@@ -19,7 +19,7 @@ angular.module("mainApp")
                 })
             }();
             
-            $scope.mode = {value: "getData"};
+            $scope.mode = {value: "getData", arrow: false, btnAdditionalDataText: "View additional data"};
             
             $scope.setPersonData = function () {
                 angular.copy($scope.personData, $scope.personDataDirty);
@@ -67,14 +67,23 @@ angular.module("mainApp")
             }
             
             $scope.viewAdditionalData = function () {
-                postRequest(URLS.URL + ":" + URLS.PORT + URLS.ROOT_CONTEXT + URLS.REQUEST_MAPPING
+                if(!$scope.mode.arrow) {
+                    postRequest(URLS.URL + ":" + URLS.PORT + URLS.ROOT_CONTEXT + URLS.REQUEST_MAPPING
                         + URLS.GET_CUSTOM_DATA, {personId: session.userId}).then(function (response) {
-                    $scope.personCustomData = response.response;
-                    fillInputDisabled();
-                    fillCounters();
-                    fillBtnText();
-                    $scope.showPersonCustomData = true;
-                })
+                        $scope.personCustomData = response.response;
+                        fillInputDisabled();
+                        fillCounters();
+                        fillBtnText();
+                        $scope.mode.arrow = true;
+                        $scope.mode.btnAdditionalDataText = "Close additional data";
+                        $scope.showPersonCustomData = true;
+                    })
+                } else {
+                    $scope.mode.arrow = false;
+                    $scope.mode.btnAdditionalDataText = "View additional data";
+                    $scope.showPersonCustomData = false;
+                }
+
             };
             
             function fillInputDisabled() {

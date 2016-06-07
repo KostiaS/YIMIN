@@ -1,65 +1,92 @@
-<div class="row" ng-init="init()">
-    <div class="col-md-4" ng-switch on="mode.complete">
-        <div ng-switch-when="false">
-            <select class="btn-block" ng-change="updateDocumentSelect()" ng-model="documentSelected.doc"
-                    ng-options="item.docId for item in programDocuments.docs track by item.docId">
-                <option value="" disabled>Select form/guide</option>
-            </select>
+<style>
+    .margin-top div + div {
+        margin-top: 3px;
+    }
+</style>
+<div class="row" ng-switch on="mode.yourPrograms">
+    <div ng-switch-default ng-init="init()">
+        <div class="col-md-4" ng-switch on="mode.complete">
+            <div ng-switch-when="false">
+                <select class="btn-block" ng-change="updateDocumentSelect()" ng-model="documentSelected.doc"
+                        ng-options="item.docId for item in programDocuments.docs track by item.docId">
+                    <option value="" disabled>Select form/guide</option>
+                </select>
 
-            <div ng-show="downloadCompleteBtnsVisibility" style="margin-top: 10%">
-                <!--<pdf-download url="http://localhost:8080/yimin/api/get_doc" filename="form.jpg"-->
-                              <!--form-src="downloadedFormSrc" change-src="changeSource(source)"></pdf-download>-->
-                <doc-download form-ref="downloadedFormSrc" filename="form.jpg"></doc-download>
-      <button class="btn btn-default btn-block" style="margin-top: 10%"
-              ng-click="completeForm()">Complete the form</button>
-  </div>
-</div>
+                <div ng-show="downloadCompleteBtnsVisibility" style="margin-top: 10%">
+                    <!--<pdf-download url="http://localhost:8080/yimin/api/get_doc" filename="form.jpg"-->
+                                  <!--form-src="downloadedFormSrc" change-src="changeSource(source)"></pdf-download>-->
+                    <doc-download form-ref="downloadedFormSrc" filename="form.jpg"></doc-download>
+                    <button class="btn btn-default btn-block" style="margin-top: 10%"
+                          ng-click="completeForm()">Complete the form</button>
+                </div>
+            </div>
 
-<div ng-switch-when="true">
-    <h5 class="text-center">Complete the form</h5>
-        <div>
-            <span>
-                If you want to fill in this form or an explanation of the points (data)
-                or download fill form
-            </span>
+            <div ng-switch-when="true">
+                <h5 class="text-center">Complete the form</h5>
+                    <div>
+                        <span>
+                            If you want to fill in this form or an explanation of the points (data)
+                            or download fill form
+                        </span>
+                    </div>
+                <div style="margin-top: 5%;">
+                    <span>You need</span>
+                </div>
+
+                <div class="row" style="margin-top: 5%" ng-controller="signInUpOutCtrl">
+                    <form name="signInForm" novalidate ng-submit="signInUser(userDetails, signInForm.$valid)">
+                        <div class="col-md-8">
+                            <div class="form-group">
+                                <input id="email" name="email" type="email" class="form-control"
+                                     required ng-model="userDetails.username" placeholder="E-mail">
+                                <div class="error" ng-show="showError">
+                                    {{getError(signInForm.email.$error)}}
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <input id="password" name="password" type="text" class="form-control"
+                                     required ng-model="userDetails.password" placeholder="Password">
+                                <div class="error" ng-show="showError">
+                                    {{getError(signInForm.password.$error)}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <button type="submit" class="btn btn-default btn-sm" style="margin-top: 20px">Sign In</button>
+                        </div>
+                    </form>
+                </div>
+                    <div class="text-center">
+                        <span>OR</span>
+                    </div>
+                <div>
+                  <button class="btn btn-default btn-sm center-block" style="margin-top: 15px" ng-click="signUp()">Sign Up</button>
+                </div>
+            </div>
         </div>
-    <div style="margin-top: 5%;">
-        <span>You need</span>
+        <div class="col-md-8">
+            <img id="preview" src="#" alt="document preview">
+        </div>
     </div>
 
-    <div class="row" style="margin-top: 5%" ng-controller="signInUpOutCtrl">
-        <form name="signInForm" novalidate ng-submit="signInUser(userDetails, signInForm.$valid)">
-            <div class="col-md-8">
-                <div class="form-group">
-                    <input id="email" name="email" type="email" class="form-control"
-                         required ng-model="userDetails.username" placeholder="E-mail">
-                    <div class="error" ng-show="showError">
-                        {{getError(signInForm.email.$error)}}
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <input id="password" name="password" type="text" class="form-control"
-                         required ng-model="userDetails.password" placeholder="Password">
-                    <div class="error" ng-show="showError">
-                        {{getError(signInForm.password.$error)}}
-                    </div>
-                </div>
+    <div ng-switch-when="picked" class="margin-top">
+        <div id="{{$index}}" class="vcenter" ng-repeat="item in programDocuments.docs track by item.docId">
+            <div class="col-md-1">
+                <input class="pull-right" type="checkbox" ng-model="markStepFulfillment[$index]">
             </div>
             <div class="col-md-4">
-                <button type="submit" class="btn btn-default btn-sm" style="margin-top: 20px">Sign In</button>
+                <button class="btn btn-default btn-block">
+                    {{$index + 1}}. {{item.docId}}
+                </button>
             </div>
-        </form>
-    </div>
-        <div class="text-center">
-            <span>OR</span>
+            <div class="col-md-1 border text-center">0%</div>
+            <div class="col-md-3">
+                <button class="btn btn-default btn-xs btn-block" ng-click="completeForm(item)">complete</button>
+            </div>
+            <div class="col-md-3">
+                <button class="btn btn-default btn-xs btn-block" ng-click="viewDownloadForm(item)">view/download</button>
+            </div>
         </div>
-    <div>
-      <button class="btn btn-default btn-sm center-block" style="margin-top: 15px" ng-click="signUp()">Sign Up</button>
-    </div>
-</div>
-</div>
-    <div class="col-md-8">
-        <img id="preview" src="#" alt="document preview">
     </div>
 </div>

@@ -17,6 +17,17 @@
     .offset-top {
         margin-top: 5px;
     }
+    .arrow-up {
+        width: 0;
+        height: 0;
+        border-left: 8px solid transparent;
+        border-right: 8px solid transparent;
+        border-bottom: 8px solid grey;
+    }
+    .move-left {
+        position: relative;
+        left: -65px;
+    }
 </style>
 <script>
     $('.pull-down').each(function() {
@@ -57,14 +68,17 @@
                 <div>Education: <i>{{personData.education}}</i></div>
                 <div id="line"></div>
                 <div class="row">
-                    <div class="col-md-6">
-                        <button class="astext" ng-click="viewAdditionalData()">View additional data</button>
+                    <div class="col-md-3">
+                        <button class="astext" ng-click="viewAdditionalData()">{{mode.btnAdditionalDataText}}</button>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-1" ng-show="mode.arrow">
+                        <div class="arrow-up pull-down move-left"></div>
+                    </div>
+                    <div class="col-md-8">
                         <button class="btn btn-default pull-right" ng-click="setPersonData()" ng-hide="showPersonCustomData">Change your data</button>
                     </div>
                 </div>
-                <div id="{{$index}}" class="row" ng-show="showPersonCustomData"
+                <div id="{{$index}}" class="row" ng-show="showPersonCustomData" style="margin-top: 5px"
                         ng-repeat="item in personCustomData | filter: checkNotNull track by item.personCustomDataId">
                     <div class="col-md-3">
                         <span>{{item.fieldNames.name}}</span>

@@ -118,51 +118,53 @@
             <button class="btn btn-default center-block" ng-click="goToImmigrationProgramsView()">Choose a new program</button>
         </div>
 
-        <div class="col-md-8 well" ng-switch on="mode.value" ng-show="programMenuVisibility">
-            <div ng-switch-when="clean" width="750px">
-                <div class="row">
-                    <h5 class="text-center">{{programSelected.description}}</h5>
-                    <div class="col-md-4">
-                        <button class="btn btn-default btn-block" style="margin-top: 10%"
-                                ng-click="programMenuHandler(viewsUrls.steps, btnText.dirty.steps)">Steps</button>
-                        <button class="btn btn-default btn-block" style="margin-top: 10%"
-                                ng-click="programMenuHandler(viewsUrls.requirements, btnText.dirty.requirements)">Requirements</button>
-                        <button class="btn btn-default btn-block" style="margin-top: 10%"
-                                ng-click="programMenuHandler(viewsUrls.formsAndGuides, btnText.dirty.formsAndGuides)">Forms and guides</button>
+        <div class="col-md-8" ng-switch on="mode.value" ng-show="mode.programMenuVisibility">
+            <div class="well">
+                <div ng-switch-when="clean" width="750px">
+                    <div class="row">
+                        <h5 class="text-center">{{programSelected.description}}</h5>
+                        <div class="col-md-4">
+                            <button class="btn btn-default btn-block" style="margin-top: 10%"
+                                    ng-click="programMenuHandler(viewsUrls.steps, btnText.dirty.steps)">Steps</button>
+                            <button class="btn btn-default btn-block" style="margin-top: 10%"
+                                    ng-click="programMenuHandler(viewsUrls.requirements, btnText.dirty.requirements)">Requirements</button>
+                            <button class="btn btn-default btn-block" style="margin-top: 10%"
+                                    ng-click="programMenuHandler(viewsUrls.formsAndGuides, btnText.dirty.formsAndGuides)">Forms and guides</button>
+                        </div>
+                        <div class="col-md-8"></div>
                     </div>
-                    <div class="col-md-8"></div>
                 </div>
-            </div>
 
-            <div ng-switch-when="dirty" width="750px">
-                <div class="row">
-                    <div class="col-md-4">
-                        <button class="btn btn-default btn-block"
-                                ng-click="programMenuHandler(viewsUrls.steps, btnText.dirty.steps)">
-                            {{btnText.show.steps}}
-                        </button>
+                <div ng-switch-when="dirty" width="750px">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <button class="btn btn-default btn-block"
+                                    ng-click="programMenuHandler(viewsUrls.steps, btnText.dirty.steps)">
+                                {{btnText.show.steps}}
+                            </button>
+                        </div>
+                        <div class="col-md-4">
+                            <button class="btn btn-default btn-block"
+                                    ng-click="programMenuHandler(viewsUrls.requirements, btnText.dirty.requirements)">
+                                {{btnText.show.requirements}}
+                            </button>
+                        </div>
+                        <div class="col-md-4">
+                            <button class="btn btn-default btn-block"
+                                    ng-click="programMenuHandler(viewsUrls.formsAndGuides, btnText.dirty.formsAndGuides)">
+                                {{btnText.show.formsAndGuides}}
+                            </button>
+                        </div>
                     </div>
-                    <div class="col-md-4">
-                        <button class="btn btn-default btn-block"
-                                ng-click="programMenuHandler(viewsUrls.requirements, btnText.dirty.requirements)">
-                            {{btnText.show.requirements}}
-                        </button>
-                    </div>
-                    <div class="col-md-4">
-                        <button class="btn btn-default btn-block"
-                                ng-click="programMenuHandler(viewsUrls.formsAndGuides, btnText.dirty.formsAndGuides)">
-                            {{btnText.show.formsAndGuides}}
-                        </button>
-                    </div>
+                    <h5 class="text-center">{{programSelected.description}}</h5>
+                    <ng-include src="programMenuUrl.url" ng-controller="programMenuCtrl"></ng-include>
                 </div>
-                <h5 class="text-center">{{programSelected.description}}</h5>
-                <ng-include src="programMenuUrl.url" ng-controller="programMenuCtrl"></ng-include>
+                <button class="btn btn-primary center-block" ng-click="addProgramToYourWay()" ng-show="mode.btnAddProgram"
+                        style="margin-top: 15px">Add this program to Your Way
+                </button>
+                <span class="btn btn-success center-block" ng-show="mode.textProgramInWay" style="margin-top: 15px">
+                    This program is already in Your Way</span>
             </div>
-            <button class="btn btn-primary center-block" ng-click="addProgramToYourWay()" ng-show="mode.btnAddProgram"
-                    style="margin-top: 15px">Add this program to Your Way
-            </button>
-            <span class="btn btn-success center-block" ng-show="mode.textProgramInWay" style="margin-top: 15px">
-                This program is already in Your Way</span>
         </div>
     </div>
 </div>

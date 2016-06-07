@@ -9,10 +9,11 @@ angular.module("mainApp")
                 textProgramInWay: false,
                 yourPrograms: session.yourProgramsMarker,
                 chooseNewProgramBtnState: session.chooseNewProgramBtnState,
+                programMenuVisibility: false,
                 yourProgramInfoState: false
             };
             
-            $scope.programMenuVisibility = false;
+            // $scope.programMenuVisibility = false;
             $scope.programMenuBtnsVisibility = false;
             
             $scope.programSteps = {steps: []};
@@ -109,12 +110,14 @@ angular.module("mainApp")
                 $scope.getCategories();
                 $scope.programSelected = null;
                 if($scope.categorySelected != null) {
-                    $scope.programMenuVisibility = false;
+                    $scope.mode.programMenuVisibility = false;
                     $scope.mode.value = "clean";
                 }
             };
             
             $scope.updateCategorySelect = function () {
+                $scope.mode.programMenuVisibility = false;
+                $scope.programSelected = null;
                 $scope.getPrograms();
             };
 
@@ -122,10 +125,11 @@ angular.module("mainApp")
                 var urlSteps = URLS.URL + ":" + URLS.PORT + URLS.ROOT_CONTEXT + URLS.REQUEST_MAPPING + URLS.STEPS;
                 var urlDocuments = URLS.URL + ":" + URLS.PORT + URLS.ROOT_CONTEXT + URLS.REQUEST_MAPPING + URLS.LIST_OF_DOC;
                 if($scope.programSelected != null) {
+                    resetDocumentPreview();
                     if(authService.isAuthenticated()) {
                         $scope.addProgramToYourWayButtonTrigger();
                     }
-                    $scope.programMenuVisibility = true;
+                    $scope.mode.programMenuVisibility = true;
                     postRequest(urlSteps, $scope.programSelected).then(function (response) {
                         // $scope.programSteps = response.programSteps;
                         $scope.programSteps.steps = response.response;
@@ -150,6 +154,11 @@ angular.module("mainApp")
                     
                 }
             };
+            
+            function resetDocumentPreview() {
+                var imagePreviewElem = angular.element(document.querySelector('#preview'));
+                imagePreviewElem.attr('src', '#');
+            }
             
             // $scope.emitProgramDocuments = function () {
             //     $scope.$emit("programDocuments", {
@@ -286,7 +295,7 @@ angular.module("mainApp")
                 session.programsMarker(true);
                 $scope.mode.yourPrograms = session.yourProgramsMarker;
                 $scope.programSelected = null;
-                $scope.programMenuVisibility = false;
+                $scope.mode.programMenuVisibility = false;
                 $scope.mode.value = "clean";
             };
 
