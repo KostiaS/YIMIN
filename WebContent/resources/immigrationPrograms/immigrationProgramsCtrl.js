@@ -51,32 +51,37 @@ angular.module("mainApp")
             };
 
             $scope.addProgramToYourWayButtonTrigger = function () {
-                if(session.listOfPrograms == null && $scope.programSelected != null && $scope.mode.yourProgramInfoState == false) {
-                    $scope.mode.btnAddProgram = true;
-                    $scope.mode.textProgramInWay = false;
-                } else {
-                    if(session.listOfPrograms != null && $scope.programSelected != null && $scope.mode.yourProgramInfoState == false) {
-                        var flag = false;
-                        for(var i = 0; i < session.listOfPrograms.length; i++) {
-                            if(session.listOfPrograms[i].program.programId == $scope.programSelected.programId) {
-                                flag = true;
-                                break;
+                if(authService.isAuthenticated()) {
+                    if(session.listOfPrograms == null && $scope.programSelected != null && $scope.mode.yourProgramInfoState == false) {
+                        $scope.mode.btnAddProgram = true;
+                        $scope.mode.textProgramInWay = false;
+                    } else {
+                        if(session.listOfPrograms != null && $scope.programSelected != null && $scope.mode.yourProgramInfoState == false) {
+                            var flag = false;
+                            for(var i = 0; i < session.listOfPrograms.length; i++) {
+                                if(session.listOfPrograms[i].program.programId == $scope.programSelected.programId) {
+                                    flag = true;
+                                    break;
+                                }
                             }
-                        }
-                        if(flag) {
-                            $scope.mode.btnAddProgram = false;
-                            $scope.mode.textProgramInWay = true;
+                            if(flag) {
+                                $scope.mode.btnAddProgram = false;
+                                $scope.mode.textProgramInWay = true;
+                            } else {
+                                $scope.mode.btnAddProgram = true;
+                                $scope.mode.textProgramInWay = false;
+                            }
+                            // flag ? $scope.mode.btnAddProgram = false : $scope.mode.btnAddProgram = true;
                         } else {
-                            $scope.mode.btnAddProgram = true;
+                            $scope.mode.btnAddProgram = false;
                             $scope.mode.textProgramInWay = false;
                         }
-                        // flag ? $scope.mode.btnAddProgram = false : $scope.mode.btnAddProgram = true;
-                    } else {
-                        $scope.mode.btnAddProgram = false;
-                        $scope.mode.textProgramInWay = false;
                     }
+                } else {
+                    $scope.mode.btnAddProgram = false;
+                    $scope.mode.textProgramInWay = false;
                 }
-            };
+            } ;
             
             $scope.$watch(function () {
                 return authService.isAuthenticated();
@@ -238,11 +243,13 @@ angular.module("mainApp")
             }
 
             $scope.getFulfillment = function (item) {
-                var index = $scope.yourImmigrationPrograms.indexOf(item);
-                var id = $scope.yourImmigrationPrograms[index].program.programId;
-                for (var i = 0; i < session.fulfillment.length; i++) {
-                    if(id == session.fulfillment[i].programId) {
-                        return session.fulfillment[i].fulfillment;
+                if(authService.isAuthenticated()) {
+                    var index = $scope.yourImmigrationPrograms.indexOf(item);
+                    var id = $scope.yourImmigrationPrograms[index].program.programId;
+                    for (var i = 0; i < session.fulfillment.length; i++) {
+                        if(id == session.fulfillment[i].programId) {
+                            return session.fulfillment[i].fulfillment;
+                        }
                     }
                 }
             };
@@ -280,6 +287,7 @@ angular.module("mainApp")
                 $scope.mode.yourPrograms = session.yourProgramsMarker;
                 $scope.programSelected = null;
                 $scope.programMenuVisibility = false;
+                $scope.mode.value = "clean";
             };
 
 

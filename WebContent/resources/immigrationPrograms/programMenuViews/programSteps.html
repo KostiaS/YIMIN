@@ -6,20 +6,50 @@
         padding-left: 25px;
         padding-right: 25px;
     }
+
+    .vcenter {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .margin-top div + div {
+        margin-top: 3px;
+    }
 </style>
 
-<div class="row">
-    <div class="col-md-4">
-        <button class="btn btn-default btn-block" ng-click="programStepDescription(item.step.description)"
-                ng-repeat="item in programSteps.steps | orderBy: 'stepOrder'">
-            <div class="text-left">
-                {{item.stepOrder}}) {{item.step.name}}
+<div class="row" ng-switch on="mode.yourPrograms">
+    <div ng-switch-default>
+        <div class="col-md-4">
+            <button class="btn btn-default btn-block" ng-click="programStepDescription(item.step.description)"
+                    ng-repeat="item in programSteps.steps | orderBy: 'stepOrder'">
+                <div class="text-left">
+                    {{item.stepOrder}}) {{item.step.name}}
+                </div>
+            </button>
+        </div>
+        <div class="col-md-8" ng-show="programStepDescriptionVisibility">
+            <div class="description">
+                {{stepDescriptionTmp}}
             </div>
-        </button>
+        </div>
     </div>
-    <div class="col-md-8" ng-show="programStepDescriptionVisibility">
-        <div class="description">
-            {{stepDescriptionTmp}}
+
+    <div ng-switch-when="picked" class="margin-top">
+        <div id="{{$index}}" class="vcenter" ng-repeat="item in programSteps.steps | orderBy: 'stepOrder'">
+            <div class="col-md-1">
+                <div class="center-block">
+                    <input type="checkbox" ng-model="markStepFulfillment[$index]">
+                </div>
+            </div>
+            <div class="col-md-6">
+                <button class="btn btn-default btn-block" ng-click="programStepDescription(item.step.description)">
+                    <div class="text-left">
+                        {{item.stepOrder}}) {{item.step.name}}
+                    </div>
+                </button>
+            </div>
+            <div class="col-md-3"></div>
+            <div class="col-md-2"></div>
         </div>
     </div>
 </div>

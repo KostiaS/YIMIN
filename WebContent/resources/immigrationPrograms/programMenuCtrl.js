@@ -12,8 +12,10 @@ angular.module("mainApp")
             });
             
             $scope.programStepDescription = function (description) {
-                $scope.programStepDescriptionVisibility = true;
-                $scope.stepDescriptionTmp = description;
+                if($scope.mode.yourPrograms != "picked") {
+                    $scope.programStepDescriptionVisibility = true;
+                    $scope.stepDescriptionTmp = description;
+                }
             };
 
             $scope.updateDocumentSelect = function () {
@@ -43,15 +45,15 @@ angular.module("mainApp")
 
 
             //Authorization
-            $scope.viewTrigger = function() {
-                $scope.authorization.status
-                    ? $scope.goToYourWayView()
-                    : console.log("authorization error");
-            };
+            // $scope.viewTrigger = function() {
+            //     $scope.authorization.status
+            //         ? $scope.goToYourWayView()
+            //         : console.log("authorization error");
+            // };
 
-            $scope.$watch("authorization.status", function () {
-                $scope.viewTrigger();
-            });
+            // $scope.$watch("authorization.status", function () {
+            //     $scope.viewTrigger();
+            // });
 
             $scope.goToYourWayView = function() {
                 $location.path("/yourway");
@@ -73,6 +75,8 @@ angular.module("mainApp")
                 var imagePreviewElem = angular.element(document.querySelector('#preview'));
                 imagePreviewElem.attr('src', $scope.downloadedFormSrc);
             };
+
+            // $scope.markStepFulfillment = [];
 
             // $scope.downloadForm = function () {
             //    
