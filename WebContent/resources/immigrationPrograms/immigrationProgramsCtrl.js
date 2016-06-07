@@ -272,6 +272,16 @@ angular.module("mainApp")
                 $scope.updateProgramSelect();
             };
 
+            $scope.goToAllPrograms = function () {
+                session.chooseNewProgramButtonState(true);
+                $scope.mode.chooseNewProgramBtnState = session.chooseNewProgramBtnState;
+                $scope.mode.yourProgramInfoState = false;
+                session.programsMarker(true);
+                $scope.mode.yourPrograms = session.yourProgramsMarker;
+                $scope.programSelected = null;
+                $scope.programMenuVisibility = false;
+            };
+
 
             // $scope.steps = function () {
             //     $scope.btnText.steps = "Steps:";

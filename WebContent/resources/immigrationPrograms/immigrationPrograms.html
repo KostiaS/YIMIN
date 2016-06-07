@@ -25,13 +25,9 @@
         align-items: center;
         justify-content: center;
     }
-
-    .vertical-align > div > #pickedProgramValign {
-        display: flex;
-        align-items: center;
-        justify-content: center;
+    #btnTextLeft {
+        text-align: left;
     }
-
 </style>
 <script>
     $('.pull-down').each(function() {
@@ -82,7 +78,7 @@
 
             <div id="{{$index}}" class="row vcenter" ng-switch-when="true" ng-repeat="item in yourImmigrationPrograms">
                 <div class="col-md-6" style="margin-top: 5px">
-                    <p class="btn btn-default btn-block" ng-click="showProgramInformation(item)">
+                    <p id="btnTextLeft" class="btn btn-default btn-block" ng-click="showProgramInformation(item)">
                         {{$index + 1}}. <b>{{item.program.country.name}}.</b><br>
                         {{item.program.category}}.<br>
                         {{item.program.name}}
@@ -98,12 +94,23 @@
                 </div>
             </div>
 
-            <div id="pickedProgramValign" ng-switch-when="picked" class="center-block">
-                <p>
-                    <b>{{yourImmigrationPrograms[index].program.country.name}}.</b><br>
-                    {{yourImmigrationPrograms[index].program.category}}.<br>
-                    {{yourImmigrationPrograms[index].program.name}}
-                </p>
+            <div ng-switch-when="picked" class="row equal vcenter" style="margin-top: 86.5px">
+                <div class="col-md-6">
+                    <p class="btn-block well">
+                        <b>{{yourImmigrationPrograms[index].program.country.name}}.</b><br>
+                        {{yourImmigrationPrograms[index].program.category}}.<br>
+                        {{yourImmigrationPrograms[index].program.name}}
+                    </p>
+                </div>
+                <div class="col-md-3">
+                    <div class="border btn-block text-center">
+                        {{getFulfillment(yourImmigrationPrograms[index])}}%
+                    </div>
+                </div>
+                <div class="col-md-3"></div>
+                <button class="btn btn-default center-block" ng-click="goToAllPrograms()">
+                    View all your programs
+                </button>
             </div>
         </div>
 
