@@ -29,6 +29,7 @@ public class RandomPersistObject {
     private static final int DOCUMENTS_AMOUNT = 150;
     private static final int FIELDNAMES_AMOUNT = 20;
     private static final String PHOTO_FILE_PATH = "../Yimin/resources/doc.jpg";
+    private static final String PRS_DOC_FILE_PATH = "../Yimin/resources/passport.jpg";
     private static final String MASK_FILE_PATH = "../Yimin/resources/mask.html";
 
 
@@ -335,7 +336,7 @@ public class RandomPersistObject {
             personDocuments.setDocumentType(ig.statusGenerator(10, "Type"));
             personDocuments.setExpirationDate(ig.getRandomData());
             personDocuments.setLanguage(ig.randomString("language", i));
-            personDocuments.setLinkToImage(ig.randomString("imageLink", i));
+            personDocuments.setDocument(generateBlobFromFile(PRS_DOC_FILE_PATH));
             personDocuments.setTemporary(ig.booleanGenerator());
             personDocuments.setTranslation(ig.randomString("translation", i));
             personDocuments.setPersonData(getRandomObjectFromDb(new PersonData()));

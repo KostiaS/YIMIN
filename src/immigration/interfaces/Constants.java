@@ -20,4 +20,6 @@ public class Constants {
     public static final String GET_PROGRAMS_LIST_FROM_WAY = "/get_programs_list_from_way";
     public static final String DELETE_PROGRAM_FROM_WAY = "/delete_program_from_way";
     public static final String GET_VALUATION_OF_WAY_PROG = "/get_valuation_of_way_prog";
+    public static final String GET_DOCUMENT_FIELDS = "/get_document_fields";
+    public static final String ADD_PRS_DOC_IN_WAY = "/add_prs_doc_in_way";
 }

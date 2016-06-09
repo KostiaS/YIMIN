@@ -243,7 +243,7 @@ public class Controller {
     }
     /**
      * <p>delete program from person way</p>
-     * @parm jsonObject  {"param":[{"personId":1}},{"programId":1}]}
+     * @parm jsonObject  {"param":[{"personId":1},{"programId":1}]}
      * for flow 23 in web
      */
     @RequestMapping(value = Constants.DELETE_PROGRAM_FROM_WAY, method = RequestMethod.POST)
@@ -263,12 +263,44 @@ public class Controller {
     }
     /**
      * <p>get valuation about complete of program 0-100%</p>
-     *  @parm jsonObject  {"param":[{"personId":1}},{"programId":1}]}
+     *  @parm jsonObject  {"param":[{"personId":1},{"programId":1}]}
      *  for flow 23 in web
      */
     @RequestMapping(value = Constants.GET_VALUATION_OF_WAY_PROG, method = RequestMethod.POST)
     public int getValutationOfWayProg(@RequestBody ObjectNode jsonObject) {
         return model.getValutationOfWayProg(jsonObject);
+    }
+    /**
+     * <p>get fields list by document id</p>
+     * @param documents - json{"docId":2}
+     *       for flow 28
+     */
+    @RequestMapping(value = Constants.GET_DOCUMENT_FIELDS, method = RequestMethod.POST)
+    public List<DocumentField> deleteProgramFromWay(@RequestBody Documents documents) {
+        return model.getListOfDocumentFields(documents);
+    }
+
+    /**
+     * <p>add document in way and in Person Documents</p>
+     * @param jsonObject - {"param":[{"wayId":172},{"docId":22},{"base64":"/9j/4AAQSkZJRgABAgAAZABkAAD..."}]}
+     *                   for 20 flow
+     */
+    @RequestMapping(value = Constants.ADD_PRS_DOC_IN_WAY, method = RequestMethod.POST)
+    public boolean addPersonDocInWay(@RequestBody ObjectNode jsonObject){
+        ObjectMapper om = new ObjectMapper();
+        Way way = null;
+        Documents requiredDocument = null;
+        String downloadedDoc = null;
+        try {
+            way = om.readValue(jsonObject.get("param").get(0).toString(), Way.class);
+            requiredDocument = om.readValue(jsonObject.get("param").get(1).toString(), Documents.class);
+            downloadedDoc = om.readValue(jsonObject.get("param").get(2).get("base64").toString(), String.class);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        model.addPersonDocInWay(way,requiredDocument,downloadedDoc);
+        return true;
     }
 
 }

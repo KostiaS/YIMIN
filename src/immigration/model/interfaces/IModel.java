@@ -47,4 +47,8 @@ public interface IModel {
     boolean deleteProgramFromWay(Person person, Programs programs);
 
     int getValutationOfWayProg(ObjectNode jsonObject);
+
+    List<DocumentField> getListOfDocumentFields(Documents documents);
+
+    void addPersonDocInWay(Way way, Documents requiredDocument, String downloadedDoc);
 }
