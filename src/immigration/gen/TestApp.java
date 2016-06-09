@@ -2,7 +2,9 @@ package immigration.gen;
 
 import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
-
+/**
+ * Created by Shanin Dima 3620849@gmail.com on 18.03.2016.
+ */
 public class TestApp {
 	static RandomPersistObject rpo;
 

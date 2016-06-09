@@ -18,7 +18,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import immigration.dao.*;
 import immigration.interfaces.*;
-
+/**
+ * Created by Shanin Dima 3620849@gmail.com on 18.03.2016.
+ */
 
 public class RandomPersistObject {
     private static final int STEP_AMOUNT = 5;
@@ -144,6 +146,7 @@ public class RandomPersistObject {
                 documents.setNameOfFile("doc.jpg");
                 documents.setImage(ig.randomString("www.photoRepository"+x, i) + ".com");
                 documents.setType(ig.statusGenerator(5, "Type"));
+                documents.setNameOfDocument(ig.statusGenerator(10, "document name"));
                 documents.setProg(getObjectFromDbById(Programs.class,i));
                 documents.setDocumentField(generateDocumentFieldList());
                 em.persist(documents);

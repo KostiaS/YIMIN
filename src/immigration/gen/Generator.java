@@ -6,7 +6,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 
 /**
- * Created by UA C on 18.03.2016.
+ * Created by Shanin Dima 3620849@gmail.com on 18.03.2016.
  */
 public class Generator implements IGenerator {
 

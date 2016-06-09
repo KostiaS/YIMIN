@@ -38,11 +38,11 @@ public String toString() {
 			+ ", requiredDocument=" + requiredDocument + "]";
 }
 
-public boolean isReady() {
-	return isReady;
-}
+	public boolean isReady() {
+		return isReady;
+	}
 
-public Way getWay() {
+	public Way getWay() {
 	return way;
 }
 
@@ -53,6 +53,7 @@ public void setWay(Way way) {
 public void setReady(boolean isReady) {
 	this.isReady = isReady;
 }
+
 
 public PersonDocuments getPersonDocument() {
 	return personDocument;
@@ -74,6 +75,7 @@ public int getWayDocumentsId() {
 	return WayDocumentsId;
 }
 
-
-
+	public void setWayDocumentsId(int wayDocumentsId) {
+		WayDocumentsId = wayDocumentsId;
+	}
 }

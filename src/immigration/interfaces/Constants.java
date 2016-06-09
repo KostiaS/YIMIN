@@ -1,5 +1,7 @@
 package immigration.interfaces;
-
+/**
+ * Created by Shanin Dima 3620849@gmail.com on 18.03.2016.
+ */
 public class Constants {
     public static final String PERSONAL_DATA = "/person_data";
     public static final String SAVE_PERSON_DATA = "/save_person_data";
@@ -22,4 +24,6 @@ public class Constants {
     public static final String GET_VALUATION_OF_WAY_PROG = "/get_valuation_of_way_prog";
     public static final String GET_DOCUMENT_FIELDS = "/get_document_fields";
     public static final String ADD_PRS_DOC_IN_WAY = "/add_prs_doc_in_way";
+    public static final String GET_LIST_OF_REQUIRED_DOC = "/get_list_of_required_doc";
+    public static final String SET_IS_READY_IN_WAYDOC = "/set_is_ready_in_waydoc";
 }

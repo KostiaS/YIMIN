@@ -5,7 +5,9 @@ import immigration.dao.*;
 
 import java.sql.Blob;
 import java.util.List;
-
+/**
+ * Created by Shanin Dima 3620849@gmail.com on 18.03.2016.
+ */
 public interface IModel {
 	
     PersonData getPersonDataById(int idOfPerson);
@@ -51,4 +53,8 @@ public interface IModel {
     List<DocumentField> getListOfDocumentFields(Documents documents);
 
     void addPersonDocInWay(Way way, Documents requiredDocument, String downloadedDoc);
+
+    List<WayDocuments> getListOfRequiredDoc(Way way);
+
+    void setCheckboxOfWayDoc(WayDocuments wayDocuments);
 }

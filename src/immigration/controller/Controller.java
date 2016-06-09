@@ -17,7 +17,7 @@ import java.util.*;
 
 
 /**
- * Created by UA C on 08.04.2016.
+ * Created by Shanin Dima 3620849@gmail.com on 08.04.2016.
  */
 @RestController
 @RequestMapping("/")
@@ -30,8 +30,8 @@ public class Controller {
      * <p>registration and creating new person</p>
      * for view 15 in flow
      *
-     * @param person    - new Person
-     * @param countryId - id of country living
+     * @param person     new Person
+     * @param countryId  id of country living
      */
     @RequestMapping(value = Constants.SIGN_UP, method = RequestMethod.POST)
     public void createPerson(@RequestBody Person person, @RequestParam("countryId") int countryId) {
@@ -50,7 +50,7 @@ public class Controller {
     /**
      * <p>update person data by id</p>
      * for view 17 in flow
-     * @param personData - json {"identify":"2140934024",
+     * @param personData  json {"identify":"2140934024",
      *                   "birthdate":"1990-06-14",
      *                   "firstName":"firstname0",
      *                   "lastName":"lastname0",
@@ -81,8 +81,8 @@ public class Controller {
     /**
      * <p>get list of countries whe present embassy of country from parameter</p>
      *
-     * @param countryWichEmbassySearched - json {"countryId":1} country which embassy we search
-     *                                   for view 4 in flow
+     * @param countryWichEmbassySearched  json {"countryId":1} country which embassy we search
+     * for view 4 in flow
      */
     @RequestMapping(value = Constants.LIST_OF_COUNTRIES_BY_EMBASSY, method = RequestMethod.POST)
     public List<Country> getListOfCountryWithEmbassy(@RequestBody Country countryWichEmbassySearched) {
@@ -93,7 +93,7 @@ public class Controller {
      * <p>get information about embassy in country</p>
      *
      * @return list of json embassies
-     * @param parameters - json [{"countryId":1},{"countryId":21}]
+     * @param parameters  json [{"countryId":1},{"countryId":21}]
      * @value countryOfEmbassy - embassies of this country we search
      * @value locationCountry - location where we search embassy
      * for view 5 in flow
@@ -108,7 +108,7 @@ public class Controller {
     /**
      * <p>get categories of program using </p>
      * for view 6 in flow
-     *@param country - {"countryId":2}
+     * @param country {"countryId":2}
      * @return list of values - categories
      */
     @RequestMapping(value = Constants.CATEGORIES_OF_PROGRAM_BY_COUNTRY, method = RequestMethod.POST)
@@ -120,10 +120,10 @@ public class Controller {
      * <p>get programs of imigration</p>
      * for view 6 in flow
      *
-     * @param jsonObject - Example of json : {"param":[{"countryId":1},{"category":"category1"}]}
+     * @param jsonObject Example of json : {"param":[{"countryId":1},{"category":"category1"}]}
      * @return Json list of programs
-     * @value country - country of imigratiom
-     * @value programs - category of program to imigration
+     * @value country  country of imigratiom
+     * @value programs category of program to imigration
      */
     @RequestMapping(value = Constants.IMMIGRATION_PROGRAMS, method = RequestMethod.POST)
     public List<Programs> getPrograms(@RequestBody ObjectNode jsonObject) {
@@ -144,8 +144,8 @@ public class Controller {
     /**
      * <p>get list of programs steps by program id </p>
      *
-     * @param program - json Example {"programId":93}
-     *                for flow 7
+     * @param program  json Example {"programId":93}
+     * for flow 7
      */
     @RequestMapping(value = Constants.STEPS, method = RequestMethod.POST)
     public List<ProgramStep> getProgramsStepList(@RequestBody Programs program) {
@@ -155,7 +155,7 @@ public class Controller {
     /**
      * <p> get list of program documents</p>
      *
-     * @param programs - json Example {"programId":93}
+     * @param programs  json Example {"programId":93}
      */
     @RequestMapping(value = Constants.LIST_OF_DOC, method = RequestMethod.POST)
     List<Documents> getDocumentsByProgramId(@RequestBody Programs programs) {
@@ -165,8 +165,8 @@ public class Controller {
     /**
      * <p>download document </p>
      *
-     * @param document- json {"docId":1}
-     * @return -byte array encoded in base 64
+     * @param document json {"docId":1}
+     * @return byte array encoded in base 64
      */
     @RequestMapping(value = Constants.GET_DOC, method = RequestMethod.POST, produces = MediaType.TEXT_PLAIN_VALUE)
     public byte[] downloadDocument(@RequestBody Documents document) {
@@ -177,8 +177,8 @@ public class Controller {
     /**
      * <p>download HTML document </p>
      *
-     * @param document- json {"docId":1}
-     * @return -byte array encoded in base 64 in header TEXT/HTML
+     * @param document json {"docId":1}
+     * @return byte array encoded in base 64 in header TEXT/HTML
      */
     @RequestMapping(value = Constants.GET_MASK, method = RequestMethod.POST, produces = MediaType.TEXT_HTML_VALUE)
     public byte[] downloadMask(@RequestBody Documents document) {
@@ -189,8 +189,8 @@ public class Controller {
     /**
      * <p>return list of custom data</p>
      *
-     * @param person - {"personId":1}
-     *               for flow 19
+     * @param person  {"personId":1}
+     * for flow 19
      */
     @RequestMapping(value = Constants.GET_CUSTOM_DATA, method = RequestMethod.POST)
     public List<PersonCustomData> getCustomDatabyId(@RequestBody Person person) {
@@ -200,8 +200,8 @@ public class Controller {
     /**
      * <p>create or update person custom data</p>
      *
-     * @param pcd - json example {"value":"val1","fieldNames":{"id":14},"personCustomDataId":1,"personData":{"personDataId":1}}
-     *            for flow 19
+     * @param pcd  json example {"value":"val1","fieldNames":{"id":14},"personCustomDataId":1,"personData":{"personDataId":1}}
+     * for flow 19
      */
     @RequestMapping(value = Constants.UPDATE_CUSTOM_DATA_VALUE, method = RequestMethod.POST)
     public boolean updatePersonCustomData(@RequestBody PersonCustomData pcd) {
@@ -212,8 +212,8 @@ public class Controller {
      * <p>add program to your way</p>
      * first parameter should be person data
      *
-     * @param jsonObject - json example {"param":[{"personId":1},{"programId":1}]}
-     *                   for button add this program in my way in flow 32-37
+     * @param jsonObject  json example {"param":[{"personId":1},{"programId":1}]}
+     * for button add this program in my way in flow 32-37
      */
     @RequestMapping(value = Constants.ADD_PROGRAM_IN_WAY, method = RequestMethod.POST)
     public boolean addProgramInWay(@RequestBody ObjectNode jsonObject) {
@@ -233,8 +233,8 @@ public class Controller {
 
     /**
      *<p>get list of all programs wich person choose</p>
-     * @param person - json example {personId:1}
-     *               for flow 23
+     *@param person  json example {personId:1}
+     *for flow 23
      */
 
     @RequestMapping(value = Constants.GET_PROGRAMS_LIST_FROM_WAY, method = RequestMethod.POST)
@@ -263,8 +263,8 @@ public class Controller {
     }
     /**
      * <p>get valuation about complete of program 0-100%</p>
-     *  @parm jsonObject  {"param":[{"personId":1},{"programId":1}]}
-     *  for flow 23 in web
+     * @parm jsonObject  {"param":[{"personId":1},{"programId":1}]}
+     * for flow 23 in web
      */
     @RequestMapping(value = Constants.GET_VALUATION_OF_WAY_PROG, method = RequestMethod.POST)
     public int getValutationOfWayProg(@RequestBody ObjectNode jsonObject) {
@@ -272,8 +272,8 @@ public class Controller {
     }
     /**
      * <p>get fields list by document id</p>
-     * @param documents - json{"docId":2}
-     *       for flow 28
+     * @param documents  json{"docId":2}
+     *for flow 28
      */
     @RequestMapping(value = Constants.GET_DOCUMENT_FIELDS, method = RequestMethod.POST)
     public List<DocumentField> deleteProgramFromWay(@RequestBody Documents documents) {
@@ -282,8 +282,8 @@ public class Controller {
 
     /**
      * <p>add document in way and in Person Documents</p>
-     * @param jsonObject - {"param":[{"wayId":172},{"docId":22},{"base64":"/9j/4AAQSkZJRgABAgAAZABkAAD..."}]}
-     *                   for 20 flow
+     * @param jsonObject  {"param":[{"wayId":172},{"docId":22},{"base64":"/9j/4AAQSkZJRgABAgAAZABkAAD..."}]}
+     *for 20 flow
      */
     @RequestMapping(value = Constants.ADD_PRS_DOC_IN_WAY, method = RequestMethod.POST)
     public boolean addPersonDocInWay(@RequestBody ObjectNode jsonObject){
@@ -302,5 +302,25 @@ public class Controller {
         model.addPersonDocInWay(way,requiredDocument,downloadedDoc);
         return true;
     }
+    /**
+     * <p>get list of required documents</p>
+     * @param way {"wayId":1}
+     * for flow 20
+     */
+    @RequestMapping(value = Constants.GET_LIST_OF_REQUIRED_DOC, method = RequestMethod.POST)
+    public List<WayDocuments> addPersonDocInWay(@RequestBody Way way){
+        return model.getListOfRequiredDoc(way);
+    }
+
+    /**
+     * <p>set checkbox of document</p>
+     * @param wayDoc json {"wayDocumentsId":2,"ready":false}
+     * for flow 20
+     */
+    @RequestMapping(value = Constants.SET_IS_READY_IN_WAYDOC, method = RequestMethod.POST)
+    public void setCheckboxOfWayDoc(@RequestBody WayDocuments wayDoc){
+        model.setCheckboxOfWayDoc(wayDoc);
+    }
+
 
 }

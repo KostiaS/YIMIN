@@ -3,7 +3,7 @@ package immigration.interfaces;
 import java.util.Date;
 
 /**
- * Created by UA C on 18.03.2016.
+ * Created by Shanin Dima 3620849@gmail.com on 18.03.2016.
  */
 public interface IGenerator {
     int randBetween(int start, int end);
