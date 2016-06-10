@@ -19,10 +19,11 @@ import java.sql.SQLException;
 
 import java.util.Base64;
 import java.util.List;
+
 /**
  * Created by Shanin Dima 3620849@gmail.com on 18.03.2016.
  */
-public class DbFunctionality implements IModel  {
+public class DbFunctionality implements IModel {
 
     @PersistenceContext(unitName = "springHibernate", type = PersistenceContextType.EXTENDED)
     EntityManager em;
@@ -63,7 +64,7 @@ public class DbFunctionality implements IModel  {
     @Transactional
     public PersonData createNewPersonData(int countryId) {
         PersonData personData = new PersonData();
-        personData.setBirthplace(getObjectFromDbById(Country.class,countryId));
+        personData.setBirthplace(getObjectFromDbById(Country.class, countryId));
         em.persist(personData);
         return personData;
     }
@@ -77,7 +78,7 @@ public class DbFunctionality implements IModel  {
 
     @Override
     public List<Country> getListOfCountry() {
-       return getGetObjectListFromDbByClassName(Country.class);
+        return getGetObjectListFromDbByClassName(Country.class);
     }
 
     @Override
@@ -97,44 +98,47 @@ public class DbFunctionality implements IModel  {
 
     @Override
     public List<String> getCategoryOfProgram(Country country) {
-        Query query = em.createQuery("select category from Programs p where p.country.CountryId = "+country.getCountryId());
+        Query query = em.createQuery("select category from Programs p where p.country.CountryId = " + country.getCountryId());
         return query.getResultList();
     }
 
     @Override
-    public List<Programs> getProgram(Country country, Programs category) {
-        String parsedCategory = category.getCategory();
-        Query query = em.createQuery("select p from Programs p where p.country.CountryId = "+country.getCountryId()+" and category = '"+parsedCategory+"'");
+    public List<Programs> getProgram(ObjectNode jsonObject) {
+        Country country = getObjectFromJson(jsonObject,0,Country.class);
+        Programs programs = getObjectFromJson(jsonObject,1,Programs.class);
+        String parsedCategory = programs.getCategory();
+        Query query = em.createQuery("select p from Programs p where p.country.CountryId = " + country.getCountryId() + " and category = '" + parsedCategory + "'");
         return query.getResultList();
     }
 
     @Override
     public List<ProgramStep> getProgramStepByCountry(Programs program) {
-        Query query = em.createQuery(" select p from ProgramStep p where p.program.ProgramId ="+ program.getProgramId());
+        Query query = em.createQuery(" select p from ProgramStep p where p.program.ProgramId =" + program.getProgramId());
         return query.getResultList();
     }
 
     @Override
     public List<Documents> getDocumentsByProgramId(Programs programs) {
-        Query query = em.createQuery("select p from Documents p where p.prog.ProgramId ="+programs.getProgramId());
+        Query query = em.createQuery("select p from Documents p where p.prog.ProgramId =" + programs.getProgramId());
         return query.getResultList();
     }
 
     @Override
     public Blob getDocById(Documents document) {
-       return  em.find(Documents.class,document.getDocId()).getFile();
+        return em.find(Documents.class, document.getDocId()).getFile();
     }
 
     @Override
     public Blob getMaskByDocId(Documents document) {
-        return  em.find(Documents.class,document.getDocId()).getMask();
+        return em.find(Documents.class, document.getDocId()).getMask();
     }
 
     @Override
     public List<PersonCustomData> getPersonCustomDataByPersonId(Person person) {
-        Query query = em.createQuery("select pcd from PersonCustomData pcd where pcd.personData.person.PersonId ="+person.getPersonId());
+        Query query = em.createQuery("select pcd from PersonCustomData pcd where pcd.personData.person.PersonId =" + person.getPersonId());
         return query.getResultList();
     }
+
     @Transactional
     @Override
     public boolean updatePersonCustomData(PersonCustomData pcd) {
@@ -160,40 +164,46 @@ public class DbFunctionality implements IModel  {
     }
 
     @SuppressWarnings("unchecked")
-    public <T> T getObjectFromDbById (Class <T>  nameOfClass, int objectId){
+    public <T> T getObjectFromDbById(Class<T> nameOfClass, int objectId) {
         String className = nameOfClass.getSimpleName();
-        Query q = em.createQuery ("SELECT p FROM "+className+" p WHERE p.id = ?1");
+        Query q = em.createQuery("SELECT p FROM " + className + " p WHERE p.id = ?1");
         q.setParameter(1, objectId);
         T choosenObject = null;
         try {
-            choosenObject = (T)q.getSingleResult();
+            choosenObject = (T) q.getSingleResult();
         } catch (Exception e) {
-            System.err.println("em not found object "+className+" in DB with id"+"[ max value"+objectId+"]");
+            System.err.println("em not found object " + className + " in DB with id" + "[ max value" + objectId + "]");
         }
         return choosenObject;
     }
+
     @SuppressWarnings("unchecked")
-    public <T>List<T> getGetObjectListFromDbByClassName (Class <T>  nameOfClass) {
+    public <T> List<T> getGetObjectListFromDbByClassName(Class<T> nameOfClass) {
         String className = nameOfClass.getSimpleName();
         System.out.println(className);
         return em.createQuery("SELECT p FROM " + className + " p").getResultList();
     }
+
     @Transactional
-   @Override
-    public boolean addProgramInWay(Person person, Programs programs ){
-       Way way = new Way();
-       way.setPersonData(getPersonDataById(person.getPersonId()));
-       way.setProgram(programs);
-       em.persist(way);
-        generateWaySteps(way.getWayId(),programs.getProgramId());
-        generateWayDocuments(way.getWayId(),programs.getProgramId());
+    @Override
+    public boolean addProgramInWay(ObjectNode jsonObject) {
+        Person person = getObjectFromJson(jsonObject, 0, Person.class);
+        Programs programs = getObjectFromJson(jsonObject, 1, Programs.class);
+
+        Way way = new Way();
+        way.setPersonData(getPersonDataById(person.getPersonId()));
+        way.setProgram(programs);
+        em.persist(way);
+        generateWaySteps(way.getWayId(), programs.getProgramId());
+        generateWayDocuments(way.getWayId(), programs.getProgramId());
         return true;
     }
-@Transactional
+
+    @Transactional
     private boolean generateWayDocuments(int wayId, int programId) {
-       Query query = em.createQuery("select doc from Documents doc where doc.prog.ProgramId ="+programId);
+        Query query = em.createQuery("select doc from Documents doc where doc.prog.ProgramId =" + programId);
         List docList = query.getResultList();
-        for(int i=0;i<docList.size();i++) {
+        for (int i = 0; i < docList.size(); i++) {
             WayDocuments wayDocuments = new WayDocuments();
             wayDocuments.setReady(false);
             wayDocuments.setRequiredDocument((Documents) docList.get(i));
@@ -205,17 +215,18 @@ public class DbFunctionality implements IModel  {
     }
 
     private PersonData getPersonDataByPersonId(int personDataId) {
-        return (PersonData)em.createQuery("select pd from PersonData pd where pd.PersonDataId ="+personDataId).getSingleResult();
+        return (PersonData) em.createQuery("select pd from PersonData pd where pd.PersonDataId =" + personDataId).getSingleResult();
     }
+
     @Transactional
     private boolean generateWaySteps(int wayId, int programId) {
-       List programlist = em.createQuery("select ps from ProgramStep ps where ps.program.ProgramId ="+programId).getResultList();
+        List programlist = em.createQuery("select ps from ProgramStep ps where ps.program.ProgramId =" + programId).getResultList();
         int coutnOfSteps = programlist.size();
-        for(int i = 0;i<coutnOfSteps;i++) {
+        for (int i = 0; i < coutnOfSteps; i++) {
             WaySteps waysteps = new WaySteps();
             waysteps.setDone(false);
             //waysteps.setInformation("");
-            waysteps.setProgSteps((ProgramStep)programlist.get(i));
+            waysteps.setProgSteps((ProgramStep) programlist.get(i));
             waysteps.setWay(getObjectFromDbById(Way.class, wayId));
             em.persist(waysteps);
             em.clear();
@@ -226,56 +237,59 @@ public class DbFunctionality implements IModel  {
 
     @Override
     public List<Way> getProgramsListFromWay(Person person) {
-        return em.createQuery("select w from Way w where w.personData.person.id ="+person.getPersonId()).getResultList();
+        return em.createQuery("select w from Way w where w.personData.person.id =" + person.getPersonId()).getResultList();
     }
+
     @Transactional
     @Override
-    public boolean deleteProgramFromWay(Person person, Programs programs) {
-
+    public boolean deleteProgramFromWay(ObjectNode jsonObject) {
+        Person person = getObjectFromJson(jsonObject,0,Person.class);
+        Programs programs = getObjectFromJson(jsonObject,1,Programs.class);
         Query getWayId = em.createQuery("select w.WayId from Way w where w.program.ProgramId = ?1 and w.personData.person.PersonId = ?2");
-        getWayId.setParameter(2,person.getPersonId()).setParameter(1,programs.getProgramId());
-        int wayId = (Integer)getWayId.getSingleResult();
+        getWayId.setParameter(2, person.getPersonId()).setParameter(1, programs.getProgramId());
+        int wayId = (Integer) getWayId.getSingleResult();
 
-        int wdDel =  em.createQuery("delete from WayDocuments wd where wd.way.WayId = "+ wayId).executeUpdate();
-        int wsDel = em.createQuery("delete from WaySteps ws where ws.way.WayId ="+wayId).executeUpdate();
+        int wdDel = em.createQuery("delete from WayDocuments wd where wd.way.WayId = " + wayId).executeUpdate();
+        int wsDel = em.createQuery("delete from WaySteps ws where ws.way.WayId =" + wayId).executeUpdate();
 
-        Query query = em.createQuery("delete from Way w where w.WayId = "+wayId);
+        Query query = em.createQuery("delete from Way w where w.WayId = " + wayId);
 
         int i = query.executeUpdate();
-        return i>0 ? true : false;
+        return i > 0 ? true : false;
     }
 
-    public <T> T getObjectFromJson (ObjectNode jsonObj,int index,Class <T>  nameOfClass){
+    public <T> T getObjectFromJson(ObjectNode jsonObj, int index, Class<T> nameOfClass) {
         ObjectMapper om = new ObjectMapper();
         T choosenObject = null;
         try {
-            choosenObject = om.readValue(jsonObj.get("param").get(index).toString(),nameOfClass);
+            choosenObject = om.readValue(jsonObj.get("param").get(index).toString(), nameOfClass);
         } catch (IOException e) {
             e.printStackTrace();
         }
         return choosenObject;
     }
+
     @Override
     public int getValutationOfWayProg(ObjectNode jsonObject) {
-        Person person = getObjectFromJson(jsonObject,0,Person.class);
-        Programs programs = getObjectFromJson(jsonObject,1,Programs.class);
+        Person person = getObjectFromJson(jsonObject, 0, Person.class);
+        Programs programs = getObjectFromJson(jsonObject, 1, Programs.class);
         Query query = em.createQuery("select ws.isDone from WaySteps ws where ws.way.WayId = " +
                 "(select w.WayId from Way w where w.program.ProgramId = ?1 and w.personData.person.PersonId = ?2)");
-        query.setParameter(1,programs.getProgramId()).setParameter(2,person.getPersonId());
+        query.setParameter(1, programs.getProgramId()).setParameter(2, person.getPersonId());
         List result = query.getResultList();
         int totalSteps = result.size();
-        if(totalSteps == 0)return 100;
-        int eachStepPcnt = 100/totalSteps;
+        if (totalSteps == 0) return 100;
+        int eachStepPcnt = 100 / totalSteps;
         int totalPcnt = 0;
-        for(Object x : result){
-            if((Boolean)x)totalPcnt+=eachStepPcnt;
+        for (Object x : result) {
+            if ((Boolean) x) totalPcnt += eachStepPcnt;
         }
         return totalPcnt;
     }
 
     @Override
     public List<DocumentField> getListOfDocumentFields(Documents documents) {
-        Query query = em.createQuery("select distinct p from Documents d, in (d.documentField)p where d.DocId ="+documents.getDocId());
+        Query query = em.createQuery("select distinct p from Documents d, in (d.documentField)p where d.DocId =" + documents.getDocId());
         return query.getResultList();
     }
 
@@ -289,8 +303,8 @@ public class DbFunctionality implements IModel  {
         PersonData personData = getPersonDataByWayId(way.getWayId());
         personDocument.setPersonData(personData);
         em.persist(personDocument);
-        int wayDocumentId =(Integer)em.createQuery("select wd.WayDocumentsId from WayDocuments wd where wd.way.WayId ="+way.getWayId()
-                +"and wd.requiredDocument.DocId="+requiredDocument.getDocId()).getSingleResult();
+        int wayDocumentId = (Integer) em.createQuery("select wd.WayDocumentsId from WayDocuments wd where wd.way.WayId =" + way.getWayId()
+                + "and wd.requiredDocument.DocId=" + requiredDocument.getDocId()).getSingleResult();
         WayDocuments wayDocument = em.find(WayDocuments.class, wayDocumentId);
         wayDocument.setPersonDocument(personDocument);
         wayDocument.setReady(true);
@@ -298,16 +312,17 @@ public class DbFunctionality implements IModel  {
     }
 
 
-
     private PersonData getPersonDataByWayId(int wayId) {
-        int PersonDataId = (Integer)em.createQuery("select w.personData.PersonDataId" +
-                " from Way w where w.WayId ="+wayId).getSingleResult();
-        return em.find(PersonData.class , PersonDataId);
+        int PersonDataId = (Integer) em.createQuery("select w.personData.PersonDataId" +
+                " from Way w where w.WayId =" + wayId).getSingleResult();
+        return em.find(PersonData.class, PersonDataId);
     }
+
     @Override
     public List<WayDocuments> getListOfRequiredDoc(Way way) {
-        return em.createQuery("select wd from WayDocuments wd where wd.way.WayId ="+way.getWayId()).getResultList();
+        return em.createQuery("select wd from WayDocuments wd where wd.way.WayId =" + way.getWayId()).getResultList();
     }
+
     @Transactional
     @Override
     public void setCheckboxOfWayDoc(WayDocuments wayDocuments) {
