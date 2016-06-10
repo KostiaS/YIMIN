@@ -19,6 +19,7 @@ public class Documents  {
 	String type;
 	String image;
     String nameOfFile;
+	String nameOfDocument;
 
     @JsonIgnore
 	@Lob
@@ -32,7 +33,7 @@ public class Documents  {
 	@ManyToOne
 	Programs prog;
 
-    @JsonIgnore
+	@JsonIgnore
 	@OneToMany
 	List <DocumentField> documentField;
 	
@@ -109,10 +110,26 @@ public class Documents  {
 		this.image = image;
 	}
 
-	@Override
-	public String toString() {
-		return "Documents [type=" + type + ", image=" + image + ", DocId="
-				+ DocId + "]";
+	public String getNameOfDocument() {
+		return nameOfDocument;
 	}
 
+	public void setNameOfDocument(String nameOfDocument) {
+		this.nameOfDocument = nameOfDocument;
+	}
+
+	@Override
+	public String toString() {
+		return "Documents{" +
+				"DocId=" + DocId +
+				", type='" + type + '\'' +
+				", image='" + image + '\'' +
+				", nameOfFile='" + nameOfFile + '\'' +
+				", nameOfDocument='" + nameOfDocument + '\'' +
+				", file=" + file +
+				", mask=" + mask +
+				", prog=" + prog +
+				", documentField=" + documentField +
+				'}';
+	}
 }

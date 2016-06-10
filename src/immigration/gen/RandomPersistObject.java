@@ -18,7 +18,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import immigration.dao.*;
 import immigration.interfaces.*;
-
+/**
+ * Created by Shanin Dima 3620849@gmail.com on 18.03.2016.
+ */
 
 public class RandomPersistObject {
     private static final int STEP_AMOUNT = 5;
@@ -29,6 +31,7 @@ public class RandomPersistObject {
     private static final int DOCUMENTS_AMOUNT = 150;
     private static final int FIELDNAMES_AMOUNT = 20;
     private static final String PHOTO_FILE_PATH = "../Yimin/resources/doc.jpg";
+    private static final String PRS_DOC_FILE_PATH = "../Yimin/resources/passport.jpg";
     private static final String MASK_FILE_PATH = "../Yimin/resources/mask.html";
 
 
@@ -143,6 +146,7 @@ public class RandomPersistObject {
                 documents.setNameOfFile("doc.jpg");
                 documents.setImage(ig.randomString("www.photoRepository"+x, i) + ".com");
                 documents.setType(ig.statusGenerator(5, "Type"));
+                documents.setNameOfDocument(ig.statusGenerator(10, "document name"));
                 documents.setProg(getObjectFromDbById(Programs.class,i));
                 documents.setDocumentField(generateDocumentFieldList());
                 em.persist(documents);
@@ -335,7 +339,7 @@ public class RandomPersistObject {
             personDocuments.setDocumentType(ig.statusGenerator(10, "Type"));
             personDocuments.setExpirationDate(ig.getRandomData());
             personDocuments.setLanguage(ig.randomString("language", i));
-            personDocuments.setLinkToImage(ig.randomString("imageLink", i));
+            personDocuments.setDocument(generateBlobFromFile(PRS_DOC_FILE_PATH));
             personDocuments.setTemporary(ig.booleanGenerator());
             personDocuments.setTranslation(ig.randomString("translation", i));
             personDocuments.setPersonData(getRandomObjectFromDb(new PersonData()));

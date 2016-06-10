@@ -76,8 +76,11 @@ public void setPersonData(PersonData personData) {
 	this.personData = personData;
 }
 
+	public void setWayId(int wayId) {
+		WayId = wayId;
+	}
 
-public Programs getProgram() {
+	public Programs getProgram() {
 	return program;
 }
 

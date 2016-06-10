@@ -1,21 +1,27 @@
 package immigration.model.implementation;
 
 import javax.persistence.*;
-
+/**
+ * Created by Shanin Dima 3620849@gmail.com on 18.03.2016.
+ */
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import immigration.dao.*;
 import immigration.model.interfaces.IModel;
+import org.hibernate.Hibernate;
+import org.hibernate.Session;
 import org.hibernate.mapping.Collection;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.sql.Blob;
 import java.sql.SQLException;
-import java.util.ArrayList;
+
 import java.util.Base64;
 import java.util.List;
-
+/**
+ * Created by Shanin Dima 3620849@gmail.com on 18.03.2016.
+ */
 public class DbFunctionality implements IModel  {
 
     @PersistenceContext(unitName = "springHibernate", type = PersistenceContextType.EXTENDED)
@@ -265,5 +271,48 @@ public class DbFunctionality implements IModel  {
             if((Boolean)x)totalPcnt+=eachStepPcnt;
         }
         return totalPcnt;
+    }
+
+    @Override
+    public List<DocumentField> getListOfDocumentFields(Documents documents) {
+        Query query = em.createQuery("select distinct p from Documents d, in (d.documentField)p where d.DocId ="+documents.getDocId());
+        return query.getResultList();
+    }
+
+    @Transactional
+    @Override
+    public void addPersonDocInWay(Way way, Documents requiredDocument, String downloadedDoc) {
+        byte[] downloadedDocDecoded = Base64.getDecoder().decode(downloadedDoc);
+        Blob document = Hibernate.getLobCreator(em.unwrap(Session.class)).createBlob(downloadedDocDecoded);
+        PersonDocuments personDocument = new PersonDocuments();
+        personDocument.setDocument(document);
+        PersonData personData = getPersonDataByWayId(way.getWayId());
+        personDocument.setPersonData(personData);
+        em.persist(personDocument);
+        int wayDocumentId =(Integer)em.createQuery("select wd.WayDocumentsId from WayDocuments wd where wd.way.WayId ="+way.getWayId()
+                +"and wd.requiredDocument.DocId="+requiredDocument.getDocId()).getSingleResult();
+        WayDocuments wayDocument = em.find(WayDocuments.class, wayDocumentId);
+        wayDocument.setPersonDocument(personDocument);
+        wayDocument.setReady(true);
+        em.merge(wayDocument);
+    }
+
+
+
+    private PersonData getPersonDataByWayId(int wayId) {
+        int PersonDataId = (Integer)em.createQuery("select w.personData.PersonDataId" +
+                " from Way w where w.WayId ="+wayId).getSingleResult();
+        return em.find(PersonData.class , PersonDataId);
+    }
+    @Override
+    public List<WayDocuments> getListOfRequiredDoc(Way way) {
+        return em.createQuery("select wd from WayDocuments wd where wd.way.WayId ="+way.getWayId()).getResultList();
+    }
+    @Transactional
+    @Override
+    public void setCheckboxOfWayDoc(WayDocuments wayDocuments) {
+        WayDocuments wdFromDb = em.find(WayDocuments.class, wayDocuments.getWayDocumentsId());
+        wdFromDb.setReady(wayDocuments.isReady());
+        em.merge(wdFromDb);
     }
 }
