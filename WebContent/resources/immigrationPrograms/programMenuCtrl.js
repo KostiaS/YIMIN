@@ -3,7 +3,7 @@ angular.module("mainApp")
         function (URLS, authService, postRequest, $scope, $location) {
 
             $scope.init = function () {
-                $scope.documentSelected = {doc: null};
+                // $scope.documentSelected = {doc: null};
                 // $scope.mode = {complete: "false"};
             };
 
@@ -72,12 +72,14 @@ angular.module("mainApp")
             };
 
             $scope.completeForm = function () {
+                $scope.pendingRequestForFillingForm.value = true;
                 if(!authService.isAuthenticated()) $scope.mode.complete = "true";
                 else {
                     if(!$scope.mode.textProgramInWay) {
                         $scope.mode.complete = "addProgramToWay"
                     } else {
                         $scope.mode.complete = "fillForm";
+                        $location.path("/yourway/immigration/programs");
                     }
                 }
             };
@@ -85,6 +87,16 @@ angular.module("mainApp")
             $scope.viewDownloadForm = function () {
                 
             };
+            
+            // $scope.$watch(function () {
+            //     return authService.isAuthenticated();
+            // }, function () {
+            //     pendingRequestForFillingFormHandler();
+            // });
+            //
+            // function pendingRequestForFillingFormHandler() {
+            //    
+            // }
 
             // $scope.markStepFulfillment = [];
 

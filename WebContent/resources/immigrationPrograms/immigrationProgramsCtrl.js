@@ -13,6 +13,8 @@ angular.module("mainApp")
                 yourProgramInfoState: false,
                 complete: false
             };
+
+            $scope.pendingRequestForFillingForm = {value: false};
             
             $scope.programMenuBtnsVisibility = false;
             
@@ -40,6 +42,16 @@ angular.module("mainApp")
                         btn: "Filter by requirements"
                     };
                     $scope.addProgramToYourWayButtonTrigger();
+                    if(session.listOfPrograms != null) {
+                        if($scope.mode.complete == "true") {
+                            if(!$scope.mode.textProgramInWay) {
+                                $scope.mode.complete = "addProgramToWay"
+                            } else {
+                                $scope.mode.complete = "fillForm";
+                            }
+                        }
+                    }
+
                 } else {
                     $scope.btnDescripText = {
                         text: "Click Your Way to get a program suitable to you",
@@ -47,6 +59,9 @@ angular.module("mainApp")
                     };
                     $scope.mode.btnAddProgram = false;
                     $scope.mode.textProgramInWay = false;
+                    if($scope.mode.complete == "addProgramToWay") {
+                        $scope.mode.complete = "true";
+                    }
                 }
             };
 
@@ -72,6 +87,22 @@ angular.module("mainApp")
                                 $scope.mode.btnAddProgram = true;
                                 $scope.mode.textProgramInWay = false;
                             }
+
+                            if($scope.mode.complete == "true") {
+                                if(!$scope.mode.textProgramInWay) {
+                                    $scope.mode.complete = "addProgramToWay"
+                                } else {
+                                    $scope.mode.complete = "fillForm";
+                                }
+                            }
+
+                            if($scope.pendingRequestForFillingForm.value == true && $scope.mode.complete == "false") {
+                                $scope.pendingRequestForFillingForm.value = false;
+                            }
+                            if($scope.pendingRequestForFillingForm.value == true && $scope.mode.complete == "true") {
+                                $location.path("/yourway/immigration/programs");
+                            }
+                            
                             // flag ? $scope.mode.btnAddProgram = false : $scope.mode.btnAddProgram = true;
                         } else {
                             $scope.mode.btnAddProgram = false;
@@ -158,6 +189,7 @@ angular.module("mainApp")
             function resetDocumentPreview() {
                 var imagePreviewElem = angular.element(document.querySelector('#preview'));
                 imagePreviewElem.attr('src', '#');
+                $scope.documentSelected.doc = null;
             }
             
             // $scope.emitProgramDocuments = function () {
@@ -223,6 +255,8 @@ angular.module("mainApp")
             };
 
             $scope.programMenuHandler = function (url, btnText) {
+                $scope.mode.complete = false;
+                resetDocumentPreview();
                 $scope.btnText.show.steps = btnText.steps;
                 $scope.btnText.show.formsAndGuides = btnText.formsAndGuides;
                 $scope.btnText.show.requirements = btnText.requirements;
@@ -248,6 +282,11 @@ angular.module("mainApp")
                 postRequest(url, {personId: session.userId})
                     .then(function (response) {
                         session.addUpdateListOfPrograms(response.response);
+
+                        if($scope.pendingRequestForFillingForm.value == true && $scope.mode.complete == "addProgramToWay") {
+                            $location.path("/yourway/immigration/programs");
+                        }
+
                     })
             }
 
