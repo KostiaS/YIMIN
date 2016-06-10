@@ -1,6 +1,6 @@
 angular.module("mainApp")
-    .controller("embassiesInfoCtrl", ["URLS", "getRequest", "getEmbassyLocation", "getEmbassyData", "arrayConcatSrvs", "$scope", "$location",
-        function(URLS, getRequest, getEmbassyLocation, getEmbassyData, arrayConcatSrvs, $scope, $location) {
+    .controller("embassiesInfoCtrl", ["URLS", "getRequest", "getEmbassyLocation", "getEmbassyData", "session", "$scope", "$location",
+        function(URLS, getRequest, getEmbassyLocation, getEmbassyData, session, $scope, $location) {
 
             $scope.immigrateToThisCountryBtnVisibility = false;
             $scope.embassiesInfoVisibility = false;
@@ -20,6 +20,8 @@ angular.module("mainApp")
             };
             
             $scope.goToImmigrationProgramsView = function() {
+                session.setIndex(null);
+                session.programsMarker(null);
                 $scope.emitCountryForImmigration();
                 // $scope.countryForImmigration.country = $scope.embassyCountrySelected;
                 $location.path("/programs");
@@ -37,7 +39,7 @@ angular.module("mainApp")
                         // $scope.embassyCountries = arrayConcatSrvs.arrayConcated($scope.embassyCountries, response.countries);
                         $scope.embassyCountries = response.response;
                     })
-            };
+            }();
 
             $scope.getEmbassyLocation = function () {
                 getEmbassyLocation($scope.embassyCountrySelected).then(function (response) {
@@ -53,8 +55,6 @@ angular.module("mainApp")
                         $scope.embassyData = response.embassyData;
                 })
             };
-
-            $scope.getEmbassyCountry();
 
             $scope.accordion = {
                 current: null

@@ -1,10 +1,10 @@
 angular.module("mainApp")
-    .controller("programMenuCtrl", ["URLS", "postRequest", "$scope", "$location",
-        function (URLS, postRequest, $scope, $location) {
+    .controller("programMenuCtrl", ["URLS", "authService", "postRequest", "$scope", "$location",
+        function (URLS, authService, postRequest, $scope, $location) {
 
             $scope.init = function () {
                 $scope.documentSelected = {doc: null};
-                $scope.mode = {complete: "false"};
+                // $scope.mode = {complete: "false"};
             };
 
             $scope.$watch("documentSelected.doc", function () {
@@ -38,11 +38,6 @@ angular.module("mainApp")
                     ? $scope.downloadCompleteBtnsVisibility = false
                     : $scope.downloadCompleteBtnsVisibility = true;
             };
-            
-            $scope.completeForm = function () {
-                $scope.mode.complete = "true";
-            };
-
 
             //Authorization
             // $scope.viewTrigger = function() {
@@ -75,9 +70,16 @@ angular.module("mainApp")
                 var imagePreviewElem = angular.element(document.querySelector('#preview'));
                 imagePreviewElem.attr('src', $scope.downloadedFormSrc);
             };
-            
+
             $scope.completeForm = function () {
-                
+                if(!authService.isAuthenticated()) $scope.mode.complete = "true";
+                else {
+                    if(!$scope.mode.textProgramInWay) {
+                        $scope.mode.complete = "addProgramToWay"
+                    } else {
+                        $scope.mode.complete = "fillForm";
+                    }
+                }
             };
             
             $scope.viewDownloadForm = function () {

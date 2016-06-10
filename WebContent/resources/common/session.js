@@ -15,6 +15,7 @@ angular.module("commonServices")
             this.programsFulfillment(null);
             this.programInformationState(false);
             this.chooseNewProgramButtonState(false);
+            this.setIndex(null);
         };
         
         this.addUpdateListOfPrograms = function (listOfPrograms) {
@@ -35,6 +36,14 @@ angular.module("commonServices")
         
         this.chooseNewProgramButtonState = function (chooseNewProgramBtnState) {
             this.chooseNewProgramBtnState = chooseNewProgramBtnState;
+        };
+        
+        this.setIndex = function (index) {
+            this.index = index;
+        };
+        
+        this.setProgramSelected = function (programSelected) {
+            this.programSelected = programSelected;
         };
         
     });
