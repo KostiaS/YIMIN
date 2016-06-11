@@ -5,39 +5,46 @@ import javax.persistence.*;
 
 @Entity
 public class DocumentField {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	int id;
-	String name;
-	String value;
-	String attribute;
-	Boolean flagPersonData;
-	
-	public DocumentField() {
-	}
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    int id;
+    String name;
+    String attribute;
+    Boolean flagPersonData;
 
-	public int getId() {
-		return id;
-	}
+    public DocumentField() {
+    }
 
-	public void setId(int id) {
-		this.id = id;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public String getAttribute() {
-		return attribute;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public void setAttribute(String attribute) {
-		this.attribute = attribute;
-	}
+    public int getId() {
+        return id;
+    }
 
-	public Boolean getFlagPersonData() {
-		return flagPersonData;
-	}
+    public void setId(int id) {
+        this.id = id;
+    }
 
-	public void setFlagPersonData(Boolean flagPersonData) {
-		this.flagPersonData = flagPersonData;
-	}
-	
+    public String getAttribute() {
+        return attribute;
+    }
+
+    public void setAttribute(String attribute) {
+        this.attribute = attribute;
+    }
+
+    public Boolean getFlagPersonData() {
+        return flagPersonData;
+    }
+
+    public void setFlagPersonData(Boolean flagPersonData) {
+        this.flagPersonData = flagPersonData;
+    }
+
 }

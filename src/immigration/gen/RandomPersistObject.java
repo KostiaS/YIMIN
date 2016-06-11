@@ -175,10 +175,11 @@ public class RandomPersistObject {
     @Transactional
     private List<DocumentField> generateDocumentFieldList() {
         List<DocumentField> docFieldList = new ArrayList<>();
-        for (int i = 0; i < ig.randBetween(0, 15); i++) {
+        for (int i = 0; i < ig.randBetween(3, 15); i++) {
             DocumentField documentField = new DocumentField();
             documentField.setAttribute(ig.randomString("attribute", i));
             documentField.setFlagPersonData(ig.booleanGenerator());
+            documentField.setName(ig.statusGenerator(10,"someName"));
 
             em.persist(documentField);
             docFieldList.add(documentField);

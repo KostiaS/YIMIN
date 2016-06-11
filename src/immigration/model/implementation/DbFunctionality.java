@@ -18,6 +18,7 @@ import java.sql.Blob;
 import java.sql.SQLException;
 
 import java.util.Base64;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -189,7 +190,7 @@ public class DbFunctionality implements IModel {
     public boolean addProgramInWay(ObjectNode jsonObject) {
         Person person = getObjectFromJson(jsonObject, 0, Person.class);
         Programs programs = getObjectFromJson(jsonObject, 1, Programs.class);
-
+        addDocumentsFieldInPersonCustomData(person,programs);
         Way way = new Way();
         way.setPersonData(getPersonDataById(person.getPersonId()));
         way.setProgram(programs);
@@ -197,6 +198,60 @@ public class DbFunctionality implements IModel {
         generateWaySteps(way.getWayId(), programs.getProgramId());
         generateWayDocuments(way.getWayId(), programs.getProgramId());
         return true;
+    }
+    @Transactional
+    private void addDocumentsFieldInPersonCustomData(Person person, Programs programs) {
+        int personId = person.getPersonId();
+        int programId = programs.getProgramId();
+
+        Query query = em.createQuery("select distinct p.name from Documents d, in (d.documentField) p" +
+            " where d.DocId in (select d.DocId from Documents d where d.prog.ProgramId = ?1) and p.flagPersonData = false");
+        query.setParameter(1,programId);
+        List<String> fields = query.getResultList();
+        Query filterQuery = em.createQuery("select pcd.fieldNames.name from PersonCustomData pcd where pcd.personData.person.id = ?1");
+        filterQuery.setParameter(1,personId);
+        List<String> filterList = filterQuery.getResultList();
+        fields = filter(fields,filterList);
+        for(int i = 0;i<fields.size();i++){
+
+            PersonCustomData pcd = new PersonCustomData();
+            pcd.setPersonData(getPersonDataById(personId));
+            pcd.setValue("");
+            pcd.setFieldNames(findOrAddFieldName(fields.get(i)));
+            em.persist(pcd);
+        }
+    }
+
+    private List<String> filter(List<String> fields, List<String> filterList) {
+       Iterator<String> fldIter = fields.iterator();
+        while (fldIter.hasNext()){
+            String elem = fldIter.next();
+            for(String x : filterList){
+                if(elem.equals(x)){
+                    fldIter.remove();
+                    break;
+                }
+            }
+        }
+        return fields;
+    }
+
+    @Transactional
+    private FieldNames findOrAddFieldName(String field) {
+        if (field==null)return null;
+        Query query = em.createQuery("select fn from FieldNames fn where fn.name = '"+field+"'");
+        List list = query.getResultList();
+            if (list.isEmpty()){
+            System.out.println("no field in fieldNames table ");
+            System.out.println("add new field in fieldNames");
+                FieldNames fn = new FieldNames();
+                        fn.setName(field);
+                fn.setPossibleValues("xxx");
+            em.persist(fn);
+            return fn;
+        }
+
+        return (FieldNames)list.get(0);
     }
 
     @Transactional
