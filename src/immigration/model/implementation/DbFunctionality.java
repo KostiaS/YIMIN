@@ -385,4 +385,16 @@ public class DbFunctionality implements IModel {
         wdFromDb.setReady(wayDocuments.isReady());
         em.merge(wdFromDb);
     }
+
+    @Override
+    public List<PersonCustomData> getListPCDFieldsByDoc(ObjectNode jsonObject) {
+        Person person = getObjectFromJson(jsonObject,0,Person.class);
+        Documents documents = getObjectFromJson(jsonObject,1,Documents.class);
+        Query query = em.createQuery("select pcd from PersonCustomData pcd where pcd.personData.person.id = ?1" +
+                " and pcd.fieldNames.name in (select distinct p.name from Documents d, in" +
+                " (d.documentField)p where d.DocId = ?2)");
+        query.setParameter(1,person.getPersonId()).setParameter(2,documents.getDocId());
+        return query.getResultList();
+    }
+
 }

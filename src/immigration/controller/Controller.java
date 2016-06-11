@@ -39,7 +39,7 @@ public class Controller {
 
     /**
      * <p>get information - person data of user by person id</p>
-     * for view 18 in flow
+     * for view 18 and 28 in flow
      */
     @RequestMapping(value = Constants.PERSONAL_DATA + "/{personId}", method = RequestMethod.GET)
     public PersonData getPersonData(@PathVariable int personId) {
@@ -289,8 +289,13 @@ public class Controller {
     }
 
     /**
-     *<p></p>
+     *<p>get list of fields person custom data according required document </p>
+     * @param jsonObject {"param":[{"personId":1},{"docId":1}]}
+     * for flow 28
      */
-
+    @RequestMapping(value = Constants.LIST_PCD_FIELDS_BY_DOC, method = RequestMethod.POST)
+    public List<PersonCustomData> getListPCDFieldsByDoc(@RequestBody ObjectNode jsonObject){
+        return model.getListPCDFieldsByDoc(jsonObject);
+    }
 
 }

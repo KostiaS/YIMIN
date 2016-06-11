@@ -57,4 +57,6 @@ public interface IModel {
     List<WayDocuments> getListOfRequiredDoc(Way way);
 
     void setCheckboxOfWayDoc(WayDocuments wayDocuments);
+
+    List<PersonCustomData> getListPCDFieldsByDoc(ObjectNode jsonObject);
 }
