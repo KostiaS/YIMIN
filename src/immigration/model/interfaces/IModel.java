@@ -26,7 +26,7 @@ public interface IModel {
 
     List<String> getCategoryOfProgram(Country country);
 
-    List<Programs> getProgram(Country country, Programs category);
+    List<Programs> getProgram(ObjectNode jsonObject);
 
     List<ProgramStep> getProgramStepByCountry(Programs program);
 
@@ -42,11 +42,11 @@ public interface IModel {
 
     boolean updatePersonCustomData(PersonCustomData pcd);
 
-    public boolean addProgramInWay(Person person, Programs programs);
+    public boolean addProgramInWay(ObjectNode jsonObject);
 
     List<Way> getProgramsListFromWay(Person person);
 
-    boolean deleteProgramFromWay(Person person, Programs programs);
+    boolean deleteProgramFromWay(ObjectNode jsonObject);
 
     int getValutationOfWayProg(ObjectNode jsonObject);
 

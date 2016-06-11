@@ -127,18 +127,7 @@ public class Controller {
      */
     @RequestMapping(value = Constants.IMMIGRATION_PROGRAMS, method = RequestMethod.POST)
     public List<Programs> getPrograms(@RequestBody ObjectNode jsonObject) {
-        ObjectMapper om = new ObjectMapper();
-        Country country = null;
-        Programs programs = null;
-        try {
-
-            country = om.readValue(jsonObject.get("param").get(0).toString(), Country.class);
-            programs = om.readValue(jsonObject.get("param").get(1).toString(), Programs.class);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return model.getProgram(country, programs);
+        return model.getProgram(jsonObject);
     }
 
     /**
@@ -217,18 +206,7 @@ public class Controller {
      */
     @RequestMapping(value = Constants.ADD_PROGRAM_IN_WAY, method = RequestMethod.POST)
     public boolean addProgramInWay(@RequestBody ObjectNode jsonObject) {
-        ObjectMapper om = new ObjectMapper();
-        Person person = null;
-        Programs programs = null;
-        try {
-
-            person = om.readValue(jsonObject.get("param").get(0).toString(), Person.class);
-            programs = om.readValue(jsonObject.get("param").get(1).toString(), Programs.class);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return model.addProgramInWay(person, programs);
+        return model.addProgramInWay(jsonObject);
     }
 
     /**
@@ -243,27 +221,16 @@ public class Controller {
     }
     /**
      * <p>delete program from person way</p>
-     * @parm jsonObject  {"param":[{"personId":1},{"programId":1}]}
+     * @param jsonObject  {"param":[{"personId":1},{"programId":1}]}
      * for flow 23 in web
      */
     @RequestMapping(value = Constants.DELETE_PROGRAM_FROM_WAY, method = RequestMethod.POST)
     public boolean deleteProgramFromWay(@RequestBody ObjectNode jsonObject) {
-        ObjectMapper om = new ObjectMapper();
-        Person person = null;
-        Programs programs = null;
-        try {
-
-            person = om.readValue(jsonObject.get("param").get(0).toString(), Person.class);
-            programs = om.readValue(jsonObject.get("param").get(1).toString(), Programs.class);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return model.deleteProgramFromWay(person, programs);
+        return model.deleteProgramFromWay(jsonObject);
     }
     /**
      * <p>get valuation about complete of program 0-100%</p>
-     * @parm jsonObject  {"param":[{"personId":1},{"programId":1}]}
+     * @param jsonObject {"param":[{"personId":1},{"programId":1}]}
      * for flow 23 in web
      */
     @RequestMapping(value = Constants.GET_VALUATION_OF_WAY_PROG, method = RequestMethod.POST)
@@ -321,6 +288,10 @@ public class Controller {
     public void setCheckboxOfWayDoc(@RequestBody WayDocuments wayDoc){
         model.setCheckboxOfWayDoc(wayDoc);
     }
+
+    /**
+     *<p></p>
+     */
 
 
 }
