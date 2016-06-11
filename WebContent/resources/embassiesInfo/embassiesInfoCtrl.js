@@ -21,6 +21,7 @@ angular.module("mainApp")
             
             $scope.goToImmigrationProgramsView = function() {
                 session.setIndex(null);
+                session.setDocumentSelected(null);
                 session.programsMarker(null);
                 $scope.emitCountryForImmigration();
                 // $scope.countryForImmigration.country = $scope.embassyCountrySelected;

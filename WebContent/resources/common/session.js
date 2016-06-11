@@ -16,6 +16,8 @@ angular.module("commonServices")
             this.programInformationState(false);
             this.chooseNewProgramButtonState(false);
             this.setIndex(null);
+            this.setProgramSelected(null);
+            this.setDocumentSelected(null);
         };
         
         this.addUpdateListOfPrograms = function (listOfPrograms) {
@@ -44,6 +46,10 @@ angular.module("commonServices")
         
         this.setProgramSelected = function (programSelected) {
             this.programSelected = programSelected;
+        };
+        
+        this.setDocumentSelected = function (documentSelected) {
+            this.documentSelected = documentSelected;
         };
         
     });

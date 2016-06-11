@@ -1,6 +1,6 @@
 angular.module("mainApp")
-    .controller("programMenuCtrl", ["URLS", "authService", "postRequest", "$scope", "$location",
-        function (URLS, authService, postRequest, $scope, $location) {
+    .controller("programMenuCtrl", ["URLS", "authService", "postRequest", "session", "$scope", "$location",
+        function (URLS, authService, postRequest, session, $scope, $location) {
 
             $scope.init = function () {
                 // $scope.documentSelected = {doc: null};
@@ -71,17 +71,23 @@ angular.module("mainApp")
                 imagePreviewElem.attr('src', $scope.downloadedFormSrc);
             };
 
-            $scope.completeForm = function () {
-                $scope.pendingRequestForFillingForm.value = true;
-                if(!authService.isAuthenticated()) $scope.mode.complete = "true";
-                else {
-                    if(!$scope.mode.textProgramInWay) {
-                        $scope.mode.complete = "addProgramToWay"
-                    } else {
-                        $scope.mode.complete = "fillForm";
-                        $location.path("/yourway/immigration/programs");
+            $scope.completeForm = function (item) {
+                if(!item) {
+                    $scope.pendingRequestForFillingForm.value = true;
+                    if(!authService.isAuthenticated()) $scope.mode.complete = "true";
+                    else {
+                        if(!$scope.mode.textProgramInWay) {
+                            $scope.mode.complete = "addProgramToWay"
+                        } else {
+                            session.setDocumentSelected($scope.documentSelected.doc);
+                            session.setProgramSelected($scope.programSelected.prog);
+                            $location.path("/yourway/immigration/programs");
+                        }
                     }
+                } else {
+                    $scope.mode.complete = "fillForm";
                 }
+
             };
             
             $scope.viewDownloadForm = function () {

@@ -83,6 +83,7 @@ angular.module("mainApp", ["ngRoute", "commonHttpRequests", "commonServices"])
             session.chooseNewProgramButtonState(false);
             $scope.countryForImmigration = null;
             session.setIndex(null);
+            session.setDocumentSelected(null);
             $location.path("/programs");
         };
 

@@ -22,6 +22,7 @@ angular.module("mainApp")
                 // $scope.countryForImmigration.country = $scope.selected;
                 // console.log($scope.countryForImmigration.country);
                 session.setIndex(null);
+                session.setDocumentSelected(null);
                 session.programsMarker(null);
                 $scope.emitCountryForImmigration();
                 $location.path("/programs");

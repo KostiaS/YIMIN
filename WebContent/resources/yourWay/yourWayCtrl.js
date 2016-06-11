@@ -40,6 +40,7 @@ angular.module("mainApp")
                 } else {
                     session.programsMarker(null);
                     session.setIndex(null);
+                    session.setDocumentSelected(null);
                     $location.path("/yourway/immigration");
                 }
             };
@@ -70,6 +71,7 @@ angular.module("mainApp")
                     session.programsFulfillment(programsFulfillment);
                     session.chooseNewProgramButtonState(true);
                     session.setIndex(null);
+                    session.setDocumentSelected(null);
                     $location.path("/yourway/immigration/programs");
                 });
             }
