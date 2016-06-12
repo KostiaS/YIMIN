@@ -54,6 +54,10 @@ public class PersonDocuments {
                 + PersonDocId + "]";
     }
 
+    public void setPersonDocId(int personDocId) {
+        PersonDocId = personDocId;
+    }
+
     public PersonData getPersonData() {
         return personData;
     }

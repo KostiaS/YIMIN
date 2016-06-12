@@ -59,4 +59,10 @@ public interface IModel {
     void setCheckboxOfWayDoc(WayDocuments wayDocuments);
 
     List<PersonCustomData> getListPCDFieldsByDoc(ObjectNode jsonObject);
+
+    boolean removeDocFromWay(WayDocuments wayDocument);
+
+    List<WaySteps> getListWayStep(Way way);
+
+    boolean setCheckboxOfWayStep(WaySteps waySteps);
 }

@@ -396,5 +396,31 @@ public class DbFunctionality implements IModel {
         query.setParameter(1,person.getPersonId()).setParameter(2,documents.getDocId());
         return query.getResultList();
     }
+    @Transactional
+    @Override
+    public boolean removeDocFromWay(WayDocuments wayDocuments) {
+
+        /*Query query = em.createQuery("select wd.id from WayDocuments wd where wd.way.id = ?1 and wd.requiredDocument.id = ?2");
+        query.setParameter(1,way.getWayId()).setParameter(2,wayDocuments.getRequiredDocument().getDocId());*/
+        int idOfWayDoc = wayDocuments.getWayDocumentsId();
+        WayDocuments wayDocumentsDb = em.find(WayDocuments.class,idOfWayDoc);
+        wayDocumentsDb.setReady(false);
+        wayDocumentsDb.setPersonDocument(null);
+        em.merge(wayDocumentsDb);
+        return true;
+    }
+
+    @Override
+    public List<WaySteps> getListWayStep(Way way) {
+        return em.createQuery("select ws from WaySteps ws where ws.way.WayId="+way.getWayId()).getResultList();
+    }
+    @Transactional
+    @Override
+    public boolean setCheckboxOfWayStep(WaySteps waySteps) {
+        WaySteps wayStepFromDb = em.find(WaySteps.class,waySteps.getWayStepsId());
+        wayStepFromDb.setDone(waySteps.isDone());
+        em.merge(wayStepFromDb);
+        return true;
+    }
 
 }

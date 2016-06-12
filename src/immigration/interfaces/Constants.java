@@ -27,4 +27,7 @@ public class Constants {
     public static final String GET_LIST_OF_REQUIRED_DOC = "/get_list_of_required_doc";
     public static final String SET_IS_READY_IN_WAYDOC = "/set_is_ready_in_waydoc";
     public static final String LIST_PCD_FIELDS_BY_DOC = "/list_pcd_fields_by_doc";
+    public static final String REMOVE_DOC_FROM_WAY = "/remove_doc_from_way";
+    public static final String GET_LIST_WAYSTEP = "/get_list_waystep";
+    public static final String SET_CHECKBOX_WAYSTEP = "/set_checkbox_waystep";
 }
