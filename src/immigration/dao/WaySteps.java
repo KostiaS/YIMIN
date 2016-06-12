@@ -30,6 +30,10 @@ public class WaySteps {
 		this.information = information;
 	}
 
+	public void setWayStepsId(int wayStepsId) {
+		WayStepsId = wayStepsId;
+	}
+
 	public Way getWay() {
 		return way;
 	}

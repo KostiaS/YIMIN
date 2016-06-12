@@ -2,6 +2,7 @@ package immigration.model.interfaces;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import immigration.dao.*;
+import immigration.model.Dto.DtoPersonCustomData;
 
 import java.sql.Blob;
 import java.util.List;
@@ -58,5 +59,11 @@ public interface IModel {
 
     void setCheckboxOfWayDoc(WayDocuments wayDocuments);
 
-    List<PersonCustomData> getListPCDFieldsByDoc(ObjectNode jsonObject);
+    List<DtoPersonCustomData> getListPCDFieldsByDoc(ObjectNode jsonObject);
+
+    boolean removeDocFromWay(WayDocuments wayDocument);
+
+    List<WaySteps> getListWayStep(Way way);
+
+    boolean setCheckboxOfWayStep(WaySteps waySteps);
 }
