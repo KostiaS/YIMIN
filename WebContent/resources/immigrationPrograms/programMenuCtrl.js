@@ -85,13 +85,35 @@ angular.module("mainApp")
                         }
                     }
                 } else {
+                    $scope.documentSelected.doc = item;
                     $scope.mode.complete = "fillForm";
+                    getPersonCustomData(item);
                 }
 
             };
             
+            function getPersonCustomData(item) {
+                var url = URLS.URL + ":" + URLS.PORT + URLS.ROOT_CONTEXT + URLS.REQUEST_MAPPING
+                    + URLS.GET_DOCUMENT_FIELDS;
+                postRequest(url, {docId: item.docId}).then(function (response) {
+                    $scope.listOfDocumentFields = response.response;
+                }).then(function () {
+                    var url = URLS.URL + ":" + URLS.PORT + URLS.ROOT_CONTEXT + URLS.REQUEST_MAPPING
+                        + URLS.LIST_PCD_FIELDS_BY_DOC;
+                    postRequest(url, {param:[{personId: session.userId},{docId: item.docId}]})
+                        .then(function (response) {
+                            $scope.listOfPersonCustomData = response.response;
+                        })
+                })
+                
+            }
+            
             $scope.viewDownloadForm = function () {
                 
+            };
+
+            $scope.updateForm = function () {
+
             };
             
             // $scope.$watch(function () {

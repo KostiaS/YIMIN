@@ -23,7 +23,12 @@ angular.module("mainApp", ["ngRoute", "commonHttpRequests", "commonServices"])
         "ADD_PROGRAM_IN_WAY": "/add_program_in_way",
         "GET_PROGRAMS_LIST_FROM_WAY": "/get_programs_list_from_way",
         "DELETE_PROGRAM_FROM_WAY": "/delete_program_from_way",
-        "GET_VALUATION_OF_WAY_PROG": "/get_valuation_of_way_prog"
+        "GET_VALUATION_OF_WAY_PROG": "/get_valuation_of_way_prog",
+        "GET_DOCUMENT_FIELDS": "/get_document_fields",
+        "ADD_PRS_DOC_IN_WAY": "/add_prs_doc_in_way",
+        "GET_LIST_OF_REQUIRED_DOC": "/get_list_of_required_doc",
+        "SET_IS_READY_IN_WAYDOC": "/set_is_ready_in_waydoc",
+        "LIST_PCD_FIELDS_BY_DOC": "/list_pcd_fields_by_doc"
     })
     .config(function($routeProvider, $locationProvider) {
         $locationProvider.html5Mode(true);

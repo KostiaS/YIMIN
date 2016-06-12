@@ -2,6 +2,9 @@
     .margin-top div + div {
         margin-top: 3px;
     }
+    .margins-on-sides {
+        margin: 0 15px;
+    }
 </style>
 <div class="row" ng-switch on="mode.yourPrograms">
     <div ng-switch-default ng-init="init()">
@@ -82,7 +85,7 @@
                 </div>
                 <div class="col-md-4">
                     <button class="btn btn-default btn-block">
-                        {{$index + 1}}. {{item.docId}}
+                        {{$index + 1}}. {{item.nameOfDocument}}
                     </button>
                 </div>
                 <div class="col-md-1 border text-center">0%</div>
@@ -95,7 +98,26 @@
             </div>
 
             <div ng-switch-when="fillForm">
-                fill form
+                <div class="vcenter">
+                    <label class="col-md-5 control-label">{{documentSelected.doc.nameOfDocument}}</label>
+                    <div class="col-md-1 border text-center">0%</div>
+                    <div class="col-md-3">
+                        <button class="btn btn-default btn-xs btn-block" ng-click="viewDownloadForm()">view/download</button>
+                    </div>
+                    <div class="col-md-3">
+                        <button class="btn btn-primary btn-block" ng-click="updateForm()">Update</button>
+                    </div>
+                </div>
+                <form name="fillForm" class="margins-on-sides" novalidate>
+                    <div id="{{$index + 100}}" class="form-group" ng-repeat="item in listOfPersonCustomData"
+                            style="margin-top: 5px">
+                        <label for="{{$index + 500}}" style="font-weight: normal">
+                            {{$index + 1}}. {{item.fieldNames.name}}:</label>
+                        <div>
+                            <input id="{{$index + 500}}" class="form-control" type="text" ng-model="item.value">
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
