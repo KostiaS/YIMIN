@@ -7,6 +7,7 @@ import javax.persistence.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import immigration.dao.*;
+import immigration.model.Dto.DtoPersonCustomData;
 import immigration.model.interfaces.IModel;
 import org.hibernate.Hibernate;
 import org.hibernate.Session;
@@ -17,6 +18,7 @@ import java.io.IOException;
 import java.sql.Blob;
 import java.sql.SQLException;
 
+import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Iterator;
 import java.util.List;
@@ -387,15 +389,29 @@ public class DbFunctionality implements IModel {
     }
 
     @Override
-    public List<PersonCustomData> getListPCDFieldsByDoc(ObjectNode jsonObject) {
+    public List<DtoPersonCustomData> getListPCDFieldsByDoc(ObjectNode jsonObject) {
         Person person = getObjectFromJson(jsonObject,0,Person.class);
         Documents documents = getObjectFromJson(jsonObject,1,Documents.class);
         Query query = em.createQuery("select pcd from PersonCustomData pcd where pcd.personData.person.id = ?1" +
                 " and pcd.fieldNames.name in (select distinct p.name from Documents d, in" +
                 " (d.documentField)p where d.DocId = ?2)");
         query.setParameter(1,person.getPersonId()).setParameter(2,documents.getDocId());
-        return query.getResultList();
+        List<PersonCustomData> personCustomData = query.getResultList();
+        return convertToDto(personCustomData);
     }
+
+    private List<DtoPersonCustomData> convertToDto(List<PersonCustomData> personCustomData) {
+        List<DtoPersonCustomData> result = new ArrayList<>();
+        for(PersonCustomData x : personCustomData){
+            String name = x.getFieldNames().getName();
+            String value = x.getValue();
+            String possibleValues=x.getFieldNames().getPossibleValues();
+            DtoPersonCustomData dtoPcd = new DtoPersonCustomData(name,possibleValues,value);
+            result.add(dtoPcd);
+        }
+        return result;
+    }
+
     @Transactional
     @Override
     public boolean removeDocFromWay(WayDocuments wayDocuments) {

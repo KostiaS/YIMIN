@@ -23,13 +23,13 @@ import immigration.interfaces.*;
  */
 
 public class RandomPersistObject {
-    private static final int STEP_AMOUNT = 5;
-    private static final int COUNTYES_AMOUNT = 52;
-    private static final int EMBASSYES_AMOUNT = 400;
-    private static final int PROGRAMS_AMOUNT = 50;//shoud be less than country
-    private static final int MAX_PROGRAMSTEP = 10;// value should be bigger or equals STEP_AMOUNT
-    private static final int DOCUMENTS_AMOUNT = 150;
-    private static final int FIELDNAMES_AMOUNT = 20;
+    private static final int STEP_AMOUNT = 2;//5
+    private static final int COUNTYES_AMOUNT = 3;//52
+    private static final int EMBASSYES_AMOUNT = 2;//400
+    private static final int PROGRAMS_AMOUNT = 2;//50 shoud be less than country
+    private static final int MAX_PROGRAMSTEP = 3;//10 value should be bigger or equals STEP_AMOUNT
+    private static final int DOCUMENTS_AMOUNT = 2;//150
+    private static final int FIELDNAMES_AMOUNT = 2;//20
     private static final String PHOTO_FILE_PATH = "../Yimin/resources/doc.jpg";
     private static final String PRS_DOC_FILE_PATH = "../Yimin/resources/passport.jpg";
     private static final String MASK_FILE_PATH = "../Yimin/resources/mask.html";
@@ -220,7 +220,7 @@ public class RandomPersistObject {
             for (int i = 1; i < ig.randBetween(5, MAX_PROGRAMSTEP); i++) {
                 ProgramStep programStep = new ProgramStep();
                 programStep.setDescription(ig.randomString("description", i));
-                programStep.setFileName(ig.randomString("description", i));
+                programStep.setFileName(ig.randomString("fileName", i));
                 programStep.setProgram(getObjectFromDbById(Programs.class, programsCount));
                 programStep.setStep(getRandomObjectFromDb(new Step()));
                 programStep.setStepOrder(i);

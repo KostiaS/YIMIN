@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import immigration.dao.*;
 import immigration.interfaces.*;
+import immigration.model.Dto.DtoPersonCustomData;
 import immigration.model.interfaces.IModel;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -308,7 +309,7 @@ public class Controller {
      *                   for flow 28
      */
     @RequestMapping(value = Constants.LIST_PCD_FIELDS_BY_DOC, method = RequestMethod.POST)
-    public List<PersonCustomData> getListPCDFieldsByDoc(@RequestBody ObjectNode jsonObject) {
+    public List<DtoPersonCustomData> getListPCDFieldsByDoc(@RequestBody ObjectNode jsonObject) {
         return model.getListPCDFieldsByDoc(jsonObject);
     }
 

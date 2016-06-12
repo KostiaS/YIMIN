@@ -13,7 +13,7 @@ public class TestApp {
         AbstractApplicationContext ctx = new FileSystemXmlApplicationContext("WebContent/WEB-INF/beansGen.xml");
         rpo = (RandomPersistObject) ctx.getBean("rpo");
 
-        fillDB(50);
+        fillDB(1);
        
         ctx.close();
     }
