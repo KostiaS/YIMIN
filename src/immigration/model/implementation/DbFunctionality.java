@@ -225,6 +225,19 @@ public class DbFunctionality implements IModel {
     }
 
     private List<String> filter(List<String> fields, List<String> filterList) {
+        filterList.add("firstName");
+        filterList.add("lastName");
+        filterList.add("birthplace");
+        filterList.add("education");
+        filterList.add("ocupation");
+        filterList.add("homephone");
+        filterList.add("mobilephone");
+        filterList.add("workphone");
+        filterList.add("familyStatus");
+        filterList.add("gender");
+        filterList.add("birthdate");
+        filterList.add("gender");
+        filterList.add("identify");
        Iterator<String> fldIter = fields.iterator();
         while (fldIter.hasNext()){
             String elem = fldIter.next();
