@@ -293,7 +293,6 @@ public class Controller {
 
     /**
      * <p>set checkbox of document</p>
-     *
      * @param wayDoc json {"wayDocumentsId":2,"ready":false}
      *               for flow 20
      */
@@ -340,4 +339,9 @@ public class Controller {
     public boolean setCheckboxOfWayDoc(@RequestBody WaySteps waySteps) {
         return model.setCheckboxOfWayStep(waySteps);
     }
+
+    /**
+     * <p>get lis of requirements</p>
+     */
+
 }

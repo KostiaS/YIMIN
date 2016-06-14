@@ -6,15 +6,13 @@ import org.springframework.context.support.FileSystemXmlApplicationContext;
  * Created by Shanin Dima 3620849@gmail.com on 18.03.2016.
  */
 public class TestApp {
-	static RandomPersistObject rpo;
+	static GeneratorNormal rpo;
 
     public static void main(String[] args) {
 
         AbstractApplicationContext ctx = new FileSystemXmlApplicationContext("WebContent/WEB-INF/beansGen.xml");
-        rpo = (RandomPersistObject) ctx.getBean("rpo");
-
+        rpo = (GeneratorNormal) ctx.getBean("rpo");
         fillDB(1);
-       
         ctx.close();
     }
     public static void fillDB(int qty){
@@ -23,12 +21,11 @@ public class TestApp {
     	rpo.generateEmbassyList();
     	rpo.generateProgramsList();
     	rpo.generateDocumentsList();
-
-    	for(int i = 0;i<qty;i++){
+    	 for(int i = 0;i<qty;i++){
             rpo.fillDb(i);
             
         }
     	rpo.generateFieldNamesList();
-    	rpo.generateWay();
+
     }
 }

@@ -17,8 +17,7 @@
 	
 	<bean id="generator" class="immigration.gen.Generator"></bean>
 	
-	<bean id="rpo" class="immigration.gen.RandomPersistObject">
+	<bean id="rpo" class="immigration.gen.GeneratorNormal">
 		<property name="ig" ref="generator"></property>
 	</bean>
-	<bean id = "test" class="immigration.dao.Person"/>
 </beans>

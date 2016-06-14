@@ -17,19 +17,10 @@ public class Requirements {
     int RequirementsId;
 
     @Column(columnDefinition = "VARCHAR(255) NOT NULL UNIQUE DEFAULT ''")
-    String name;
+    String value;
 
-    String posibleValues;
-
-    @Override
-    public String toString() {
-        return "Requirements{" +
-                "RequirementsId=" + RequirementsId +
-                ", name='" + name + '\'' +
-                ", posibleValues='" + posibleValues + '\'' +
-                ", programs=" + programs +
-                '}';
-    }
+    @ManyToOne
+    private FieldNames fieldNames;
 
     @JsonIgnore
     @ManyToOne
@@ -37,11 +28,6 @@ public class Requirements {
 
     public Requirements() {
         super();
-    }
-
-    public Requirements(String name, String posibleValues) {
-        this.name = name;
-        this.posibleValues = posibleValues;
     }
 
     public int getRequirementsId() {
@@ -52,19 +38,37 @@ public class Requirements {
         RequirementsId = requirementsId;
     }
 
-    public String getName() {
-        return name;
+    public String getValue() {
+        return value;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setValue(String value) {
+        this.value = value;
     }
 
-    public String getPosibleValues() {
-        return posibleValues;
+    public FieldNames getFieldNames() {
+        return fieldNames;
     }
 
-    public void setPosibleValues(String posibleValues) {
-        this.posibleValues = posibleValues;
+    public void setFieldNames(FieldNames fieldNames) {
+        this.fieldNames = fieldNames;
+    }
+
+    public Programs getPrograms() {
+        return programs;
+    }
+
+    public void setPrograms(Programs programs) {
+        this.programs = programs;
+    }
+
+    @Override
+    public String toString() {
+        return "Requirements{" +
+                "RequirementsId=" + RequirementsId +
+                ", value='" + value + '\'' +
+                ", fieldNames=" + fieldNames +
+                ", programs=" + programs +
+                '}';
     }
 }
