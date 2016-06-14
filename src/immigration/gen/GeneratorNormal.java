@@ -23,11 +23,11 @@ import java.util.List;
 public class GeneratorNormal {
 
     private static final int STEP_AMOUNT = 5;//5
-    private static final int COUNTYES_AMOUNT = 2;//52
-    private static final int EMBASSYES_AMOUNT = 2;//400
-    private static final int PROGRAMS_AMOUNT = 2;//50 shoud be less than country
+    private static final int COUNTYES_AMOUNT = 5;//52
+    private static final int EMBASSYES_AMOUNT = 5;//400
+    private static final int PROGRAMS_AMOUNT = 5;//50 shoud be less than country
     private static final int MAX_PROGRAMSTEP = 10;//10 value should be bigger or equals STEP_AMOUNT
-    private static final int DOCUMENTS_AMOUNT = 3;//150
+    //private static final int DOCUMENTS_AMOUNT = 3;//150
     private static final int FIELDNAMES_AMOUNT = 10;//20
     private static final String PHOTO_FILE_PATH = "../Yimin/resources/doc.jpg";
     private static final String PRS_DOC_FILE_PATH = "../Yimin/resources/passport.jpg";
