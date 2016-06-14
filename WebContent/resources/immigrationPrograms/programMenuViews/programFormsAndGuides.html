@@ -102,22 +102,26 @@
                     <label class="col-md-5 control-label">{{documentSelected.doc.nameOfDocument}}</label>
                     <div class="col-md-1 border text-center">0%</div>
                     <div class="col-md-3">
-                        <button class="btn btn-default btn-xs btn-block" ng-click="viewDownloadForm()">view/download</button>
+                        <button class="btn btn-default btn-xs btn-block" ng-click="viewDownloadForm(documentSelected.doc.docId)">view/download</button>
                     </div>
                     <div class="col-md-3">
                         <button class="btn btn-primary btn-block" ng-click="updateForm()">Update</button>
                     </div>
                 </div>
                 <form name="fillForm" class="margins-on-sides" novalidate>
-                    <div id="{{$index + 100}}" class="form-group" ng-repeat="item in listOfPersonCustomData"
+                    <div id="{{$index + 100}}" class="form-group" ng-repeat="item in documentFields"
                             style="margin-top: 5px">
                         <label for="{{$index + 500}}" style="font-weight: normal">
-                            {{$index + 1}}. {{item.fieldNames.name}}:</label>
+                            {{$index + 1}}. {{item.name}}:</label>
                         <div>
                             <input id="{{$index + 500}}" class="form-control" type="text" ng-model="item.value">
                         </div>
                     </div>
                 </form>
+            </div>
+
+            <div ng-switch-when="viewDownloadForm" class="margins-on-sides">
+                <ng-include src="viewDownloadFormUrl" />
             </div>
         </div>
     </div>

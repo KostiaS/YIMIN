@@ -1,6 +1,6 @@
 angular.module("mainApp")
-    .controller("programMenuCtrl", ["URLS", "authService", "postRequest", "session", "$scope", "$location",
-        function (URLS, authService, postRequest, session, $scope, $location) {
+    .controller("programMenuCtrl", ["URLS", "authService", "getRequest", "postRequest", "session", "$scope", "$rootScope", "$location",
+        function (URLS, authService, getRequest, postRequest, session, $scope, $rootScope, $location) {
 
             $scope.init = function () {
                 // $scope.documentSelected = {doc: null};
@@ -93,24 +93,69 @@ angular.module("mainApp")
             };
             
             function getPersonCustomData(item) {
-                var url = URLS.URL + ":" + URLS.PORT + URLS.ROOT_CONTEXT + URLS.REQUEST_MAPPING
-                    + URLS.GET_DOCUMENT_FIELDS;
-                postRequest(url, {docId: item.docId}).then(function (response) {
-                    $scope.listOfDocumentFields = response.response;
-                }).then(function () {
-                    var url = URLS.URL + ":" + URLS.PORT + URLS.ROOT_CONTEXT + URLS.REQUEST_MAPPING
-                        + URLS.LIST_PCD_FIELDS_BY_DOC;
-                    postRequest(url, {param:[{personId: session.userId},{docId: item.docId}]})
-                        .then(function (response) {
-                            $scope.listOfPersonCustomData = response.response;
-                        })
-                })
+                var urlPersonCustomData = URLS.URL + ":" + URLS.PORT + URLS.ROOT_CONTEXT + URLS.REQUEST_MAPPING
+                    + URLS.PERSONAL_DATA;
+                getRequest(urlPersonCustomData, session.userId)
+                    .then(function (response) {
+                        $scope.personData = response.response;
+                        var urlDocumentFields = URLS.URL + ":" + URLS.PORT + URLS.ROOT_CONTEXT + URLS.REQUEST_MAPPING
+                            + URLS.GET_DOCUMENT_FIELDS;
+                        postRequest(urlDocumentFields, {docId: item.docId})
+                            .then(function (response) {
+                                $scope.listOfDocumentFields = response.response;
+                                var urlCustomData = URLS.URL + ":" + URLS.PORT + URLS.ROOT_CONTEXT + URLS.REQUEST_MAPPING
+                                    + URLS.LIST_PCD_FIELDS_BY_DOC;
+                                postRequest(urlCustomData, {param:[{personId: session.userId},{docId: item.docId}]})
+                                    .then(function (response) {
+                                        $scope.listOfPersonCustomData = response.response;
+                                        $scope.documentFields = [];
+                                        for(var i = 0; i < $scope.listOfDocumentFields.length; i++) {
+                                            for(var key in $scope.personData) {
+                                                if($scope.listOfDocumentFields[i].name == key) {
+                                                    $scope.documentFields.push({name: key, possibleValues: null, value: $scope.personData[key]})
+                                                }
+                                            }
+                                        }
+                                        for(var i = 0; i < $scope.listOfPersonCustomData.length; i++) {
+                                            $scope.documentFields.push($scope.listOfPersonCustomData[i]);
+                                        }
+                                    })
+                                
+                            })
+                    })
                 
             }
             
-            $scope.viewDownloadForm = function () {
-                
+            $scope.viewDownloadForm = function (item) {
+                $scope.mode.complete = "viewDownloadForm";
+                $scope.viewDownloadFormUrl = "resources/mask-2.html";
+                $rootScope.$on("$includeContentLoaded", function (event, args) {
+                    setCSS();
+                    putCustomDataInForm(item);
+                });
             };
+
+            function setCSS() {
+                $("#right-menu").width();
+                var resultWidth = ($("#right-menu").width() - 20) / 2;
+                var initWidth = $("#formToFill").width();
+                var zoom = (resultWidth / initWidth) * 100;
+                zoom = zoom + "%";
+                $(".zoom").css("zoom", zoom);
+                // $("#formToFill").addClass("zoom");
+            }
+            
+            function putCustomDataInForm(item) {
+                if(item == $scope.documentSelected.doc && $scope.documentFields) {
+                    
+                } else if(item == $scope.documentSelected.doc.docId && $scope.documentFields) {
+                    for(var i = 0; i < $scope.documentFields.length; i++) {
+                        $("#" + $scope.documentFields[i].name).val($scope.documentFields[i].value);
+                    }
+                } else {
+                    getPersonCustomData(item);
+                }
+            }
 
             $scope.updateForm = function () {
 
