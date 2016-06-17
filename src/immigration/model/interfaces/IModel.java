@@ -66,4 +66,6 @@ public interface IModel {
     List<WaySteps> getListWayStep(Way way);
 
     boolean setCheckboxOfWayStep(WaySteps waySteps);
+
+    Integer getFulfilmentDoc( ObjectNode jsonObject);
 }

@@ -30,4 +30,5 @@ public class Constants {
     public static final String REMOVE_DOC_FROM_WAY = "/remove_doc_from_way";
     public static final String GET_LIST_WAYSTEP = "/get_list_waystep";
     public static final String SET_CHECKBOX_WAYSTEP = "/set_checkbox_waystep";
+    public static final String GET_FULFILMENT_DOC = "/get_fulfilment_of_doc";
 }
