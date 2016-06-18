@@ -15,13 +15,11 @@ import org.hibernate.mapping.Collection;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.sql.Blob;
 import java.sql.SQLException;
 
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by Shanin Dima 3620849@gmail.com on 18.03.2016.
@@ -101,14 +99,14 @@ public class DbFunctionality implements IModel {
 
     @Override
     public List<String> getCategoryOfProgram(Country country) {
-        Query query = em.createQuery("select category from Programs p where p.country.CountryId = " + country.getCountryId());
+        Query query = em.createQuery("select distinct p.category from Programs p where p.country.CountryId = " + country.getCountryId());
         return query.getResultList();
     }
 
     @Override
     public List<Programs> getProgram(ObjectNode jsonObject) {
-        Country country = getObjectFromJson(jsonObject,0,Country.class);
-        Programs programs = getObjectFromJson(jsonObject,1,Programs.class);
+        Country country = getObjectFromJson(jsonObject, 0, Country.class);
+        Programs programs = getObjectFromJson(jsonObject, 1, Programs.class);
         String parsedCategory = programs.getCategory();
         Query query = em.createQuery("select p from Programs p where p.country.CountryId = " + country.getCountryId() + " and category = '" + parsedCategory + "'");
         return query.getResultList();
@@ -192,7 +190,7 @@ public class DbFunctionality implements IModel {
     public boolean addProgramInWay(ObjectNode jsonObject) {
         Person person = getObjectFromJson(jsonObject, 0, Person.class);
         Programs programs = getObjectFromJson(jsonObject, 1, Programs.class);
-        addDocumentsFieldInPersonCustomData(person,programs);
+        addDocumentsFieldInPersonCustomData(person, programs);
         Way way = new Way();
         way.setPersonData(getPersonDataById(person.getPersonId()));
         way.setProgram(programs);
@@ -201,20 +199,21 @@ public class DbFunctionality implements IModel {
         generateWayDocuments(way.getWayId(), programs.getProgramId());
         return true;
     }
+
     @Transactional
     private void addDocumentsFieldInPersonCustomData(Person person, Programs programs) {
         int personId = person.getPersonId();
         int programId = programs.getProgramId();
 
         Query query = em.createQuery("select distinct p.name from Documents d, in (d.documentField) p" +
-            " where d.DocId in (select d.DocId from Documents d where d.prog.ProgramId = ?1) and p.flagPersonData = false");
-        query.setParameter(1,programId);
+                " where d.DocId in (select d.DocId from Documents d where d.prog.ProgramId = ?1) and p.flagPersonData = false");
+        query.setParameter(1, programId);
         List<String> fields = query.getResultList();
         Query filterQuery = em.createQuery("select pcd.fieldNames.name from PersonCustomData pcd where pcd.personData.person.id = ?1");
-        filterQuery.setParameter(1,personId);
+        filterQuery.setParameter(1, personId);
         List<String> filterList = filterQuery.getResultList();
-        fields = filter(fields,filterList);
-        for(int i = 0;i<fields.size();i++){
+        fields = filter(fields, filterList);
+        for (int i = 0; i < fields.size(); i++) {
 
             PersonCustomData pcd = new PersonCustomData();
             pcd.setPersonData(getPersonDataById(personId));
@@ -225,24 +224,20 @@ public class DbFunctionality implements IModel {
     }
 
     private List<String> filter(List<String> fields, List<String> filterList) {
-        filterList.add("firstName");
-        filterList.add("lastName");
-        filterList.add("birthplace");
-        filterList.add("education");
-        filterList.add("ocupation");
-        filterList.add("homephone");
-        filterList.add("mobilephone");
-        filterList.add("workphone");
-        filterList.add("familyStatus");
-        filterList.add("gender");
-        filterList.add("birthdate");
-        filterList.add("gender");
-        filterList.add("identify");
-       Iterator<String> fldIter = fields.iterator();
-        while (fldIter.hasNext()){
+        PersonData personData = new PersonData();
+        Class aClass = personData.getClass();
+        Field[] fieldsArr = aClass.getDeclaredFields();
+
+        for (Field x : fieldsArr) {
+            x.setAccessible(true);
+            filterList.add(x.getName());
+        }
+
+        Iterator<String> fldIter = fields.iterator();
+        while (fldIter.hasNext()) {
             String elem = fldIter.next();
-            for(String x : filterList){
-                if(elem.equals(x)){
+            for (String x : filterList) {
+                if (elem.equals(x)) {
                     fldIter.remove();
                     break;
                 }
@@ -253,20 +248,20 @@ public class DbFunctionality implements IModel {
 
     @Transactional
     private FieldNames findOrAddFieldName(String field) {
-        if (field==null)return null;
-        Query query = em.createQuery("select fn from FieldNames fn where fn.name = '"+field+"'");
+        if (field == null) return null;
+        Query query = em.createQuery("select fn from FieldNames fn where fn.name = '" + field + "'");
         List list = query.getResultList();
-            if (list.isEmpty()){
+        if (list.isEmpty()) {
             System.out.println("no field in fieldNames table ");
             System.out.println("add new field in fieldNames");
-                FieldNames fn = new FieldNames();
-                        fn.setName(field);
-                fn.setPossibleValues("xxx");
+            FieldNames fn = new FieldNames();
+            fn.setName(field);
+            fn.setPossibleValues("xxx");
             em.persist(fn);
             return fn;
         }
 
-        return (FieldNames)list.get(0);
+        return (FieldNames) list.get(0);
     }
 
     @Transactional
@@ -313,8 +308,8 @@ public class DbFunctionality implements IModel {
     @Transactional
     @Override
     public boolean deleteProgramFromWay(ObjectNode jsonObject) {
-        Person person = getObjectFromJson(jsonObject,0,Person.class);
-        Programs programs = getObjectFromJson(jsonObject,1,Programs.class);
+        Person person = getObjectFromJson(jsonObject, 0, Person.class);
+        Programs programs = getObjectFromJson(jsonObject, 1, Programs.class);
         Query getWayId = em.createQuery("select w.WayId from Way w where w.program.ProgramId = ?1 and w.personData.person.PersonId = ?2");
         getWayId.setParameter(2, person.getPersonId()).setParameter(1, programs.getProgramId());
         int wayId = (Integer) getWayId.getSingleResult();
@@ -360,7 +355,9 @@ public class DbFunctionality implements IModel {
     @Override
     public List<DocumentField> getListOfDocumentFields(Documents documents) {
         Query query = em.createQuery("select distinct p from Documents d, in (d.documentField)p where d.DocId =" + documents.getDocId());
-        return query.getResultList();
+        List res = query.getResultList();
+        em.clear();
+        return res;
     }
 
     @Transactional
@@ -403,23 +400,23 @@ public class DbFunctionality implements IModel {
 
     @Override
     public List<DtoPersonCustomData> getListPCDFieldsByDoc(ObjectNode jsonObject) {
-        Person person = getObjectFromJson(jsonObject,0,Person.class);
-        Documents documents = getObjectFromJson(jsonObject,1,Documents.class);
+        Person person = getObjectFromJson(jsonObject, 0, Person.class);
+        Documents documents = getObjectFromJson(jsonObject, 1, Documents.class);
         Query query = em.createQuery("select pcd from PersonCustomData pcd where pcd.personData.person.id = ?1" +
                 " and pcd.fieldNames.name in (select distinct p.name from Documents d, in" +
                 " (d.documentField)p where d.DocId = ?2)");
-        query.setParameter(1,person.getPersonId()).setParameter(2,documents.getDocId());
+        query.setParameter(1, person.getPersonId()).setParameter(2, documents.getDocId());
         List<PersonCustomData> personCustomData = query.getResultList();
         return convertToDto(personCustomData);
     }
 
     private List<DtoPersonCustomData> convertToDto(List<PersonCustomData> personCustomData) {
         List<DtoPersonCustomData> result = new ArrayList<>();
-        for(PersonCustomData x : personCustomData){
+        for (PersonCustomData x : personCustomData) {
             String name = x.getFieldNames().getName();
             String value = x.getValue();
-            String possibleValues=x.getFieldNames().getPossibleValues();
-            DtoPersonCustomData dtoPcd = new DtoPersonCustomData(name,possibleValues,value);
+            String possibleValues = x.getFieldNames().getPossibleValues();
+            DtoPersonCustomData dtoPcd = new DtoPersonCustomData(name, possibleValues, value);
             result.add(dtoPcd);
         }
         return result;
@@ -432,7 +429,7 @@ public class DbFunctionality implements IModel {
         /*Query query = em.createQuery("select wd.id from WayDocuments wd where wd.way.id = ?1 and wd.requiredDocument.id = ?2");
         query.setParameter(1,way.getWayId()).setParameter(2,wayDocuments.getRequiredDocument().getDocId());*/
         int idOfWayDoc = wayDocuments.getWayDocumentsId();
-        WayDocuments wayDocumentsDb = em.find(WayDocuments.class,idOfWayDoc);
+        WayDocuments wayDocumentsDb = em.find(WayDocuments.class, idOfWayDoc);
         wayDocumentsDb.setReady(false);
         wayDocumentsDb.setPersonDocument(null);
         em.merge(wayDocumentsDb);
@@ -441,15 +438,72 @@ public class DbFunctionality implements IModel {
 
     @Override
     public List<WaySteps> getListWayStep(Way way) {
-        return em.createQuery("select ws from WaySteps ws where ws.way.WayId="+way.getWayId()).getResultList();
+        return em.createQuery("select ws from WaySteps ws where ws.way.WayId=" + way.getWayId()).getResultList();
     }
+
     @Transactional
     @Override
     public boolean setCheckboxOfWayStep(WaySteps waySteps) {
-        WaySteps wayStepFromDb = em.find(WaySteps.class,waySteps.getWayStepsId());
+        WaySteps wayStepFromDb = em.find(WaySteps.class, waySteps.getWayStepsId());
         wayStepFromDb.setDone(waySteps.isDone());
         em.merge(wayStepFromDb);
         return true;
     }
 
+    @Override
+    public Integer getFulfilmentDoc(ObjectNode jsonObject) {
+        Person person = getObjectFromJson(jsonObject, 0, Person.class);
+        Documents doc = getObjectFromJson(jsonObject, 1, Documents.class);
+
+        Query query = em.createQuery("select distinct p.name from Documents d, in (d.documentField)p where d.DocId =" + doc.getDocId());//all fields of doc non repeated
+        int fieldsNumber = query.getResultList().size();
+
+        query = em.createQuery("select pcd.value from PersonCustomData pcd where pcd.personData.person.PersonId=" + person.getPersonId() + " and pcd.fieldNames.name in" +
+                " (select distinct p.name from Documents d, in (d.documentField)p where d.DocId =" + doc.getDocId() + ") and pcd.value is not null" +
+                " and length(pcd.value)>0");//all values of PCD
+        int filledFieldsCPD = query.getResultList().size();
+
+        query = em.createQuery("select distinct p.name from Documents d, in (d.documentField)p where d.DocId = " + doc.getDocId() +
+                " and p.flagPersonData = true");
+        List<String> fieldsPD = query.getResultList();
+
+        PersonData personData = (PersonData) em.createQuery("select pd from PersonData pd where pd.person.PersonId =" + person.getPersonId()).getSingleResult();
+
+        int filedPD = getNumberOfFiledFields(personData, fieldsPD);
+
+        int AllfilledFields = filledFieldsCPD+filedPD;
+        if (fieldsNumber == 0) return 100;
+        if (AllfilledFields == 0) return 0;
+        double res = ((double) AllfilledFields / fieldsNumber) * 100;
+        return (int) res;
+    }
+
+    private int getNumberOfFiledFields(PersonData personData, List<String> fieldsPD) {
+        int count = 0;
+        Class aClass = personData.getClass();
+        Field[] fields = aClass.getDeclaredFields();
+        int counter = fields.length;
+        for (Field x : fields) {
+            x.setAccessible(true);
+            String name = x.getName().toString();
+            try {
+                for (String s : fieldsPD) {
+                    if (name.equals(s)) {
+                        if (name.equals("gender")) {
+                            if (!x.get(personData).equals('\u0000')) {
+                                count++;
+                                break;
+                            }
+                        }if (!x.get(personData).equals(null)) {
+                            count++;
+                        }
+                    }
+                }
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
+
+        }
+        return count;
+    }
 }

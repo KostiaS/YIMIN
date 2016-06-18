@@ -341,7 +341,11 @@ public class Controller {
     }
 
     /**
-     * <p>get lis of requirements</p>
+     * <p>get Fulfillment percent for 27page</p>
+     *@param jsonObject json {"param":[{"personId":1},{"docId":1}]}
      */
-
+    @RequestMapping(value = Constants.GET_FULFILMENT_DOC, method = RequestMethod.POST)
+    public int getFulfilmentDoc(@RequestBody ObjectNode jsonObject) {
+        return model.getFulfilmentDoc(jsonObject);
+    }
 }
