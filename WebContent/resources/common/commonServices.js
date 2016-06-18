@@ -8,4 +8,19 @@ angular.module("commonServices", [])
                 return base;
             }
         }
-    }]);
+    }])
+    .factory("eventListener", function ($rootScope) {
+        var eventListener = {};
+
+        eventListener.message = null;
+
+        eventListener.prepForBroadcast = function(msg) {
+            this.message = msg;
+            this.broadcastItem();
+        };
+
+        eventListener.broadcastItem = function () {
+            $rootScope.$broadcast("handleBroadcast");
+        };
+        return eventListener;
+    });

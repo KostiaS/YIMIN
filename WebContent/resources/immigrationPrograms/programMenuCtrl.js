@@ -1,6 +1,7 @@
 angular.module("mainApp")
-    .controller("programMenuCtrl", ["URLS", "authService", "getRequest", "postRequest", "session", "$scope", "$rootScope", "$location",
-        function (URLS, authService, getRequest, postRequest, session, $scope, $rootScope, $location) {
+    .controller("programMenuCtrl", ["URLS", "authService", "getRequest", "postRequest", "session", "eventListener",
+        "$scope", "$rootScope", "$location",
+        function (URLS, authService, getRequest, postRequest, session, eventListener, $scope, $rootScope, $location) {
 
             $scope.init = function () {
                 // $scope.documentSelected = {doc: null};
@@ -25,7 +26,7 @@ angular.module("mainApp")
             $scope.getDocument = function () {
                 var urlDoc = URLS.URL + ":" + URLS.PORT + URLS.ROOT_CONTEXT + URLS.REQUEST_MAPPING
                     + URLS.GET_DOC;
-                postRequest(urlDoc, {"docId": 1}/*$scope.documentSelected*/).then(function (response) {
+                postRequest(urlDoc, {"docId": $scope.documentSelected.doc.docId}).then(function (response) {
                     // $scope.programSteps = response.programSteps;
                     $scope.programDocument = response.response;
                     $scope.downloadedFormSrc = 'data:image/jpg;base64,' + $scope.programDocument;
@@ -128,14 +129,39 @@ angular.module("mainApp")
             
             $scope.viewDownloadForm = function (item) {
                 $scope.mode.complete = "viewDownloadForm";
-                $scope.viewDownloadFormUrl = "resources/mask-2.html";
-                $rootScope.$on("$includeContentLoaded", function (event, args) {
-                    setCSS();
-                    putCustomDataInForm(item);
+                var urlDoc = URLS.URL + ":" + URLS.PORT + URLS.ROOT_CONTEXT + URLS.REQUEST_MAPPING
+                    + URLS.GET_DOC;
+                postRequest(urlDoc, {"docId": item}).then(function (response) {
+                    $scope.programDocument = response.response;
+                    $scope.downloadedFormSrc = 'data:image/jpg;base64,' + $scope.programDocument;
+                    
+                    var urlMask = URLS.URL + ":" + URLS.PORT + URLS.ROOT_CONTEXT + URLS.REQUEST_MAPPING
+                        + URLS.GET_MASK;
+                    postRequest(urlMask, {"docId": item}).then(function (response) {
+                        $scope.mask = response.response;
+                        $scope.decode = atob($scope.mask);
+                        // console.log($scope.decode);
+                        // $scope.viewDownloadFormUrl = 'data:text/html;base64,' + $scope.mask;
+                        eventListener.prepForBroadcast($scope.decode);
+                        setCSS();
+                        putCustomDataInForm(item);
+
+                        // $scope.viewDownloadFormUrl = $scope.decode;
+
+                        /*                    $rootScope.$on("$includeContentLoaded", function (event, args) {
+                         setCSS();
+                         putCustomDataInForm(item);
+                         });*/
+                    });
                 });
+                
+
+                // $scope.viewDownloadFormUrl = "resources/mask-2.html";
+
             };
 
             function setCSS() {
+                $(".wrapper").css("background-image", "url("+$scope.downloadedFormSrc+")");
                 $("#right-menu").width();
                 var resultWidth = ($("#right-menu").width() - 20) / 2;
                 var initWidth = $("#formToFill").width();

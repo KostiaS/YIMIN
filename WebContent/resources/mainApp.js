@@ -1,4 +1,4 @@
-angular.module("mainApp", ["ngRoute", "commonHttpRequests", "commonServices"])
+angular.module("mainApp", ["ngRoute", "commonHttpRequests", "commonServices", "ngSanitize"])
     .constant("URLS", {
         "URL": "http://localhost",
         "PORT": "8080",
@@ -76,6 +76,35 @@ angular.module("mainApp", ["ngRoute", "commonHttpRequests", "commonServices"])
             }
         };
     })
+    .directive('viewForm', ["eventListener", "$compile", function (eventListener, $compile) {
+        return {
+            restrict: 'E',
+            // controller: function($scope, $attrs, $element, $compile, eventListener) {
+            //     $scope.$on('handleBroadcast', function() {
+            //         this.message = eventListener.message;
+            //         console.log(this.message);
+            //         $scope.linkFn = $compile($scope.message);
+            //
+            //     });
+            // },
+            link: function ($scope, element, controller) {
+                $scope.$on('handleBroadcast', function () {
+                    var message = eventListener.message;
+                    var dom = angular.element(message);
+                    var compileFn = $compile(dom);
+                    compileFn($scope);
+                    element.append(dom);
+                    // var content = scope.linkFn(scope);
+                    // element.append(scope.linkFn);
+                    // console.log(controller.message);
+                    // var linkFn = $compile(scope.message);
+                    // var content = linkFn(scope);
+                    // element.append(content);
+                });
+                // replace: true
+            }
+        }
+    }])
     .controller("mainAppCtrl", ["session", "$scope", "$rootScope", "$location",
             function(session, $scope, $rootScope, $location) {
 
