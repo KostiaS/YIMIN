@@ -145,18 +145,8 @@ angular.module("mainApp")
                         eventListener.prepForBroadcast($scope.decode);
                         setCSS();
                         putCustomDataInForm(item);
-
-                        // $scope.viewDownloadFormUrl = $scope.decode;
-
-                        /*                    $rootScope.$on("$includeContentLoaded", function (event, args) {
-                         setCSS();
-                         putCustomDataInForm(item);
-                         });*/
                     });
                 });
-                
-
-                // $scope.viewDownloadFormUrl = "resources/mask-2.html";
 
             };
 
@@ -166,9 +156,8 @@ angular.module("mainApp")
                 var resultWidth = ($("#right-menu").width() - 20) / 2;
                 var initWidth = $("#formToFill").width();
                 var zoom = (resultWidth / initWidth) * 100;
-                zoom = zoom + "%";
+                var zoom = zoom + "%";
                 $(".zoom").css("zoom", zoom);
-                // $("#formToFill").addClass("zoom");
             }
             
             function putCustomDataInForm(item) {
