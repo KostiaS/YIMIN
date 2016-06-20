@@ -70,6 +70,8 @@ angular.module("mainApp")
             $scope.changeSource = function () {
                 var imagePreviewElem = angular.element(document.querySelector('#preview'));
                 imagePreviewElem.attr('src', $scope.downloadedFormSrc);
+                var w = $("#previewContainer").width();
+                imagePreviewElem.attr('width', w);
             };
 
             $scope.completeForm = function (item) {
