@@ -112,7 +112,7 @@ angular.module("mainApp")
                                 $scope.listOfDocumentFields = response.response;
                                 var urlCustomData = URLS.URL + ":" + URLS.PORT + URLS.ROOT_CONTEXT + URLS.REQUEST_MAPPING
                                     + URLS.LIST_PCD_FIELDS_BY_DOC;
-                                var promise = postRequest(urlCustomData, {param:[{personId: session.userId},{docId: item.docId}]})
+                                postRequest(urlCustomData, {param:[{personId: session.userId},{docId: item.docId}]})
                                     .then(function (response) {
                                         $scope.listOfPersonCustomData = response.response;
                                         $scope.documentFields = [];
@@ -137,6 +137,36 @@ angular.module("mainApp")
                     })
                 
             }
+
+            $scope.updateForm = function () {
+                $scope.mode.updateBtn = true;
+                postRequest(URLS.URL + ":" + URLS.PORT + URLS.ROOT_CONTEXT + URLS.REQUEST_MAPPING
+                    + URLS.GET_CUSTOM_DATA, {personId: session.userId}).then(function (response) {
+                    $scope.personCustomData = response.response;
+                    var promises = [];
+                    for(var i = 0; i < $scope.documentFields.length; i++) {
+                        for (var j = 0; j < $scope.personCustomData.length; j++) {
+                            var customData = $scope.personCustomData[j];
+                            if(customData.fieldNames.name == $scope.documentFields[i].name) {
+                                console.log(customData.fieldNames.name);
+                                console.log($scope.documentFields[i].name);
+                                var promise = postRequest(URLS.URL + ":" + URLS.PORT + URLS.ROOT_CONTEXT + URLS.REQUEST_MAPPING
+                                    + URLS.UPDATE_CUSTOM_DATA_VALUE, {
+                                    value: $scope.documentFields[i].value,
+                                    fieldNames: {id: customData.fieldNames.id},
+                                    personCustomDataId: customData.personCustomDataId,
+                                    personData: {personDataId: $scope.personData.personDataId}
+                                }).then(function (response) {
+                                });
+                                promises.push(promise);
+                            }
+                        }
+                    }
+                    $q.all(promises).then(function () {
+                        $scope.mode.updateBtn = false;
+                    })
+                });
+            };
             
             $scope.viewDownloadForm = function (item) {
                 $scope.mode.complete = "viewDownloadForm";
@@ -203,10 +233,6 @@ angular.module("mainApp")
                     getPersonCustomData(item);
                 }
             }
-
-            $scope.updateForm = function () {
-
-            };
 
             $scope.downloadForm = function () {
                 $scope.modalMode.opened = true;

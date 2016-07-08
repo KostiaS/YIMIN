@@ -89,7 +89,7 @@
                     <input class="pull-right" type="checkbox" ng-model="markStepFulfillment[$index]">
                 </div>
                 <div class="col-md-4">
-                    <button class="btn btn-default btn-block">
+                    <button class="btn btn-default btn-block" ng-click="completeForm(item)">
                         {{$index + 1}}. {{item.nameOfDocument}}
                     </button>
                 </div>
@@ -110,7 +110,8 @@
                         <button class="btn btn-default btn-xs btn-block" ng-click="viewDownloadForm(documentSelected.doc.docId)">view/download</button>
                     </div>
                     <div class="col-md-3">
-                        <button class="btn btn-primary btn-block" ng-click="updateForm()">Update</button>
+                        <button class="btn btn-primary btn-block" ng-click="updateForm()"
+                                ng-disabled="mode.updateBtn">Update</button>
                     </div>
                 </div>
                 <form name="fillForm" class="margins-on-sides" novalidate>

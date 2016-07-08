@@ -12,7 +12,8 @@ angular.module("mainApp")
                 programMenuVisibility: false,
                 yourProgramInfoState: false,
                 complete: false,
-                progressBar: false
+                progressBar: false,
+                updateBtn: false
             };
 
             $scope.pendingRequestForFillingForm = {value: false};
