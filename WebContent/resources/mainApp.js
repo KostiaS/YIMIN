@@ -108,6 +108,25 @@ angular.module("mainApp", ["ngRoute", "commonHttpRequests", "commonServices", "n
     .controller("mainAppCtrl", ["session", "$scope", "$rootScope", "$location",
             function(session, $scope, $rootScope, $location) {
 
+        $scope.setCSS = {document: null, modalClose: null};
+
+        $scope.modalMode = {modalBackground: false, opened: false};
+                
+        $scope.setCSS.modalClose = function () {
+            $scope.modalMode.opened = false;
+            $scope.modalMode.modalBackground = false;
+            $(".wrapper").css({"position": "", "left": "", "top": "", "zIndex": ""});
+            
+            var w = $("#formContainer").width();
+            $("#previewEmptyForm")
+                .css({
+                    "position": "", "left": "", "top": "",
+                    "zIndex": "",
+                    "width": w
+                });
+            $scope.setCSS.document();
+        };
+        
         $scope.goToYourWayView = function() {
             $location.path("/yourway");
         };

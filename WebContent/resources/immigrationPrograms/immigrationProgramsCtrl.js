@@ -11,7 +11,8 @@ angular.module("mainApp")
                 chooseNewProgramBtnState: session.chooseNewProgramBtnState,
                 programMenuVisibility: false,
                 yourProgramInfoState: false,
-                complete: false
+                complete: false,
+                progressBar: false
             };
 
             $scope.pendingRequestForFillingForm = {value: false};

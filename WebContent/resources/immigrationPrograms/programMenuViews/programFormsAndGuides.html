@@ -11,7 +11,7 @@
         <div class="col-md-4" ng-switch on="mode.complete">
             <div ng-switch-when="false">
                 <select class="btn-block" ng-change="updateDocumentSelect()" ng-model="documentSelected.doc"
-                        ng-options="item.docId for item in programDocuments.docs track by item.docId">
+                        ng-options="item.nameOfDocument for item in programDocuments.docs track by item.docId">
                     <option value="" disabled>Select form/guide</option>
                 </select>
 
@@ -72,6 +72,11 @@
             </div>
         </div>
         <div id="previewContainer" class="col-md-8">
+            <div class="progress" ng-show="mode.progressBar">
+                <div class="progress-bar progress-bar-striped active" role="progressbar"
+                     aria-valuenow="85" aria-valuemin="0" aria-valuemax="100" style="width: 85%">
+                </div>
+            </div>
             <img id="preview" src="#" alt="document preview" height="auto">
         </div>
     </div>
@@ -122,7 +127,27 @@
 
             <div ng-switch-when="viewDownloadForm" class="margins-on-sides">
                 <!--<ng-include src="viewDownloadFormUrl" />-->
-                <view-form decoded-mask="decode"></view-form>
+                <div class="row">
+                    <div class="col-md-6">
+                        <img id="previewEmptyForm" src="#" alt="document preview" height="auto" style="margin-top: 3px"
+                            ng-click="closeModal()">
+                    </div>
+                    <div id="formContainer" class="col-md-6">
+                        <view-form decoded-mask="decode" ng-click="closeModal()"></view-form>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6" style="margin-top: 3px">
+                        <button class="btn btn-default center-block" ng-click="downloadEmptyForm()">
+                            download empty form
+                        </button>
+                    </div>
+                    <div class="col-md-6">
+                        <button class="btn btn-default center-block" ng-click="downloadForm()">
+                            download complete form
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

@@ -30,10 +30,10 @@
                 <h4 class="text-center">Embassies and consulates of {{embassyCountrySelected.name}} in {{embassyLocationSelected.name}}</h4>
                 <div id="accordion">
                     <div  ng-repeat-start="item in embassyData"
-                          ng-click="accordion.current = item.type">
+                          ng-click="accordion.current = item.embassyID">
                         <div class="btn btn-default">{{item.type}}</div>
                     </div>
-                    <table id="embassyDataTbl" ng-repeat-end ng-show="accordion.current == item.type">
+                    <table id="embassyDataTbl" ng-repeat-end ng-show="accordion.current == item.embassyID">
                         <tr>
                             <td>tel.</td><td>{{item.phone}}</td>
                         </tr>

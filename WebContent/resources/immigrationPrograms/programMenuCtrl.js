@@ -1,12 +1,14 @@
 angular.module("mainApp")
     .controller("programMenuCtrl", ["URLS", "authService", "getRequest", "postRequest", "session", "eventListener",
-        "$scope", "$rootScope", "$location",
-        function (URLS, authService, getRequest, postRequest, session, eventListener, $scope, $rootScope, $location) {
-
+        "$scope", "$rootScope", "$location", "$q",
+        function (URLS, authService, getRequest, postRequest, session, eventListener, $scope, $rootScope, $location, $q) {
+            
             $scope.init = function () {
                 // $scope.documentSelected = {doc: null};
                 // $scope.mode = {complete: "false"};
             };
+            
+            $scope.promiseFlag = false;
 
             $scope.$watch("documentSelected.doc", function () {
                 $scope.downloadCompleteBtnsVisibilityHandler()
@@ -24,6 +26,7 @@ angular.module("mainApp")
             };
 
             $scope.getDocument = function () {
+                $scope.mode.progressBar = true;
                 var urlDoc = URLS.URL + ":" + URLS.PORT + URLS.ROOT_CONTEXT + URLS.REQUEST_MAPPING
                     + URLS.GET_DOC;
                 postRequest(urlDoc, {"docId": $scope.documentSelected.doc.docId}).then(function (response) {
@@ -31,6 +34,7 @@ angular.module("mainApp")
                     $scope.programDocument = response.response;
                     $scope.downloadedFormSrc = 'data:image/jpg;base64,' + $scope.programDocument;
                     $scope.changeSource();
+                    $scope.mode.progressBar = false;
                 });
             };
 
@@ -89,7 +93,7 @@ angular.module("mainApp")
                     }
                 } else {
                     $scope.documentSelected.doc = item;
-                    $scope.mode.complete = "fillForm";
+                    // $scope.mode.complete = "fillForm";
                     getPersonCustomData(item);
                 }
 
@@ -108,7 +112,7 @@ angular.module("mainApp")
                                 $scope.listOfDocumentFields = response.response;
                                 var urlCustomData = URLS.URL + ":" + URLS.PORT + URLS.ROOT_CONTEXT + URLS.REQUEST_MAPPING
                                     + URLS.LIST_PCD_FIELDS_BY_DOC;
-                                postRequest(urlCustomData, {param:[{personId: session.userId},{docId: item.docId}]})
+                                var promise = postRequest(urlCustomData, {param:[{personId: session.userId},{docId: item.docId}]})
                                     .then(function (response) {
                                         $scope.listOfPersonCustomData = response.response;
                                         $scope.documentFields = [];
@@ -122,8 +126,13 @@ angular.module("mainApp")
                                         for(var i = 0; i < $scope.listOfPersonCustomData.length; i++) {
                                             $scope.documentFields.push($scope.listOfPersonCustomData[i]);
                                         }
-                                    })
-                                
+                                        if($scope.promiseFlag) {
+                                            prepareForm(item.docId);
+                                            $scope.promiseFlag = false;
+                                        } else {
+                                            $scope.mode.complete = "fillForm";
+                                        }
+                                    });
                             })
                     })
                 
@@ -131,12 +140,23 @@ angular.module("mainApp")
             
             $scope.viewDownloadForm = function (item) {
                 $scope.mode.complete = "viewDownloadForm";
+                if (!$scope.documentSelected.doc) {
+                    $scope.documentSelected.doc = item;
+                    $scope.promiseFlag = true;
+                    getPersonCustomData(item);
+                }
+                else if (item == $scope.documentSelected.doc.docId) {
+                    prepareForm(item);
+                }
+            };
+            
+            function prepareForm(item) {
                 var urlDoc = URLS.URL + ":" + URLS.PORT + URLS.ROOT_CONTEXT + URLS.REQUEST_MAPPING
                     + URLS.GET_DOC;
                 postRequest(urlDoc, {"docId": item}).then(function (response) {
                     $scope.programDocument = response.response;
                     $scope.downloadedFormSrc = 'data:image/jpg;base64,' + $scope.programDocument;
-                    
+
                     var urlMask = URLS.URL + ":" + URLS.PORT + URLS.ROOT_CONTEXT + URLS.REQUEST_MAPPING
                         + URLS.GET_MASK;
                     postRequest(urlMask, {"docId": item}).then(function (response) {
@@ -145,27 +165,37 @@ angular.module("mainApp")
                         // console.log($scope.decode);
                         // $scope.viewDownloadFormUrl = 'data:text/html;base64,' + $scope.mask;
                         eventListener.prepForBroadcast($scope.decode);
-                        setCSS();
+                        // setCSS();
+                        $scope.setCSS.document();
+                        changeEmptyFormSource();
                         putCustomDataInForm(item);
                     });
                 });
-
-            };
-
-            function setCSS() {
+            }
+            
+            
+            $scope.setCSS.document = function () {
                 $(".wrapper").css("background-image", "url("+$scope.downloadedFormSrc+")");
                 $("#right-menu").width();
-                var resultWidth = ($("#right-menu").width() - 20) / 2;
+                // var resultWidth = ($("#right-menu").width() - 20) / 2;
+                var resultWidth = $("#formContainer").width();
                 var initWidth = $("#formToFill").width();
                 var zoom = (resultWidth / initWidth) * 100;
                 var zoom = zoom + "%";
                 $(".zoom").css("zoom", zoom);
+            };
+
+            function changeEmptyFormSource() {
+                var imagePreviewElem = angular.element(document.querySelector('#previewEmptyForm'));
+                imagePreviewElem.attr('src', $scope.downloadedFormSrc);
+                var w = $("#formContainer").width();
+                imagePreviewElem.attr('width', w);
             }
-            
+
             function putCustomDataInForm(item) {
-                if(item == $scope.documentSelected.doc && $scope.documentFields) {
+/*                if(item == $scope.documentSelected.doc && $scope.documentFields) {
                     
-                } else if(item == $scope.documentSelected.doc.docId && $scope.documentFields) {
+                } else */if(item == $scope.documentSelected.doc.docId && $scope.documentFields) {
                     for(var i = 0; i < $scope.documentFields.length; i++) {
                         $("#" + $scope.documentFields[i].name).val($scope.documentFields[i].value);
                     }
@@ -176,6 +206,39 @@ angular.module("mainApp")
 
             $scope.updateForm = function () {
 
+            };
+
+            $scope.downloadForm = function () {
+                $scope.modalMode.opened = true;
+                var resultLeftPosition = -($(".container").width() - $("#formContainer").width() - 35) + "px";
+                $(".zoom").css("zoom", "normal");
+                $(".wrapper").css({"position": "absolute", "left": resultLeftPosition, "top": "-261px", "zIndex": "2"});
+                // $(".wrapper").css({"position": "absolute", "left": "0", "top": "0"});
+                var windowWidth = $(document).width() + "px";
+                var windowHeight = $(document).height() + "px";
+                $(".modal-background").css({"width": windowWidth, "height": windowHeight});
+                $scope.modalMode.modalBackground = true;
+            };
+            
+            $scope.downloadEmptyForm = function () {
+                $scope.modalMode.opened = true;
+                var resultLeftPosition = -($(".container").width() - $("#right-menu").width() - 35) + "px";
+                $("#previewEmptyForm")
+                    .css({
+                        "position": "absolute", "left": resultLeftPosition, "top": "-261px",
+                        "zIndex": "2",
+                        "width": "1140px"
+                    });
+                var windowWidth = $(document).width() + "px";
+                var windowHeight = $(document).height() + "px";
+                $(".modal-background").css({"width": windowWidth, "height": windowHeight});
+                $scope.modalMode.modalBackground = true;
+            };
+            
+            $scope.closeModal = function () {
+                if($scope.modalMode.opened) {
+                    $scope.setCSS.modalClose();
+                }
             };
             
             // $scope.$watch(function () {
@@ -189,9 +252,5 @@ angular.module("mainApp")
             // }
 
             // $scope.markStepFulfillment = [];
-
-            // $scope.downloadForm = function () {
-            //    
-            // }
             
         }]);

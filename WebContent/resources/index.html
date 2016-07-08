@@ -7,15 +7,26 @@
     <!--<base href="/Yimin/WebContent/">-->
     <base href="/yimin/" />
 
+    <style>
+        td {
+            padding: 0px 15px 0px 0px;
+        }
+        .modal-background {
+            position: absolute;
+            left: 0;
+            top: 0;
+            background-color: #3c3c3c;
+            opacity: 0.95;
+            z-index: 1;
+        }
+        .margin-top-15px {
+            margin-top: 15px;
+        }
+    </style>
 </head>
-<style>
-    td {
-        padding: 0px 15px 0px 0px;
-    }
-</style>
 <body ng-controller="mainAppCtrl">
     <!--<div id="signInUpOut">-->
-    <div class="container" style="margin-top: 0.5%">
+    <div class="container margin-top-15px">
         <div class="row">
             <div>
                 <ng-include src="signInUpOutUrl" ng-controller="signInUpOutCtrl" />
@@ -24,7 +35,7 @@
                 <button class="btn btn-default pull-right" style="margin-top: 20px">Help</button>
             </div>
         </div>
-        <div class="row" style="margin-top: 1%">
+        <div class="row margin-top-15px">
             <!--<div class="btn-group">-->
                 <div class="col-md-3">
                     <button class="btn btn-default btn-block" ng-click="goToYourWayView()">Your Way</button>
@@ -41,6 +52,7 @@
             <!--</div>-->
         </div>
         <div class="row" ng-view></div>
+        <div class="modal-background" ng-show="modalMode.modalBackground" ng-click="setCSS.modalClose()"></div>
     </div>
 
     <!--<script src="https://code.jquery.com/jquery-2.2.3.min.js" integrity="sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo=" crossorigin="anonymous"></script>-->
