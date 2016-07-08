@@ -147,7 +147,8 @@ angular.module("mainApp")
                     for(var i = 0; i < $scope.documentFields.length; i++) {
                         for (var j = 0; j < $scope.personCustomData.length; j++) {
                             var customData = $scope.personCustomData[j];
-                            if(customData.fieldNames.name == $scope.documentFields[i].name) {
+                            if(customData.fieldNames.name == $scope.documentFields[i].name &&
+                                    customData.value != $scope.documentFields[i].value) {
                                 console.log(customData.fieldNames.name);
                                 console.log($scope.documentFields[i].name);
                                 var promise = postRequest(URLS.URL + ":" + URLS.PORT + URLS.ROOT_CONTEXT + URLS.REQUEST_MAPPING
