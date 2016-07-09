@@ -13,6 +13,7 @@ angular.module("mainApp")
                 yourProgramInfoState: false,
                 complete: false,
                 progressBar: false,
+                progressBarViewDownload: false,
                 updateBtn: false
             };
 
@@ -21,7 +22,7 @@ angular.module("mainApp")
             $scope.programMenuBtnsVisibility = false;
             
             $scope.programSteps = {steps: []};
-            $scope.programDocuments = {docs: []};
+            $scope.programDocuments = {docs: [], fulfillment: []};
             $scope.documentSelected = {doc: {}};
             $scope.programSelected = {prog: null};
             
@@ -160,6 +161,7 @@ angular.module("mainApp")
             $scope.updateProgramSelect = function() {
                 var urlSteps = URLS.URL + ":" + URLS.PORT + URLS.ROOT_CONTEXT + URLS.REQUEST_MAPPING + URLS.STEPS;
                 var urlDocuments = URLS.URL + ":" + URLS.PORT + URLS.ROOT_CONTEXT + URLS.REQUEST_MAPPING + URLS.LIST_OF_DOC;
+                var urlFormFulfillment = URLS.URL + ":" + URLS.PORT + URLS.ROOT_CONTEXT + URLS.REQUEST_MAPPING + URLS.GET_FULFILMENT_DOC;
                 $scope.mode.complete = false;
                 if($scope.programSelected.prog != null) {
                     resetDocumentPreview();
@@ -173,6 +175,26 @@ angular.module("mainApp")
                     });
                     postRequest(urlDocuments, $scope.programSelected.prog).then(function (response) {
                        $scope.programDocuments.docs = response.response;
+
+                        // if($scope.mode.yourProgramInfoState) {
+                        //     console.log("lalallalalal");
+                        //     // var promises = [];
+                        //     for(var i = 0; i < $scope.programDocuments.docs.length; i++) {
+                        //         /*var promise = */postRequest(urlFormFulfillment,
+                        //                 {param: {peronId: session.userId, docId: $scope.programDocuments.docs[i].docId}})
+                        //             .then(function (response) {
+                        //                 // $scope.programSteps = response.programSteps;
+                        //                 $scope.programDocuments.fulfillment.push(
+                        //                     {
+                        //                         docId: $scope.programDocuments.docs.docId,
+                        //                         fulfillment: response.response
+                        //                     }
+                        //                 );
+                        //                 console.log($scope.programDocuments.fulfillment);
+                        //         });
+                        //         // promises.push(promise);
+                        //     }
+                        // }
                         // $scope.broadcastProgramDocuments();
                         // $scope.broadcastProgramDocuments();
                     });

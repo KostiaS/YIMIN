@@ -170,6 +170,7 @@ angular.module("mainApp")
             };
             
             $scope.viewDownloadForm = function (item) {
+                $scope.mode.progressBarViewDownload = true;
                 $scope.mode.complete = "viewDownloadForm";
                 if (!$scope.documentSelected.doc) {
                     $scope.documentSelected.doc = item;
@@ -233,6 +234,7 @@ angular.module("mainApp")
                 } else {
                     getPersonCustomData(item);
                 }
+                $scope.mode.progressBarViewDownload = false;
             }
 
             $scope.downloadForm = function () {
