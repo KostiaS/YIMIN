@@ -13,6 +13,7 @@ public class TestApp {
         AbstractApplicationContext ctx = new FileSystemXmlApplicationContext("WebContent/WEB-INF/beansGen.xml");
         rpo = (GeneratorNormal) ctx.getBean("rpo");
         fillDB(1);
+
         ctx.close();
     }
     public static void fillDB(int qty){

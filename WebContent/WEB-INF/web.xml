@@ -18,7 +18,10 @@
             org.springframework.web.context.ContextLoaderListener
         </listener-class>
     </listener>
-
+<error-page>
+    <error-code>404</error-code>
+    <location>/</location>
+</error-page>
     <context-param>
         <param-name>contextConfigLocation</param-name>
         <param-value>/WEB-INF/beans.xml</param-value>
